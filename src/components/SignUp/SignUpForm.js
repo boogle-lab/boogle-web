@@ -36,7 +36,7 @@ export default function SignUpForm() {
     const [searchedDepartmentMajorList, setSearchedDepartmentMajorList] = useState([]);
     const [searchedMajorList, setSearchedMajorList] = useState([]);
     const [isMajorSearched, setIsMajorSearched] = useState(false);
-    const [isSearchMajorModalOpened, setIsSearchMajorModalOpended] = useState(false);
+    const [isSearchMajorModalOpened, setIsSearchMajorModalOpened] = useState(false);
     const [signUpReq, setSignUpReq] = useState({});
     const [campusWebMail, setCampusWebMail] = useState("");
     const [emailAuthStep, setEmailAuthStep] = useState(0);
@@ -164,7 +164,7 @@ export default function SignUpForm() {
                 if(response.data.data != ""){
                     localStorage.setItem('token', response.data.data);
                 }
-                
+
                 if (authType == 1) {
                     let form = new FormData();
                     form.append('userCampusAuthImage', {
@@ -655,7 +655,7 @@ export default function SignUpForm() {
                                             backgroundColor: "transparent"
                                         }}
                                         value={majorList.length != 0 ? majorList[0] : ""}
-                                        onClick={() => { setIsSearchMajorModalOpended(true) }}
+                                        onClick={() => { setIsSearchMajorModalOpened(true) }}
                                     />
 
                                     {
@@ -665,7 +665,7 @@ export default function SignUpForm() {
 
                                                 style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto" }}
 
-                                                onClick={() => { setIsSearchMajorModalOpended(true) }}></Icon>
+                                                onClick={() => { setIsSearchMajorModalOpened(true) }}></Icon>
 
                                             :
 
@@ -713,7 +713,7 @@ export default function SignUpForm() {
 
                                                         style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto" }}
 
-                                                        onClick={() => { setIsSearchMajorModalOpended(true) }}></Icon>
+                                                        onClick={() => { setIsSearchMajorModalOpened(true) }}></Icon>
 
                                                     :
 
@@ -769,7 +769,7 @@ export default function SignUpForm() {
 
                                                         style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto" }}
 
-                                                        onClick={() => { setIsSearchMajorModalOpended(true) }}></Icon>
+                                                        onClick={() => { setIsSearchMajorModalOpened(true) }}></Icon>
 
                                                     :
 
@@ -809,7 +809,7 @@ export default function SignUpForm() {
                                         className="search-form"
                                         title="전공 검색"
                                         visible={isSearchMajorModalOpened}
-                                        onCancel={() => { setIsSearchMajorModalOpended(false) }}
+                                        onCancel={() => { setIsSearchMajorModalOpened(false) }}
                                         footer={null}
                                         destroyOnClose={true}>
 
@@ -846,7 +846,7 @@ export default function SignUpForm() {
                                                                         setMajorList(currMajorList);
                                                                         setMajorSearchKeyword("");
                                                                         setSearchedMajorList([]);;
-                                                                        setIsSearchMajorModalOpended(false);
+                                                                        setIsSearchMajorModalOpened(false);
                                                                     }} />
                                                             </Col>
                                                         </Row>
