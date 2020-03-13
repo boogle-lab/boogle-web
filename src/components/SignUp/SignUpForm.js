@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { Collapse } from 'react-collapse';
 import { BeatLoader } from "react-spinners";
-
+import Checkbox from 'react-simple-checkbox';
 import host from '../../server-settings/ServerApiHost';
 
 import './SignUpForm.css';
@@ -46,6 +46,14 @@ export default function SignUpForm() {
     const [userImages, setUserImages] = useState([]);
     const [imageUrls, setImageUrls] = useState([]);
     const [imageDiv, setImageDiv] = useState();
+
+    const [checkboxRender, setCheckboxRender] = useState(false);
+
+    const toggle = () => {
+        this.setState((state) => ({
+            disabled: !state.disabled,
+        }));
+    }
 
     const onSubmitFirstForm = (data) => {
 
@@ -379,12 +387,12 @@ export default function SignUpForm() {
                         </Col>
                     </Row>
                     <Row style={{ marginBottom: "10px" }}>
-                        <Col offset={2} span={2}>
+                        <Col style={{marginTop : "5px"}} offset={2} span={2}>
                             <img style={{ width: "100%", height: "auto" }}
                                 onClick={() => { handleOpenCollapse(0) }}
                                 src="https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/icon_down.png"></img>
                         </Col>
-                        <Col offset={1} span={15}>
+                        <Col style={{marginTop : "6.5px"}} offset={1} span={15}>
                             <small>
                                 북을 이용약관 동의
                                 <span style={{ color: "#e95513" }}>(필수)</span>
@@ -392,22 +400,22 @@ export default function SignUpForm() {
                             {!isCheckComplete && <p style={{ marginBottom: "-10px", fontSize: "12px" }}>필수 항목에 체크해주세요.</p>}
                         </Col>
                         <Col offset={0} span={2}>
-                            <Icon onClick={(e) => {
-                                if (checkList[0] == "0") {
+                            <Checkbox tickAnimationDuration ={300} size = {2} color = "#47a7b4" onChange={(isChecked)=>{
+                                if(checkboxRender === false) setCheckboxRender(true);
+                                else setCheckboxRender(false);
+                                if(isChecked) {
                                     const temp = checkList;
-                                    temp[0] = "1";
+                                    if(temp[0] === "0") temp[0] = "1"
+                                    else temp[0] = "0"
                                     setCheckList(temp);
-                                    e.target.style.color = "#44a0ac"
                                 }
-                                else {
+                                else{
                                     const temp = checkList;
-                                    temp[0] = "0";
+                                    if(temp[0] === "0") temp[0] = "1"
+                                    else temp[0] = "0"
                                     setCheckList(temp);
-                                    e.target.style.color = "#666666"
                                 }
-                            }} className="sign-up-check"
-                                type="check" />
-                            {/*<input type="checkbox"></input>*/}
+                            }} checked={checkList[0] === "1" ? true : false}></Checkbox>
                         </Col>
                     </Row>
                     <Row>
@@ -425,12 +433,12 @@ export default function SignUpForm() {
                         </Col>
                     </Row>
                     <Row style={{ marginBottom: "10px" }}>
-                        <Col offset={2} span={2}>
+                        <Col style={{marginTop : "5px"}} offset={2} span={2}>
                             <img style={{ width: "100%", height: "auto" }}
                                 onClick={() => { handleOpenCollapse(1) }}
                                 src="https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/icon_down.png"></img>
                         </Col>
-                        <Col offset={1} span={15}>
+                        <Col style={{marginTop : "6.5px"}} offset={1} span={15}>
                             <small>
                                 개인정보 수집 및 이용에 대한 안내
                                         <span style={{ color: "#e95513" }}>(필수)</span>
@@ -438,22 +446,22 @@ export default function SignUpForm() {
                             {!isCheckComplete && <p style={{ marginBottom: "-10px", fontSize: "12px" }}>필수 항목에 체크해주세요.</p>}
                         </Col>
                         <Col offset={0} span={2}>
-                            <Icon onClick={(e) => {
-                                if (checkList[1] == "0") {
+                            <Checkbox tickAnimationDuration ={300} size = {2} color = "#47a7b4" onChange={(isChecked)=>{
+                                if(checkboxRender === false) setCheckboxRender(true);
+                                else setCheckboxRender(false);
+                                if(isChecked) {
                                     const temp = checkList;
-                                    temp[1] = "1";
+                                    if(temp[1] === "0") temp[1] = "1"
+                                    else temp[1] = "0"
                                     setCheckList(temp);
-                                    e.target.style.color = "#44a0ac"
                                 }
-                                else {
+                                else{
                                     const temp = checkList;
-                                    temp[1] = "0";
+                                    if(temp[1] === "0") temp[1] = "1"
+                                    else temp[1] = "0"
                                     setCheckList(temp);
-                                    e.target.style.color = "#666666"
                                 }
-                            }}
-                                className="sign-up-check"
-                                type="check" />
+                            }} checked={checkList[1] === "1" ? true : false}></Checkbox>
                         </Col>
                     </Row>
                     <Row>
@@ -471,32 +479,34 @@ export default function SignUpForm() {
                         </Col>
                     </Row>
                     <Row style={{ marginBottom: "10px" }}>
-                        <Col offset={2} span={2}>
+                        <Col style={{marginTop : "5px"}} offset={2} span={2}>
                             <img style={{ width: "100%", height: "auto" }}
                                 onClick={() => { handleOpenCollapse(2) }}
                                 src="https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/icon_down.png"></img>
                         </Col>
-                        <Col offset={1} span={15}>
+                        <Col style={{marginTop : "6.5px"}} offset={1} span={15}>
                             <small>
                                 이메일, SMS 광고 수신 동의
                                         <span style={{ color: "#e95513" }}>(선택)</span>
                             </small>
                         </Col>
                         <Col offset={0} span={2}>
-                            <Icon onClick={(e) => {
-                                if (checkList[2] == "0") {
+                            <Checkbox tickAnimationDuration ={300} size = {2} color = "#47a7b4" onChange={(isChecked)=>{
+                                if(checkboxRender === false) setCheckboxRender(true);
+                                else setCheckboxRender(false);
+                                if(isChecked) {
                                     const temp = checkList;
-                                    temp[2] = "1";
+                                    if(temp[2] === "0") temp[2] = "1"
+                                    else temp[2] = "0"
                                     setCheckList(temp);
-                                    e.target.style.color = "#44a0ac"
                                 }
-                                else {
+                                else{
                                     const temp = checkList;
-                                    temp[2] = "0";
+                                    if(temp[2] === "0") temp[2] = "1"
+                                    else temp[2] = "0"
                                     setCheckList(temp);
-                                    e.target.style.color = "#666666"
                                 }
-                            }} className="sign-up-check" type="check" />
+                            }} checked={checkList[2] === "1" ? true : false}></Checkbox>
                         </Col>
                     </Row>
                     <Row>
