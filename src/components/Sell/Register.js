@@ -312,7 +312,7 @@ export default function Register() {
             {
                 step === 1 ?
                     <div>
-                        <div id="navbar">
+                        <div id="navbar-sell">
                             <header>
                                 <Row id="navbar-search-row-after-focused">
                                     <Col xs={{ span: 4 }}>

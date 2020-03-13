@@ -578,7 +578,7 @@ export default function MyPageBanner() {
             <Row id="user-product"
                  style={{ marginTop: "24px", height: "auto" }}>
                 {likeProduct === true ?
-                    <Card style={{ width: "100%", height: "auto", backgroundColor: "#ffffff", border: 0, paddingBottom: "5vh" }}>
+                    <Card style={{ width: "100%", height: "auto", backgroundColor: "#ffffff", border: 0}}>
                         {likeList.length !== 0 ?
                             <div>
                                 <Row style={{margin: "auto auto", marginTop: "-1px", marginBottom: "2vh"}}>
