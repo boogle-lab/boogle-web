@@ -62,7 +62,7 @@ export default function MyPageBanner() {
                 setLikeList(response.data.data.bookmarkedItemList)
                 setBuyList(response.data.data.buyTransList)
                 setSellList(response.data.data.sellTransList)
-
+                
             });
         axios.get(host + '/itemReceiving' , {
             headers: { Authorization: localStorage.getItem('token') }
@@ -70,7 +70,7 @@ export default function MyPageBanner() {
             .then((response) => {
                 setReserveList(response.data.data)
             })
-        /*
+            /*
             setName("김유진");
             setLikeList([
               {
@@ -196,6 +196,16 @@ export default function MyPageBanner() {
     const noSellDetail = (i) => {
         sellDetailIndex[i] = 0
         setNeedRender(true)
+    }
+
+    // 입고 알림 취소 기능을 위한 메소드
+    const cancelReceive = () => {
+        axios.get(host + '/itemReceiving/cancel', {
+            headers: { Authorization: localStorage.getItem('token') }
+        })
+            .then((response) => {
+                setNeedRender(true)
+            });
     }
 
 
@@ -732,7 +742,7 @@ export default function MyPageBanner() {
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                     <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                        판매자 : {value.traderNickname}  |
+                                                                        판매자 : {value.traderName}  |
                                                                         연락처 : {value.traderPhoneNumber}
                                                                     </Col>
                                                                 </Row>
@@ -900,7 +910,7 @@ export default function MyPageBanner() {
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                     <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                        판매자 : {value.traderNickname}
+                                                                        판매자 : {value.traderName}
                                                                     </Col>
                                                                 </Row>
                                                             </Col>
@@ -1355,7 +1365,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                                    구매자 : {value.traderNickname}  |
+                                                                                    구매자 : {value.traderName}  |
                                                                                     연락처 : {value.traderPhoneNumber}
                                                                                 </Col>
                                                                             </Row>
@@ -1597,7 +1607,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold", textAlign: "left" }}>
-                                                                                    구매자 : {value.traderNickname}
+                                                                                    구매자 : {value.traderName}
                                                                                 </Col>
                                                                             </Row>
                                                                         </Col>
@@ -1795,6 +1805,13 @@ export default function MyPageBanner() {
                                               margin: "auto auto", marginBottom: "2vh", padding: "0px",
                                           }}>
                                         <div style={{margin: "-15px"}}>
+                                            <Row style={{padding: "0"}}>
+                                                <Col offset={19} span={5} 
+                                                style={{ color: "#656565", fontSize: "16px", textAlign: "right"}}
+                                                onClick={() => { cancelReceive(); }}>
+                                                <Icon type="close"/>
+                                                </Col>
+                                            </Row>
                                             <Row>
                                                 <Col span={6} offset={0}>
                                                     <Link to = {'/buy/detail/'+value.itemId}>
