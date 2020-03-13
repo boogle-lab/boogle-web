@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import styled from "styled-components";
-import { Col, Row, Icon, Divider, Popconfirm, message, Tag, Modal } from "antd";
+import {Col, Row, Icon, Divider, Popconfirm, message, Tag, Modal, Rate} from "antd";
 import { Link, RouteComponentProps, Redirect, useHistory } from "react-router-dom";
 import axios from "axios";
 import NumberFormat from "react-number-format";
@@ -17,6 +17,10 @@ function Subject({ match }) {
   const [isBookmarked, setIsBookmarked] = useState(0);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [confirmModalOpened, setConfirmModalOpened] = useState(false);
+
+  const [isMySellItem, setIsMySellItem] = useState(false);
+
+  const [qualityScore, setQualityScore] = useState(-1);
 
   const authToken =
     localStorage.getItem("token") == null ? "" : localStorage.getItem("token");
@@ -56,7 +60,31 @@ function Subject({ match }) {
         setItem(result.data.data.sellItem);
         setSeller(result.data.data.sellerUser);
         setIsBookmarked(result.data.data.bookmarked);
+
+        let qualityExtraList = result.data.data.sellItem.qualityExtraList;
+        let newQualityExtraList = [];
+
+        const scoreAppliedQualityIndexArray = [0,3,4,5,7];
+
+        scoreAppliedQualityIndexArray.forEach(s => newQualityExtraList.push(qualityExtraList[s]))
+
+        let score = 5;
+        newQualityExtraList.forEach(q => {
+            if(q){score--;}
+        })
+
+        setQualityScore(score);
+
+        axios.get(host + "/users/comparison?userId="
+            + result.data.data.sellItem.sellerId, {
+            headers: { Authorization: authToken }
+        }).then((response)=>{
+
+            if(response.data.data === true) setIsMySellItem(true);
+            else setIsMySellItem(false);
+        })
       };
+
       getItemData();
     }
   }, [id]);
@@ -111,6 +139,13 @@ function Subject({ match }) {
     });
   };
 
+    const cancelSellItem = (sellItemId) => {
+        message.success("판매 등록이 취소되었습니다.");
+        axios.delete(host + "/sell?sellItemId=" + sellItemId, {
+            headers: { Authorization: authToken }
+        });
+    };
+
   const updateBookmark = isBookmarked => {
     isBookmarked = setIsBookmarked(!isBookmarked);
     axios
@@ -126,6 +161,12 @@ function Subject({ match }) {
           history.push('/signin')
       }
   };
+
+    const goToHome = () => {
+        if (authToken != "" && authToken != null) {
+            history.push('/')
+        }
+    };
 
   return (
     <div id="subject-container">
@@ -287,7 +328,7 @@ function Subject({ match }) {
         <Col xs={{ span: 7, offset: 2 }}>
           <Link>
             <span style={{ fontSize: "1.7vh", color: "#656565" }}>
-              판매자 정보 더보기
+                {/*판매자 정보 더보기*/}
             </span>
           </Link>
         </Col>
@@ -297,21 +338,28 @@ function Subject({ match }) {
           <Divider style={{ background: "lightgray" }} />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Row>
-            <Col xs={{ span: 23, offset: 1 }}>
+        {qualityScore > -1 ?
+            <Row>
+                <Col>
+                    <Row style={{marginBottom : "2.5px"}}>
+                        <Col xs={{ span: 23, offset: 1 }}>
               <span style={{ fontSize: "2vh", color: "#656565" }}>
-                {item.regiTime != undefined ? dateFormat(item.regiTime) : null}
-                {item.dealType == 0 ? " | 직거래 " : " | 북을박스"}
+                  <Rate style={{
+                      color: "rgba(51, 158, 172, 0.9)",
+                      fontSize: "2vh", textAlign: "center"
+                  }} disabled defaultValue={qualityScore} />  {"  |  "}
+                  {item.regiTime != undefined ? dateFormat(item.regiTime) : null}
+                  {item.dealType == 0 ? "  |  직거래 " : "  |  북을박스"}
               </span>
-            </Col>
-          </Row>
-          {item.qualityGeneral != undefined && item.qualityExtraList != undefined
-            ? qualDisplay(item.qualityGeneral, item.qualityExtraList)
-            : null}
-        </Col>
-      </Row>
+                        </Col>
+                    </Row>
+                    {item.qualityGeneral != undefined && item.qualityExtraList != undefined
+                        ? qualDisplay(item.qualityGeneral, item.qualityExtraList)
+                        : null}
+                </Col>
+            </Row> : null
+        }
+
       <Row style={{ marginTop: "4vh", marginBottom: "3vh" }}>
         <Col xs={{ span: 22, offset: 1 }}>
           <textarea
@@ -345,7 +393,7 @@ function Subject({ match }) {
                       }}
                       onClick={()=>{setConfirmModalOpened(true)}}
                   >
-                      구매하기
+                      {isMySellItem ? "판매 등록 취소하기" : "구매하기"}
                   </button>
                   <Modal
                       title = {null}
@@ -354,7 +402,11 @@ function Subject({ match }) {
                       closable={false}>
                       <div>
                           <Row>
-                              <Col span={24}><h5 style={{textAlign : "center", padding : "auto", fontSize : "17px", color : "#666666"}}>판매자에게 구매 신청을 보내겠습니까?</h5></Col>
+                              <Col span={24}>
+                                  <h5 style={{textAlign : "center", padding : "auto", fontSize : "17px", color : "#666666"}}>
+                                      {isMySellItem ? "판매 등록을 취소하시겠습니까?" : "판매자에게 구매 신청을 보내겠습니까?"}
+                                  </h5>
+                              </Col>
                           </Row>
                           <Row style={{marginTop : "10px"}}>
                               <Col offset={2} span={8}><button
@@ -370,10 +422,18 @@ function Subject({ match }) {
                                   }}
                                   onClick={()=>{
                                       setConfirmModalOpened(false);
-                                      confirm();
-                                      setTimeout(() => {
-                                          goToSignIn();
-                                      }, 2000);
+                                      if(isMySellItem){
+                                          cancelSellItem(item._id);
+                                          setTimeout(() => {
+                                              goToHome();
+                                          }, 2000);
+                                      }
+                                      else{
+                                          confirm();
+                                          setTimeout(() => {
+                                              goToSignIn();
+                                          }, 2000);
+                                      }
                                      }}
                               >예</button></Col>
                               <Col offset={4} span={8}><button

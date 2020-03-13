@@ -10,6 +10,7 @@ import moment from 'moment';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import host from '../../server-settings/ServerApiHost';
+import {forEach} from "react-bootstrap/cjs/ElementChildren";
 
 class Banner extends Component {
   state = {
@@ -24,6 +25,7 @@ class Banner extends Component {
     renderFocus : false,
     sortType1 : "accuracy",
     sortType2 : "accuracy",
+    qualityScoreList : []
   }
 
   getHomeData = async () => {
@@ -42,10 +44,34 @@ class Banner extends Component {
   getSellItemList = async (itemId) => {
     axios.get(host + '/sell?itemId=' + itemId)
         .then((response) => {
-          console.log(response);
           this.setState({
             sellItemList: response.data.data
           });
+
+          const sellItemList = response.data.data;
+
+          let qualityScoreList = [];
+
+          sellItemList.forEach(s => {
+            let qualityExtraList = s.qualityExtraList;
+
+            let newQualityExtraList = [];
+
+            const scoreAppliedQualityIndexArray = [0,3,4,5,7];
+
+            scoreAppliedQualityIndexArray.forEach(s => newQualityExtraList.push(qualityExtraList[s]))
+
+            let score = 5;
+            newQualityExtraList.forEach(q => {
+              if(q){score--;}
+            })
+
+            qualityScoreList.push(score);
+
+          })
+
+         this.setState({qualityScoreList : qualityScoreList});
+
         });
   }
 
@@ -342,7 +368,7 @@ class Banner extends Component {
                     <Col offset={1} span={22}><Divider /></Col>
                   </Row>
                   {this.state.isFocused && this.state.resdata != null && this.state.inDetail &&
-                  this.state.sellItemList != null && this.state.sellItemList.length !== 0 ?
+                  this.state.sellItemList != null && this.state.sellItemList.length !== 0 && this.state.qualityScoreList.length > 0 ?
                       this.state.sellItemList.map((value, index) => {
                         return (
                             <Link to={"/buy/detail/" + value._id}>
@@ -376,8 +402,8 @@ class Banner extends Component {
                                       <small style={{ color: "#656565", fontSize: "12px" }}>
                                         <Rate style={{
                                           color: "rgba(51, 158, 172, 0.9)",
-                                          fontSize: "10px", textAlign: "center"
-                                        }} disabled defaultValue={value.quality} />
+                                          fontSize: "12px", textAlign: "center"
+                                        }} disabled defaultValue={this.state.qualityScoreList[index]} />
                                         <small style={{
                                           color: "#656565", fontSize: "12px",
                                           textAlign: "center", padding: "auto"
@@ -565,7 +591,7 @@ class Banner extends Component {
                 })}
               </div> : null}
           {
-            this.state.mode === "buy" && this.state.isFocused === false?
+            this.state.mode === "buy" && this.state.isFocused === false && this.state.bookResList1 != undefined?
                 <div id="banner-list">
                   <Row className="banner-list-title" style={{ marginBottom: "3vh" }}>
                     <Col xs={{ span: 18, offset: 1 }}><h5 style={{ fontSize: "2.8vh", color: "#707070", fontWeight: 500 }}>방금 올라온 책</h5></Col>
@@ -583,7 +609,7 @@ class Banner extends Component {
                             xl: 4,
                             xxl: 3,
                           }}
-                          dataSource={this.state.bookResList1}
+                          dataSource={this.state.bookResList1.length > 4 ? this.state.bookResList1.slice(0,4) : this.state.bookResList1.slice(0,this.state.bookResList1.length)}
                           renderItem={item => (
 
                               <List.Item
@@ -601,7 +627,7 @@ class Banner extends Component {
                                 </Row>
                                 <Row>
                                   <Col span={24}>
-                                    <small className="banner-list-item-title">{item.title}</small>
+                                    <small style={{fontWeight: 500}} className="banner-list-item-title">{item.title}</small>
                                   </Col>
                                 </Row>
                               </List.Item>
@@ -609,6 +635,48 @@ class Banner extends Component {
                       />
                     </Col>
                   </Row>
+                  {this.state.bookResList1.length > 4 ?
+                      <Row>
+                        <Col xs={{span: 22, offset: 1}}>
+                          <List
+                              className="list"
+                              grid={{
+                                gutter: 16,
+                                xs: 4,
+                                sm: 1,
+                                md: 4,
+                                lg: 4,
+                                xl: 4,
+                                xxl: 3,
+                              }}
+                              dataSource={this.state.bookResList1.slice(4, this.state.bookResList1.length)}
+                              renderItem={item => (
+
+                                  <List.Item
+                                      key={item.title}
+                                  >
+                                    <Row>
+                                      <Link to={"/buy/detail/" + item._id}>
+                                        <Col span={24}>
+                                          <img
+                                              style={{width: "10vh", height: "15vh", backgroundSize: "contain"}}
+                                              src={item.imageUrl.replace("type=m1", "")}
+                                          ></img>
+                                        </Col>
+                                      </Link>
+                                    </Row>
+                                    <Row>
+                                      <Col span={24}>
+                                        <small style={{fontWeight: 500}}
+                                               className="banner-list-item-title">{item.title}</small>
+                                      </Col>
+                                    </Row>
+                                  </List.Item>
+                              )}
+                          />
+                        </Col>
+                      </Row> : null
+                  }
                   <Row className="banner-list-title">
                     <Col xs={{ span: 18, offset: 1 }}><h5 style={{ fontSize: "2.8vh", color: "#707070", fontWeight: 500 }}>금주의 핫딜</h5></Col>
                   </Row>
@@ -643,7 +711,7 @@ class Banner extends Component {
                                 </Row>
                                 <Row>
                                   <Col span={24}>
-                                    <small className="banner-list-item-title">{item.title}</small>
+                                    <small style={{fontWeight: 500}} className="banner-list-item-title">{item.title}</small>
                                   </Col>
                                 </Row>
                               </List.Item>
@@ -684,7 +752,7 @@ class Banner extends Component {
                                 </Row>
                                 <Row>
                                   <Col span={24}>
-                                    <small className="banner-list-item-title">{item.title}</small>
+                                    <small style={{fontWeight: 500}} className="banner-list-item-title">{item.title}</small>
                                   </Col>
                                 </Row>
                               </List.Item>
