@@ -75,6 +75,7 @@ class Banner extends Component {
         });
   }
 
+
   saveItemReceiving = (itemReceiving) => {
     axios.post(host + '/itemReceiving', itemReceiving, {
       headers: { Authorization: localStorage.getItem('token') }
