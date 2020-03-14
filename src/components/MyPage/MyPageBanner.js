@@ -378,6 +378,7 @@ export default function MyPageBanner() {
                     </Col>
                 </Link>
             </Row>
+
             <Row style={{ marginTop: "20px", marginBottom: "20px" }}>
                 <Col>
                     <Icon style={{
