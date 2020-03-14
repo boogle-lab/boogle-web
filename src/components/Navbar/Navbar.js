@@ -194,7 +194,7 @@ class Navbar extends Component {
                                 <div className="navbar-carousel-div">
                                   <h3 className="navbar-carousel-title">판매 등록 시, </h3>
                                   <h3 className="navbar-carousel-title">
-                                    50% 선 지급 이벤트
+                                    30% 선 지급 이벤트
                                   </h3>
                                   <h3 className="navbar-carousel-title">진행 중!</h3>
                                 </div>
@@ -210,7 +210,7 @@ class Navbar extends Component {
                                 <div className="navbar-carousel-div">
                                   <h3 className="navbar-carousel-title">판매 등록 시, </h3>
                                   <h3 className="navbar-carousel-title">
-                                    50% 선 지급 이벤트
+                                    30% 선 지급 이벤트
                                   </h3>
                                   <h3 className="navbar-carousel-title">진행 중!</h3>
                                 </div>

@@ -11,12 +11,6 @@
 
     html, body {
     }
-
-    button:focus { outline:0 !important; }
-    input {
-      -webkit-appearance: none;
-      -webkit-border-radius: 0;
-   }
    select {
     -webkit-appearance: none;
     -webkit-border-radius: 0px;

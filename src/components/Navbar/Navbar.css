@@ -12,7 +12,7 @@
     }
 
     #navbar-sell{
-        background-image: url('https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/banner_background.png');
+        background-image: url('https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/banner_sell_background.png');
         overflow : hidden;
         width : 100%;
         height : 16%;
@@ -105,7 +105,7 @@
     }
 
     #navbar-sell{
-        background-image: url('https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/banner_background.png');
+        background-image: url('https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/banner_sell_background.png');
         overflow : hidden;
         width : 100%;
         max-height : 16%;

@@ -11651,7 +11651,7 @@ rc-cascader@~0.17.4:
     shallow-equal "^1.0.0"
     warning "^4.0.1"
 
-rc-checkbox@~2.1.6:
+rc-checkbox@^2.1.8, rc-checkbox@~2.1.6:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/rc-checkbox/-/rc-checkbox-2.1.8.tgz#eedd9ef9c2f3af5b3b8e5cde5254aa89ad1a880a"
   integrity sha512-6qOgh0/by0nVNASx6LZnhRTy17Etcgav+IrI7kL9V9kcDZ/g7K14JFlqrtJ3NjDq/Kyn+BPI1st1XvbkhfaJeg==
@@ -12164,7 +12164,7 @@ react-device-detect@^1.11.14:
   dependencies:
     ua-parser-js "^0.7.20"
 
-react-dom@^16.10.1, react-dom@^16.8.6:
+react-dom@^16.0.0, react-dom@^16.10.1, react-dom@^16.8.6:
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.0.tgz#cdde54b48eb9e8a0ca1b3dc9943d9bb409b81866"
   integrity sha512-y09d2c4cG220DzdlFkPTnVvGTszVvNpC73v+AaLGLHbkpy3SSgvYq8x0rNwPJ/Rk/CicTNgk0hbHNw1gMEZAXg==
@@ -12383,6 +12383,16 @@ react-select@^3.0.8:
     react-input-autosize "^2.2.2"
     react-transition-group "^2.2.1"
 
+react-simple-checkbox@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-simple-checkbox/-/react-simple-checkbox-1.3.0.tgz#6a29ba547bbbdb60b5ad3b256c6cb96a0391d068"
+  integrity sha512-jzrBWAGvABBqsQ0sy3ikA7KPLSSmDN1NbSs7q2Yf2ZuZUymKOKdJsFscgOBcOW8Y6Z3ELMlvAV6SwIUK0HjCxg==
+  dependencies:
+    babel-polyfill "^6.26.0"
+    prop-types "^15.6.0"
+    react "^16.0.0"
+    react-dom "^16.0.0"
+
 react-slick@~0.25.2:
   version "0.25.2"
   resolved "https://registry.yarnpkg.com/react-slick/-/react-slick-0.25.2.tgz#56331b67d47d8bcfe2dceb6acab1c8fd5bd1f6bc"
@@ -12467,7 +12477,7 @@ react-transition-group@^4.0.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@>=15.0.0, react@^16.10.1, react@^16.8.6:
+react@>=15.0.0, react@^16.0.0, react@^16.10.1, react@^16.8.6:
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.0.tgz#d046eabcdf64e457bbeed1e792e235e1b9934cf7"
   integrity sha512-TSavZz2iSLkq5/oiE7gnFzmURKZMltmi193rm5HEoUDAXpzT9Kzw6oNZnGoai/4+fUnm7FqS5dwgUL34TujcWQ==

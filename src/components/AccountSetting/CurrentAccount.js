@@ -34,53 +34,56 @@ export default function CurrentAccount() {
             <Row style={{ marginTop: "30px" }}>
               <Col xs={{ span: 22, offset: 1 }}>
                 {manageSet.accounts.map(account => {
-                  return (
-                    <Card
-                      hoverable
-                      style={{
-                        width: "100%",
-                        borderRadius: "18px",
-                        border: "solid 1px #a7a7a7",
-                        marginBottom: "10px",
-                        padding: "10px 0px 10px 0px"
-                      }}
-                    >
-                      <Row style={{ marginBottom: "5px" }}>
-                        <Col>
+                    if(account.bankId != undefined && account.accountNumber != undefined){
+                        return (
+                            <Card
+                                hoverable
+                                style={{
+                                    width: "100%",
+                                    borderRadius: "18px",
+                                    border: "solid 1px #a7a7a7",
+                                    marginBottom: "10px",
+                                    padding: "10px 0px 10px 0px"
+                                }}
+                            >
+                                <Row style={{ marginBottom: "5px" }}>
+                                    <Col>
                           <span style={{ fontSize: "20px", color: "#535353" }}>
                             {bankNameList(account.bankId) + "    "}
-                            {account.accountNumber}
+                              {account.accountNumber}
                           </span>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <span>예금주 : {account.depositorName}</span>
-                        </Col>
-                      </Row>
-                      <Row style={{ marginTop: "20px" }}>
-                        <Col xs={{ span: 12, offset: 12 }}>
-                          <button
-                            style={{
-                              padding: "0",
-                              width: "100%",
-                              background: "rgba(51, 158, 172, 0.9)",
-                              color: "#ffffff",
-                              border: "none",
-                              borderRadius: "20px",
-                              fontSize: "15px",
-                              height: "35px"
-                            }}
-                            onClick={async () => {
-                              return await delAcc(account._id);
-                            }}
-                          >
-                            삭제하기
-                          </button>
-                        </Col>
-                      </Row>
-                    </Card>
-                  );
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <span>예금주 : {account.depositorName}</span>
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginTop: "20px" }}>
+                                    <Col xs={{ span: 12, offset: 12 }}>
+                                        <button
+                                            style={{
+                                                padding: "0",
+                                                width: "100%",
+                                                background: "rgba(51, 158, 172, 0.9)",
+                                                color: "#ffffff",
+                                                border: "none",
+                                                borderRadius: "20px",
+                                                fontSize: "15px",
+                                                height: "35px"
+                                            }}
+                                            onClick={async () => {
+                                                return await delAcc(account._id);
+                                            }}
+                                        >
+                                            삭제하기
+                                        </button>
+                                    </Col>
+                                </Row>
+                            </Card>
+                        );
+                    }
+
                 })}
               </Col>
             </Row>
@@ -111,7 +114,6 @@ export default function CurrentAccount() {
                       transform: "scaleX(-1)"
                     }}
                     src="https://project-youngwoo.s3.ap-northeast-2.amazonaws.com/left_arrow.png"
-                    onClick={<div></div>}
                   />
                 </Col>
               </Row>

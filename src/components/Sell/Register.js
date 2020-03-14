@@ -20,7 +20,7 @@ export default function Register() {
     const [isFocused, setIsFocused] = useState();
     const [isFocusedClass, setIsFocusedClass] = useState();
     const [selectedItem, setSelectedItem] = useState();
-    const [dealType, setDealType] = useState(1);
+    const [dealType, setDealType] = useState(0);
     const [contactType, setContactType] = useState(0);
 
     const [userImages, setUserImages] = useState([]);
@@ -300,11 +300,9 @@ export default function Register() {
         axios.get(host + '/subject?campus=서강대학교&keyword=' + keyword +'&year=2020&semester=1', {
         })
             .then((response) => {
-                console.log(response.data.data);
                 setSubjectList(response.data.data);
             })
             .catch((error) => {
-                console.log(error);
             })
     }
 
@@ -314,7 +312,7 @@ export default function Register() {
             {
                 step === 1 ?
                     <div>
-                        <div id="navbar">
+                        <div id="navbar-sell">
                             <header>
                                 <Row id="navbar-search-row-after-focused">
                                     <Col xs={{ span: 4 }}>
@@ -611,7 +609,8 @@ export default function Register() {
                                                 fontSize: "12px",
                                                 height: "36px"
                                             }}
-                                            onClick={() => setDealType(1)}>북을박스</button>
+                                            //onClick={() => setDealType(1)}
+                                            >북을박스 (4월 오픈)</button>
                                     </Col>
                                     <Col xs={{ span: 10, offset: 0 }}>
                                         <button
@@ -836,17 +835,18 @@ export default function Register() {
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col xs={{ span: 24 }} >
+                                            <Col  xs={{ span: 24 }} >
                                                 <input
+                                                    onClick={() => {setIsSearchSubjectModalOpened(true)}}
                                                     readOnly
                                                     style={{ width: "100%", height : "40px", border: "none", borderBottom: "rgba(51, 158, 172, 0.9) solid 2px" }}
                                                     name="pubdate" ref={register}
                                                     value={subject === ""? "" : subject + " / " + professor} />
-                                                <Icon className="major-search-button" type="search" theme="outlined"
+                                                <Icon onClick={() => {setIsSearchSubjectModalOpened(true)}} className="major-search-button" type="search" theme="outlined"
 
                                                       style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto" }}
 
-                                                      onClick={() => {setIsSearchSubjectModalOpened(true)}}></Icon>
+                                                      ></Icon>
                                                 {subjectAddModal}
                                             </Col>
                                         </Row>
