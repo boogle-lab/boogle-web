@@ -71,105 +71,104 @@ export default function MyPageBanner() {
                 setReserveList(response.data.data)
             })
         /*
-            setName("김유진");
-            setLikeList([
-              {
-                "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-                "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/139/212/13921278.jpg?type=m1&udate=20181224",
-                "title": "맨큐의 경제학",
-                "regiPrice": "10000"
-              },
-            ]);
-            setBuyList([
-              {
-                "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-                "traderName": "박영우",
-                        "traderPhoneNumber": "01040525345",
-                        "title": "미시경제학",
-                        "transactionType": 1,
-                        "transPrice": "3000",
-                        "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                        "boxId": "",
-                        "boxPassword": "",
-                        "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
-                        "transactionProcessedTimeList": [
-                            "2020-02-14T13:30:04.231+0000"
-                        ],
-                "transactionStep": 3
-              },
-              {
-                "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-                "traderName": "박영우",
-                        "traderPhoneNumber": "01040525345",
-                        "title": "미시경제학",
-                        "transactionType": 1,
-                        "transPrice": "3000",
-                        "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                        "boxId": "",
-                        "boxPassword": "",
-                        "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
-                        "transactionProcessedTimeList": [
-                            "2020-02-14T13:30:04.231+0000"
-                        ],
-                "transactionStep": 5
-              }
-            ]);
-            setSellList([
-             {
-                "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-                "traderName": "박영우",
-                        "traderPhoneNumber": "01040525345",
-                        "title": "미시경제학",
-                        "transactionType": 0,
-                        "transPrice": "3000",
-                        "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                        "boxId": "",
-                        "boxPassword": "",
-                        "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
-                        "transactionProcessedTimeList": [
-                            "2020-02-14T13:30:04.231+0000"
-                        ],
-                "transactionStep": 3
-              },
-              {
-                "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-                "traderName": "박영우",
-                        "traderPhoneNumber": "01040525345",
-                        "title": "미시경제학",
-                        "transactionType": 1,
-                        "transPrice": "3000",
-                        "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                        "boxId": "",
-                        "boxPassword": "",
-                        "transactionCreatedTime": "",
-                        "transactionProcessedTimeList": [
-                            "2020-02-14T13:30:04.231+0000"
-                        ],
-                "transactionStep": 5
-              }
-            ]);
-
-            setReserveList([
-              {
-                "_id": "5e5f9268367e0826aa7fb4a3",
-                "itemId": "9788962184181",
-                "userId": 10,
-                "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/139/212/13921278.jpg?type=m1&udate=20181224",
-                "title": "맨큐의 경제학",
-                "author": "그레고리 맨큐",
-                "publisher": "한티에듀"
-            },
-            {
-                "_id": "5e5f9908367e0826aa7fb4a5",
-                "itemId": "9788962184204",
-                "userId": 10,
-                "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/140/134/14013423.jpg?type=m1&udate=20190204",
-                "title": "맨큐의 경제학 연습문제풀이",
-                "author": "그레고리 맨큐",
-                "publisher": "한티미디어"
-            }
-            ]);
-        */
+        setName("김유진");
+        setLikeList([
+          {
+            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
+            "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/139/212/13921278.jpg?type=m1&udate=20181224",
+            "title": "맨큐의 경제학",
+            "regiPrice": "10000"
+          },
+        ]);
+        setBuyList([
+          {
+            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
+            "traderName": "박영우",
+                    "traderPhoneNumber": "01040525345",
+                    "title": "미시경제학",
+                    "transactionType": 1,
+                    "transPrice": "3000",
+                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
+                    "boxId": "",
+                    "boxPassword": "",
+                    "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
+                    "transactionProcessedTimeList": [
+                        "2020-02-14T13:30:04.231+0000"
+                    ],
+            "transactionStep": 3
+          },
+          {
+            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
+            "traderName": "박영우",
+                    "traderPhoneNumber": "01040525345",
+                    "title": "미시경제학",
+                    "transactionType": 1,
+                    "transPrice": "3000",
+                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
+                    "boxId": "",
+                    "boxPassword": "",
+                    "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
+                    "transactionProcessedTimeList": [
+                        "2020-02-14T13:30:04.231+0000"
+                    ],
+            "transactionStep": 5
+          }
+        ]);
+        setSellList([
+         {
+            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
+            "traderName": "박영우",
+                    "traderPhoneNumber": "01040525345",
+                    "title": "미시경제학",
+                    "transactionType": 0,
+                    "transPrice": "3000",
+                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
+                    "boxId": "",
+                    "boxPassword": "",
+                    "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
+                    "transactionProcessedTimeList": [
+                        "2020-02-14T13:30:04.231+0000"
+                    ],
+            "transactionStep": 3
+          },
+          {
+            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
+            "traderName": "박영우",
+                    "traderPhoneNumber": "01040525345",
+                    "title": "미시경제학",
+                    "transactionType": 1,
+                    "transPrice": "3000",
+                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
+                    "boxId": "",
+                    "boxPassword": "",
+                    "transactionCreatedTime": "",
+                    "transactionProcessedTimeList": [
+                        "2020-02-14T13:30:04.231+0000"
+                    ],
+            "transactionStep": 5
+          }
+        ]);
+        setReserveList([
+          {
+            "_id": "5e5f9268367e0826aa7fb4a3",
+            "itemId": "9788962184181",
+            "userId": 10,
+            "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/139/212/13921278.jpg?type=m1&udate=20181224",
+            "title": "맨큐의 경제학",
+            "author": "그레고리 맨큐",
+            "publisher": "한티에듀"
+        },
+        {
+            "_id": "5e5f9908367e0826aa7fb4a5",
+            "itemId": "9788962184204",
+            "userId": 10,
+            "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/140/134/14013423.jpg?type=m1&udate=20190204",
+            "title": "맨큐의 경제학 연습문제풀이",
+            "author": "그레고리 맨큐",
+            "publisher": "한티미디어"
+        }
+        ]);
+    */
     }
 
     // 거래상세보기 기능을 위한 함수들
@@ -196,6 +195,16 @@ export default function MyPageBanner() {
     const noSellDetail = (i) => {
         sellDetailIndex[i] = 0
         setNeedRender(true)
+    }
+
+    // 입고 알림 취소 기능을 위한 메소드
+    const cancelReceive = () => {
+        axios.get(host + '/itemReceiving/cancel', {
+            headers: { Authorization: localStorage.getItem('token') }
+        })
+            .then((response) => {
+                setNeedRender(true)
+            });
     }
 
 
@@ -578,7 +587,7 @@ export default function MyPageBanner() {
             <Row id="user-product"
                  style={{ marginTop: "24px", height: "auto" }}>
                 {likeProduct === true ?
-                    <Card style={{ width: "100%", height: "auto", backgroundColor: "#ffffff", border: 0}}>
+                    <Card style={{ width: "100%", height: "auto", backgroundColor: "#ffffff", border: 0, paddingBottom: "5vh" }}>
                         {likeList.length !== 0 ?
                             <div>
                                 <Row style={{margin: "auto auto", marginTop: "-1px", marginBottom: "2vh"}}>
@@ -732,7 +741,7 @@ export default function MyPageBanner() {
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                     <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                        판매자 : {value.traderNickname}  |
+                                                                        판매자 : {value.traderName}  |
                                                                         연락처 : {value.traderPhoneNumber}
                                                                     </Col>
                                                                 </Row>
@@ -900,7 +909,7 @@ export default function MyPageBanner() {
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                     <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                        판매자 : {value.traderNickname}
+                                                                        판매자 : {value.traderName}
                                                                     </Col>
                                                                 </Row>
                                                             </Col>
@@ -1355,7 +1364,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                                    구매자 : {value.traderNickname}  |
+                                                                                    구매자 : {value.traderName}  |
                                                                                     연락처 : {value.traderPhoneNumber}
                                                                                 </Col>
                                                                             </Row>
@@ -1597,7 +1606,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold", textAlign: "left" }}>
-                                                                                    구매자 : {value.traderNickname}
+                                                                                    구매자 : {value.traderName}
                                                                                 </Col>
                                                                             </Row>
                                                                         </Col>
@@ -1795,6 +1804,13 @@ export default function MyPageBanner() {
                                               margin: "auto auto", marginBottom: "2vh", padding: "0px",
                                           }}>
                                         <div style={{margin: "-15px"}}>
+                                            <Row style={{padding: "0"}}>
+                                                <Col offset={19} span={5}
+                                                     style={{ color: "#656565", fontSize: "16px", textAlign: "right"}}
+                                                     onClick={() => { cancelReceive(); }}>
+                                                    <Icon type="close"/>
+                                                </Col>
+                                            </Row>
                                             <Row>
                                                 <Col span={6} offset={0}>
                                                     <Link to = {'/buy/detail/'+value.itemId}>
