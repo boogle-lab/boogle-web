@@ -198,12 +198,18 @@ class Navbar extends Component {
                                   </h3>
                                   <h3 className="navbar-carousel-title">진행 중!</h3>
                                 </div>
+                                <div style={{textAlign : "right", marginTop : "0px"}}>
+                                  <span style={{color : "white"}}>더보기 >></span>
+                                </div>
                               </a>
                               <a href="https://www.notion.so/boogle/EVENT-c4fda36c9ed24dd3b78cfce32f8e8a2c">
                                 <div className="navbar-carousel-div">
-                                  <h3 className="navbar-carousel-title">오프라인 </h3>
-                                  <h3 className="navbar-carousel-title">북을 박스</h3>
-                                  <h3 className="navbar-carousel-title">COMING SOON</h3>
+                                  <h3 className="navbar-carousel-title">새내기 섹션 이벤트! </h3>
+                                  <h3 className="navbar-carousel-title">회원가입하고 </h3>
+                                  <h3 className="navbar-carousel-title">동기들과 치킨먹자! </h3>
+                                </div>
+                                <div style={{textAlign : "right", marginTop : "0px"}}>
+                                  <span style={{color : "white"}}>더보기 >></span>
                                 </div>
                               </a>
                               <a href="https://www.notion.so/boogle/EVENT-c4fda36c9ed24dd3b78cfce32f8e8a2c">
@@ -214,19 +220,24 @@ class Navbar extends Component {
                                   </h3>
                                   <h3 className="navbar-carousel-title">진행 중!</h3>
                                 </div>
+                                <div style={{textAlign : "right", marginTop : "0px"}}>
+                                  <span style={{color : "white"}}>더보기 >></span>
+                                </div>
                               </a>
-                              <a>
+                              <a href="https://www.notion.so/boogle/EVENT-c4fda36c9ed24dd3b78cfce32f8e8a2c">
                                 <div className="navbar-carousel-div">
-                                  <h3 className="navbar-carousel-title">오프라인 </h3>
-                                  <h3 className="navbar-carousel-title">북을 박스</h3>
-                                  <h3 className="navbar-carousel-title">COMING SOON</h3>
+                                  <h3 className="navbar-carousel-title">새내기 섹션 이벤트! </h3>
+                                  <h3 className="navbar-carousel-title">회원가입하고 </h3>
+                                  <h3 className="navbar-carousel-title">동기들과 치킨먹자! </h3>
+                                </div>
+                                <div style={{textAlign : "right", marginTop : "0px"}}>
+                                  <span style={{color : "white"}}>더보기 >></span>
                                 </div>
                               </a>
                             </Carousel>
                           </Col>
                         </Row>
-                      </header> : null
-                }
+                      </header> : null}
 
               </div>
           )}

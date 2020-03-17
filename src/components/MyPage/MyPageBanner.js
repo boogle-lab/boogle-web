@@ -198,8 +198,8 @@ export default function MyPageBanner() {
     }
 
     // 입고 알림 취소 기능을 위한 메소드
-    const cancelReceive = () => {
-        axios.get(host + '/itemReceiving/cancel', {
+    const cancelReceive = (itemId) => {
+        axios.get(host + '/itemReceiving/cancel?itemId=' + itemId, {
             headers: { Authorization: localStorage.getItem('token') }
         })
             .then((response) => {
@@ -1807,7 +1807,7 @@ export default function MyPageBanner() {
                                             <Row style={{padding: "0"}}>
                                                 <Col offset={19} span={5}
                                                      style={{ color: "#656565", fontSize: "16px", textAlign: "right"}}
-                                                     onClick={() => { cancelReceive(); }}>
+                                                     onClick={() => { cancelReceive(value.itemId); }}>
                                                     <Icon type="close"/>
                                                 </Col>
                                             </Row>

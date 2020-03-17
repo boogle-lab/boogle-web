@@ -20,7 +20,7 @@ export default function Register() {
     const [isFocused, setIsFocused] = useState();
     const [isFocusedClass, setIsFocusedClass] = useState();
     const [selectedItem, setSelectedItem] = useState();
-    const [dealType, setDealType] = useState(0);
+    const [dealType, setDealType] = useState(1);
     const [contactType, setContactType] = useState(0);
 
     const [userImages, setUserImages] = useState([]);
@@ -61,6 +61,10 @@ export default function Register() {
     const [subjectList, setSubjectList] = useState([]);
     const [subjectKeyword, setSubjectKeyword] = useState("");
     const [isSearchSubjectModalOpened, setIsSearchSubjectModalOpened] = useState(false);
+
+    const [comment, setComment] = useState("");
+    const [validatedComment, setValidatedComment] = useState(false);
+    const [commentModalVisible, setCommentModalVisible] = useState(false);
 
     const { register, handleSubmit } = useForm();
 
@@ -217,7 +221,7 @@ export default function Register() {
                 comment: data.comment,
                 imageUrl: selectedItem.imageUrl,
                 regiTime : new Date(),
-                sellerBankAccountId : selectedUserBankAccount._id,
+                sellerBankAccountId : dealType === 1 ? selectedUserBankAccount._id : "",
                 subject : subject,
                 professor : professor
             })
@@ -609,8 +613,8 @@ export default function Register() {
                                                 fontSize: "12px",
                                                 height: "36px"
                                             }}
-                                            //onClick={() => setDealType(1)}
-                                            >북을박스 (4월 오픈)</button>
+                                            onClick={() => setDealType(1)}
+                                            >북을박스</button>
                                     </Col>
                                     <Col xs={{ span: 10, offset: 0 }}>
                                         <button
@@ -649,6 +653,7 @@ export default function Register() {
                                                                             setSelectedBankId(e.target.value)
                                                                         }} name="bankList"
                                                                                 style={{
+                                                                                    padding : "5px",
                                                                                     width: "100%", height: "40px", border: "none",
                                                                                     borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                                                                     backgroundColor: "transparent"
@@ -761,6 +766,7 @@ export default function Register() {
                                                                     value = {selectedUserBankAccount}
                                                                     name="semester"
                                                                     style={{
+                                                                        padding : "5px",
                                                                         width: "100%", height: "40px", border: "none",
                                                                         borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                                                         backgroundColor: "transparent"
@@ -941,15 +947,17 @@ export default function Register() {
                                             })
                                     }
                                 </Row>
+
                                 <Row>
                                     <Col xs={{ span: 8, offset: 2 }}>
                                         <span style={{ color: "rgba(51, 158, 172, 0.9)", fontWeight: "800" }}>판매 희망가격<span style={{color : "#e95513"}}>*</span></span>
                                     </Col>
                                 </Row>
                                 {
-                                    !isSearchSubjectModalOpened ?
+                                    (!isSearchSubjectModalOpened && userBankAccountList.length > 0) || (dealType === 0 && !isSearchSubjectModalOpened)  ?
                                         <Row style={{ marginBottom: "10px" }}>
                                             <Col xs={{ span: 10, offset: 2 }} >
+                                                {/*
                                                 <CurrencyInput
                                                     precision="0"
                                                     suffix=" 원"
@@ -962,23 +970,45 @@ export default function Register() {
                                                     }
                                                     }
                                                     style={{ width: "100%", height : "6vh", padding : "1.5vh", border: "none", borderBottom: "rgba(51, 158, 172, 0.9) solid 2px" }} />
+                                                */}
+                                                <input
+                                                    value={regiPrice}
+                                                    onChange={(e) => {
+                                                        let value = e.target.value;
+                                                        //value = value.replace(/,/g, "")
+                                                        //value = value.replace(" 원", "");
+                                                        setRegiPrice(value)
+                                                    }
+                                                    }
+                                                    style={{ width: "100%", height : "6vh", padding : "1.5vh", border: "none", borderBottom: "rgba(51, 158, 172, 0.9) solid 2px" }} />
                                             </Col>
                                         </Row> : null
                                 }
 
                                 <Row>
                                     <Col xs={{ span: 5, offset: 2 }}>
-                                        <span style={{ color: "rgba(51, 158, 172, 0.9)", fontWeight: "800" }}>코멘트</span>
+                                        <span style={{ color: "rgba(51, 158, 172, 0.9)", fontWeight: "800" }}>코멘트<span style={{color : "#e95513"}}>*</span></span>
                                     </Col>
                                 </Row>
                                 <Row style={{ marginBottom: "10px" }}>
                                     <Col xs={{ span: 20, offset: 2 }} >
                                             <textarea
+                                                onChange={(e)=>{setComment(e.target.value)}}
                                                 style={{ width: "100%", height: "100px", border: "#656565 solid 0.3px", borderRadius: "5px" }}
                                                 name="comment" ref={register}
                                                 placeholder="예시) 2019년 5월에 구입한 책입니다. OOO교수님 수업 필기가 되어있고, 부록 CD도 함께 있습니다.
                                                 주의 : 해당 입력칸에 연락처 등의 개인정보를 기입하지 마세요." />
                                     </Col>
+                                    <Modal
+                                        title={null}
+                                        footer={null}
+                                        visible={!modalVisible && commentModalVisible}
+                                        onOk={()=>{setCommentModalVisible(true)}}
+                                        onCancel={()=>{setCommentModalVisible(false)}}>
+                                        <div>
+                                            <span>코멘트를 입력해주세요.</span>
+                                        </div>
+                                    </Modal>
                                 </Row>
                                 <Row style={{ marginBottom: "100px" }}>
                                     <Col xs={{ span: 20, offset: 2 }}>
@@ -990,9 +1020,10 @@ export default function Register() {
                                         }}
                                                 type="submit"
                                                 onClick={()=>{
-                                                    if(selectedUserBankAccount == null){
+                                                    if(selectedUserBankAccount == null && dealType === 1){
                                                         setModalVisible(true);
                                                     }
+                                                    else if(comment == ""){setCommentModalVisible(true)}
                                                     else{
                                                         setIsFinalSubmit(true);
                                                     }
@@ -1052,7 +1083,7 @@ export default function Register() {
                                             {sellItem.title} 등록이 정상적으로 완료 되었습니다.
                                         </h5>
                                         <h5 style={{ textAlign: "center", color: "#707070", fontWeight: "400", fontSize: "17.5px", }}>
-                                            이 책을 구매하고자 하는 분이 나타나면 북을 앱을 통해 알람이 올거에요.
+                                            이 책을 구매하고자 하는 분이 나타나면 이메일을 통해 알람이 올거에요.
                                         </h5>
                                     </Col>
                                 </Row>

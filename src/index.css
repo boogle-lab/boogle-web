@@ -4,19 +4,25 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 
-    :lang(ko) {
-      font-family: 'Noto Sans KR';
-      font-weight: 500;
-    }
+:lang(ko) {
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+}
 
-    html, body {
-    }
-   select {
+html, body {
+}
+
+button:focus { outline:0 !important; }
+input {
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+}
+select {
     -webkit-appearance: none;
     -webkit-border-radius: 0px;
-  }
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
