@@ -61,7 +61,6 @@ export default function MyPageBanner() {
                 setLikeList(response.data.data.bookmarkedItemList)
                 setBuyList(response.data.data.buyTransList)
                 setSellList(response.data.data.sellTransList)
-
             });
         axios.get(host + '/itemReceiving' , {
             headers: { Authorization: localStorage.getItem('token') }
@@ -124,7 +123,11 @@ export default function MyPageBanner() {
         })
             .then((response) => {
                 setNeedRender(true);
-            });
+            })
+            // 수락 버튼 눌러도 렌더링이 제대로 안됨
+            // .catch((err) => {
+            //     setNeedRender(true);
+            // })
     }
 
     const rejectBuyRequest = (sellItemId) => {
@@ -658,7 +661,7 @@ export default function MyPageBanner() {
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                     <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                        판매자 : {value.traderName}  |
+                                                                        판매자 : {value.traderNickname}  |
                                                                         연락처 : {value.traderPhoneNumber}
                                                                     </Col>
                                                                 </Row>
@@ -830,7 +833,7 @@ export default function MyPageBanner() {
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                     <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                        판매자 : {value.traderName}
+                                                                        판매자 : {value.traderNickname}
                                                                     </Col>
                                                                 </Row>
                                                             </Col>
