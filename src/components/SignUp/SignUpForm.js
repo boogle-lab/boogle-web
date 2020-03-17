@@ -22,6 +22,7 @@ export default function SignUpForm() {
     const [email, setEmail] = useState("");
     const [validatedEmail, setValidatedEmail] = useState(true);
     const [validatedNickname, setValidatedNickname] = useState(true);
+    const [validatedMajor, setValidatedMajor] = useState(false);
     const [password, setPassword] = useState(0);
     const [confirmPassword, setConfirmPassword] = useState(0);
     const [formStyle, setFormStyle] = useState(["show", "hide", "hide"]);
@@ -49,21 +50,22 @@ export default function SignUpForm() {
 
     const [checkboxRender, setCheckboxRender] = useState(false);
 
-    const toggle = () => {
-        this.setState((state) => ({
-            disabled: !state.disabled,
-        }));
-    }
+    const [emailModalOpened, setEmailModalOpened] = useState(false);
+
+    const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
 
     const onSubmitFirstForm = (data) => {
 
+        setSubmitButtonClicked(true)
+
         let majorListAsString = ""
 
-        if (majorList.length == 1) majorListAsString = majorList[0];
-        else if (majorList.length == 2) majorListAsString = majorList[0] + "," + majorList[1];
-        else majorListAsString = majorList[0] + "," + majorList[1] + "," + majorList[2];
+        if(majorList.length === 0) {setValidatedMajor(false)}
+        else if (majorList.length === 1) {majorListAsString = majorList[0]; setValidatedMajor(true);}
+        else if (majorList.length === 2) {majorListAsString = majorList[0] + "," + majorList[1]; setValidatedMajor(true);}
+        else {majorListAsString = majorList[0] + "," + majorList[1] + "," + majorList[2]; setValidatedMajor(true);}
 
-        if (validatedEmail && validatedNickname) {
+        if (validatedEmail && validatedNickname & validatedMajor) {
             setSignUpReq({
                 email: data.email,
                 password: data.password,
@@ -89,40 +91,24 @@ export default function SignUpForm() {
 
     React.useEffect(() => {
         fetch('../../texts/Term1.txt').then(r => r.text())
-            .then(t => {/*console.log(t)*/});
+            .then(t => console.log(t));
         window.scrollTo(0, 1);
     }, [])
 
     React.useEffect(() => {
-        if (step === 0) setFormStyle(["show", "hide", "hide"]);
-        else if (step === 1) setFormStyle(["hide", "show", "hide"]);
-        else if (step === 2) setFormStyle(["hide", "hide", "show"]);
+        if (step == 0) setFormStyle(["show", "hide", "hide"]);
+        else if (step == 1) setFormStyle(["hide", "show", "hide"]);
+        else if (step == 2) setFormStyle(["hide", "hide", "show"]);
     }, [step])
 
     React.useEffect(() => {
-        if (step === 1)
+        if (step == 1)
             saveUser();
     }, [signUpReq])
 
-    React.useEffect(() => {
-        // console.log(majorList);
-    }, [majorList])
-
-        React.useEffect(() => {
-        // console.log(majorCount);
-    }, [majorCount])
 
     React.useEffect(() => {
         if (searchedDepartmentMajorList.length != 0) {
-            /*
-            const arr = [];
-            searchedDepartmentMajorList.map((departmentMajor, index) => {
-                departmentMajor.majorList.map((m, i) => {
-                    arr.push(m);
-                })
-            })
-            setSearchedMajorList(arr);
-            */
             setSearchedMajorList(searchedDepartmentMajorList);
         }
     }, [searchedDepartmentMajorList])
@@ -201,7 +187,7 @@ export default function SignUpForm() {
                 }
             })
             .catch((error) => {
-                // console.log(error);
+                console.log(error);
             })
     }
 
@@ -239,11 +225,11 @@ export default function SignUpForm() {
         axios.get(host + '/majors?campus=서강대학교&keyword=' + keyword, {
         })
             .then((response) => {
-                // console.log(response.data.data);
+                console.log(response.data.data);
                 setSearchedDepartmentMajorList(response.data.data);
             })
             .catch((error) => {
-                //console.log(error);
+                console.log(error);
             })
     }
 
@@ -255,10 +241,10 @@ export default function SignUpForm() {
             + email + "&campusEmail=" + campusEmail, {
         })
             .then((response) => {
-                // console.log(response);
+                console.log(response);
             })
             .catch((error) => {
-                // console.log(error);
+                console.log(error);
             })
     }
 
@@ -268,11 +254,11 @@ export default function SignUpForm() {
             + authCode, {
         })
             .then((response) => {
-                // console.log(response);
-                if (response.data.data === true) { /*console.log(response.data.data);*/ setEmailAuthStep(2); }
+                console.log(response);
+                if (response.data.data == true) { console.log(response.data.data); setEmailAuthStep(2); }
             })
             .catch((error) => {
-                // console.log(error);
+                console.log(error);
             })
     }
 
@@ -635,6 +621,7 @@ export default function SignUpForm() {
                         <Col style={{ marginTop: "0px", marginBottom: "20px" }} xs={{ span: 20, offset: 2 }} >
                             <select onChange={(e) => { setValue('semester', e.target.value) }} name="campus"
                                 style={{
+                                    padding : "5px",
                                     width: "100%", height: "40px", border: "none",
                                     borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                     backgroundColor: "transparent",
@@ -667,6 +654,7 @@ export default function SignUpForm() {
                                         value={majorList.length != 0 ? majorList[0] : ""}
                                         onClick={() => { setIsSearchMajorModalOpened(true) }}
                                     />
+                                    {submitButtonClicked && !validatedMajor && majorList.length == 0 && <p style={{ marginBottom: "-10px", fontSize: "12px" }}>전공을 선택해주세요!</p>}
 
                                     {
                                         majorList.length == 0 ?
@@ -705,6 +693,7 @@ export default function SignUpForm() {
 
                                         <div>
                                             <input
+                                                onClick={() => { setIsSearchMajorModalOpened(true) }}
                                                 readOnly
                                                 style={{
                                                     marginTop: "22px",
@@ -763,6 +752,7 @@ export default function SignUpForm() {
                                         || (majorList.length > 2) ?
                                         <div>
                                             <input
+                                                onClick={() => { setIsSearchMajorModalOpened(true) }}
                                                 readOnly
                                                 style={{
                                                     marginTop: "22px",
@@ -884,6 +874,7 @@ export default function SignUpForm() {
                                         else setSemester(e.target.value[0].toString());
                                     }} name="semester"
                                         style={{
+                                            padding : "5px",
                                             width: "100%", height: "40px", border: "none",
                                             borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                             backgroundColor: "transparent"
@@ -904,6 +895,7 @@ export default function SignUpForm() {
                         <Col style={{ marginTop: "0px", marginBottom: "20px" }} xs={{ span: 6, offset: 2 }}>
                             <select name="semester"
                                 style={{
+                                    padding : "5px",
                                     width: "100%", height: "40px", border: "none",
                                     borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                     backgroundColor: "transparent"
@@ -1020,33 +1012,87 @@ export default function SignUpForm() {
                                     {(campusWebMail.length > 0) && (campusWebMail.indexOf("sogang.ac.kr") == -1) && <p style={{ marginBottom: "-10px", fontSize: "12px" }}>서강대학교 웹메일이 아닙니다.</p>}
                                 </Col>
                             </Row>
-                            <Row style={{ marginTop: "0px", marginBottom: "20px" }}>
+                            <Row style={{ marginTop: "10px", marginBottom: "10px" }}>
                                 <Col xs={{ span: 20, offset: 2 }}>
-                                    <button
-                                        type="button"
-                                        style={{
-                                            padding: "0",
-                                            width: "100%",
-                                            background: "rgba(51, 158, 172, 0.9)", color: "#ffffff",
-                                            border: "none", borderRadius: "14px", fontSize: "18px", height: "32px"
-                                        }}
-                                        onClick={() => {
+                                    <Modal
+                                        className="search-form"
+                                        title={null}
+                                        visible={emailModalOpened}
+                                        footer={null}
+                                        closable={false}
+                                        destroyOnClose={true}>
+                                        <Row>
+                                            <Col span={24}>
+                                                <h5 style={{textAlign : "center", padding : "auto", fontSize : "16px", color : "#666666"}}>
+                                                    인증 번호를 회원님의
+                                                </h5>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col span={24}>
+                                                <h5 style={{textAlign : "center", padding : "auto", fontSize : "16px", color : "#666666"}}>
+                                                    학교 웹메일로 전송하였습니다.
+                                                </h5>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col span={24}>
+                                                <h5 style={{textAlign : "center", padding : "auto", fontSize : "16px", color : "#44a0ac", fontWeight : "600"}}>
+                                                    인증번호 4자리를 입력해주세요.
+                                                </h5>
+                                            </Col>
+                                        </Row>
+                                        <Row style={{marginTop : "10px"}}>
+                                            <Col offset={8} span={8}><button
+                                                style={{
+                                                    padding: "0",
+                                                    width: "100%",
+                                                    background: "#fafafa",
+                                                    color: "#666666",
+                                                    border: "#666666 0.3px solid",
+                                                    borderRadius: "15px",
+                                                    fontSize: "16px",
+                                                    height: "30px"
+                                                }}
+                                                onClick={()=>{setEmailModalOpened(false)}}
+                                            >닫기</button></Col>
+                                        </Row>
+                                    </Modal>
+                                    {emailAuthStep < 2 ?
+                                        <button
+                                            type="button"
+                                            style={{
+                                                marginBottom : "50px",
+                                                padding: "0",
+                                                width: "100%",
+                                                background: "rgba(51, 158, 172, 0.9)", color: "#ffffff",
+                                                border: "none", borderRadius: "14px", fontSize: "18px", height: "32px"
+                                            }}
+                                            onClick={() => {
 
-                                            if (campusWebMail.length > 0 &&
-                                                campusWebMail.indexOf("sogang.ac.kr") != -1) {
+                                                if (campusWebMail.length > 0 &&
+                                                    campusWebMail.indexOf("sogang.ac.kr") != -1) {
 
-                                                const userName = getValues().name;
-                                                const email = getValues().email;
-                                                const campusEmail = campusWebMail;
+                                                    const userName = getValues().name;
+                                                    const email = getValues().email;
+                                                    const campusEmail = campusWebMail;
 
-                                                sendAuthCode(userName, email, campusEmail);
-                                            }
-                                        }}
-                                    >인증번호 보내기</button>
+                                                    sendAuthCode(userName, email, campusEmail);
+
+
+                                                    setTimeout(() => {
+                                                        setEmailModalOpened(true);
+                                                    }, 1000);
+
+                                                }
+                                            }}
+                                        >인증번호 보내기</button> : null
+                                    }
+
                                 </Col>
                             </Row>
                             {authType == 0 && emailAuthStep == 1 ?
-                                <Row style={{ marginTop: "-70px", marginBottom: "70px" }}>
+                                <Row style={{ marginTop: "0px", marginBottom: "70px" }}>
                                     <Col xs={{ span: 14, offset: 2 }}>
                                         <input
                                             style={{
@@ -1054,7 +1100,7 @@ export default function SignUpForm() {
                                                 borderBottom: "#44a0ac solid 1.0px",
                                                 backgroundColor: "transparent"
                                             }}
-                                            placeholder="인증번호 4자리를 입력해주세요."
+                                            placeHolder="인증번호 4자리를 입력해주세요."
                                             onChange={(e) => {
                                                 setAuthCode(e.target.value);
                                             }} />
@@ -1081,19 +1127,6 @@ export default function SignUpForm() {
                                 </Row> : null}
                             {authType == 0 && emailAuthStep == 2 ?
                                 <div>
-                                    <Row style={{ marginTop: "0px", marginBottom: "20px" }}>
-                                        <Col xs={{ span: 20, offset: 2 }}>
-                                            <button
-                                                type="button"
-                                                style={{
-                                                    padding: "0",
-                                                    width: "100%",
-                                                    background: "#ffffff", color: "#47a7b4",
-                                                    border: "#47a7b4 1px solid", borderRadius: "14px", fontSize: "18px", height: "32px"
-                                                }}
-                                            >인증 완료</button>
-                                        </Col>
-                                    </Row>
                                     <Row style={{ marginBottom: "100px" }}>
                                         <Col xs={{ span: 20, offset: 2 }}>
                                             <input style={{
@@ -1155,7 +1188,7 @@ export default function SignUpForm() {
                                     </Col>
                                     {imageDiv != undefined ? imageDiv : null}
                                 </Row>
-                                <Row style={{ marginBottom: "100px" }}>
+                                <Row style={{ marginBottom: "50px" }}>
                                     <Col xs={{ span: 20, offset: 2 }}>
                                         <input style={{
                                             padding: "0",
