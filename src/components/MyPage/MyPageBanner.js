@@ -1364,7 +1364,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                                    구매자 : {value.traderName}  |
+                                                                                    구매자 : {value.traderNickname}  |
                                                                                     연락처 : {value.traderPhoneNumber}
                                                                                 </Col>
                                                                             </Row>
@@ -1606,7 +1606,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold", textAlign: "left" }}>
-                                                                                    구매자 : {value.traderName}
+                                                                                    구매자 : {value.traderNickname}
                                                                                 </Col>
                                                                             </Row>
                                                                         </Col>
@@ -1828,11 +1828,11 @@ export default function MyPageBanner() {
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "12px", textAlign: "left", marginTop: "8px", color: "#656565", }}>
-                                                        <Col span={12} offset={2}>작가 : {value.author}
+                                                        <Col span={24} offset={2}>작가 : {value.author}
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "12px", textAlign: "left", marginTop: "8px", color: "#656565", }}>
-                                                        <Col span={12} offset={2}>출판사 : {value.publisher}
+                                                        <Col span={24} offset={2}>출판사 : {value.publisher}
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "15px", color: "#959595", marginTop: "17px" }}>
