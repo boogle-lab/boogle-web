@@ -26,6 +26,7 @@ export default function DashBoard() {
     const [stepTWOList, setStepTWOList] = useState([]);
     const [stepFOURList, setStepFOURList] = useState([]);
     const [transData, setTransData] = useState([]);
+    const [sellItemData, setSellItemData] = useState([]);
     const [buyerName, setBuyerName] = useState(null);
     const [sellerBankAccount, setSellerBankAccount] = useState(null);
     //   const [infoTable, setInfoTable] = useState()
@@ -47,6 +48,12 @@ export default function DashBoard() {
     const getAllTrans = () => {
         axios.get(host + "/admin/transactions").then(res => {
             setTransData(res.data.data);
+        });
+    };
+
+    const getAllSellItem = () => {
+        axios.get(host + '/sell/all').then(res => {
+            setSellItemData(res.data.data);
         });
     };
 
@@ -104,6 +111,7 @@ export default function DashBoard() {
         getAllUsers();
         getStepTWO();
         getStepFOUR();
+        getAllSellItem();
         getAllTrans();
     }, [headerIndex]);
 
@@ -111,6 +119,7 @@ export default function DashBoard() {
         getAllUsers();
         getStepTWO();
         getStepFOUR();
+        getAllSellItem();
         getAllTrans();
     }, []);
 
@@ -146,6 +155,9 @@ export default function DashBoard() {
                 <Menu.Item key="2" onClick={() => setHeaderIndex(1)}>거래 전체 조회</Menu.Item>
                 <Menu.Item key="3" onClick={() => setHeaderIndex(2)}>구매자 -> 북을 송금 / 판매자 북을 박스 정보 입력 확인</Menu.Item>
                 <Menu.Item key="4" onClick={() => setHeaderIndex(3)}>북을 -> 판매자 송금 확인</Menu.Item>
+            </Menu.ItemGroup>
+            <Menu.ItemGroup key="g3" title="판매 상품 관리">
+                <Menu.Item key="5" onClick={() => setHeaderIndex(4)}>판매 상품 전체 조회</Menu.Item>
             </Menu.ItemGroup>
         </Menu>
 
@@ -345,6 +357,69 @@ export default function DashBoard() {
                 )
         }
     ];
+    const columnsSellItem = [
+        {
+            title: "판매상품#",
+            dataIndex: "sellItem._id",
+            key: "id",
+            render: text => <a>{text}</a>
+        },
+        {
+            title: "판매자#",
+            dataIndex: "sellItem.sellerId",
+            key: "sellerId",
+            render: text => <a>{text}</a>
+        },
+        {
+            title: "제목",
+            dataIndex: "sellItem.title",
+            key: "title",
+            render: text => <div style={{ maxWidth : "150px" }}><a> {text}</a></div>
+        },
+        {
+            title: "거래방식",
+            dataIndex: "sellItem.dealType",
+            key: "dealType",
+            render: text => text === 0 ? <a>직거래</a> : <a>북을박스</a>
+        },
+        {
+            title: "과목명",
+            dataIndex: "sellItem.subject",
+            key: "subject",
+            render: text => <a>{text}</a>
+        },
+        {
+            title: "교수명",
+            dataIndex: "sellItem.professor",
+            key: "professor",
+            render: text => <a>{text}</a>
+        },
+        {
+            title: "등록가격",
+            dataIndex: "sellItem.originalPrice",
+            key: "originalPrice",
+            render: text => <a>{text}</a>
+        },
+        {
+            title: "표시가격",
+            dataIndex: "sellItem.regiPrice",
+            key: "regiPrice",
+            render: text => <a>{text}</a>
+        },
+        {
+            title: "판매 등록 시각",
+            dataIndex: "sellItem.regiTime",
+            key: "regiTime",
+            render: text =>
+                <a>{moment(text.toString().substring(0, 10) + " " + text.toString().substring(11, 16)).add(9, 'hours').format('YYYY-MM-DD hh:mm:ss A')}</a>
+        },
+        {
+            title: "거래성사",
+            dataIndex: "sellItem.traded",
+            key: "traded",
+            render: text => text == true? <a>O</a> : <a>X</a>
+        }
+    ];
 
     const columnsTransaction = [
         {
@@ -516,6 +591,13 @@ export default function DashBoard() {
                                 <Table
                                     columns={columnsTransaction}
                                     dataSource={stepFOURList}
+                                ></Table>
+                            ) : null}
+
+                            {headerIndex == 4? (
+                                <Table
+                                    columns={columnsSellItem}
+                                    dataSource={sellItemData}
                                 ></Table>
                             ) : null}
 

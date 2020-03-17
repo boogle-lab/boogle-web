@@ -47,6 +47,19 @@ export default function SettingMenu() {
           </Col>
         </Link>
       </Row>
+        <Row style={{color : "#656565", marginTop : "30px", marginBottom : "30px", fontSize : "17.5px"}}>
+            <Link style={{color : "#656565"}} to="/modifyPassword">
+                <Col xs={{ offset: 1, span: 1 }}>
+                    <Icon type="user" />
+                </Col>
+                <Col xs={{ offset: 2, span: 15 }}>
+                    <span>비밀번호 변경</span>
+                </Col>
+                <Col xs={{ offset: 2, span: 2 }}>
+                    <Icon type="right" />
+                </Col>
+            </Link>
+        </Row>
       <Row style={{color : "#656565", marginBottom : "30px", fontSize : "17.5px"}}>
         <Link style={{color : "#656565"}} to="/accountSetting">
           <Col xs={{ offset: 1, span: 1 }}>
