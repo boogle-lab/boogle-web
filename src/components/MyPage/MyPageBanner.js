@@ -22,6 +22,8 @@ export default function MyPageBanner() {
     const [buyDetailIndex, setBuyDetailIndex] = useState([]);
     const [sellDetailIndex, setSellDetailIndex] = useState([]);
 
+    const [buttonGone, setButtonGone] = useState(-1);
+
     const [modal, setModal] = useState(false);
     const [level, setLevel] = useState(false);
     const [boogleBank, setBoogleBank] = useState(false);
@@ -155,13 +157,18 @@ export default function MyPageBanner() {
         })
             .then((response) => {
                 if(response.data.status === 201){ // Fixme : check status code!!
+                    setButtonGone(-1);
                     setNeedRender(true);
                 }
                 else{ // Fixme : check status code!!
+                    setButtonGone(-1);
+                    setNeedRender(true);
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
             .catch((err) => {
+                setButtonGone(-1);
+                setNeedRender(true);
                 message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
             })
     }
@@ -1301,30 +1308,34 @@ export default function MyPageBanner() {
                                                                                 </Col>
                                                                             </Row>
                                                                             <Row style={{ color: "#ffffff", marginTop: "0" }}>
-                                                                                <Col span={6} offset={5}>
-                                                                                    <button style={{
-                                                                                        padding: "0",
-                                                                                        width: "42px",
-                                                                                        height: "21px",
-                                                                                        background: "#075e92",
-                                                                                        border: "none", borderRadius: "5px", fontSize: "10px",
-                                                                                        marginLeft: "0"
-                                                                                    }}
-                                                                                            onClick={() => {acceptBuyRequest(value.sellItemId)}}
-                                                                                    >수락</button>
-                                                                                </Col>
-                                                                                <Col span={5} offset={1}>
-                                                                                    <button style={{
-                                                                                        padding: "0",
-                                                                                        width: "42px",
-                                                                                        height: "21px",
-                                                                                        background: "#656565",
-                                                                                        border: "none", borderRadius: "5px", fontSize: "10px",
-                                                                                        marginLeft: "0"
-                                                                                    }}
-                                                                                            onClick={() => {rejectBuyRequest(value.sellItemId)}}
-                                                                                    >거절</button>
-                                                                                </Col>
+                                                                                { buttonGone !== index &&
+                                                                                <div>
+                                                                                    <Col span={6} offset={5}>
+                                                                                        <button style={{
+                                                                                            padding: "0",
+                                                                                            width: "42px",
+                                                                                            height: "21px",
+                                                                                            background: "#075e92",
+                                                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                                                            marginLeft: "0"
+                                                                                        }}
+                                                                                                onClick={() => {acceptBuyRequest(value.sellItemId); setButtonGone(index)}}
+                                                                                        >수락</button>
+                                                                                    </Col>
+                                                                                    <Col span={5} offset={1}>
+                                                                                        <button style={{
+                                                                                            padding: "0",
+                                                                                            width: "42px",
+                                                                                            height: "21px",
+                                                                                            background: "#656565",
+                                                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                                                            marginLeft: "0"
+                                                                                        }}
+                                                                                                onClick={() => {rejectBuyRequest(value.sellItemId); setButtonGone(index)}}
+                                                                                        >거절</button>
+                                                                                    </Col>
+                                                                                </div>
+                                                                                }
                                                                             </Row>
 
                                                                         </Col>
@@ -1547,30 +1558,34 @@ export default function MyPageBanner() {
                                                                                 </Col>
                                                                             </Row>
                                                                             <Row style={{ color: "#ffffff", marginTop: "0" }}>
-                                                                                <Col span={6} offset={5}>
-                                                                                    <button style={{
-                                                                                        padding: "0",
-                                                                                        width: "42px",
-                                                                                        height: "21px",
-                                                                                        background: "#656565",
-                                                                                        border: "none", borderRadius: "5px", fontSize: "10px",
-                                                                                        marginLeft: "0"
-                                                                                    }}
-                                                                                            onClick={() => {rejectBuyRequest(value.sellItemId)}}
-                                                                                    >거절</button>
-                                                                                </Col>
-                                                                                <Col span={5} offset={1}>
-                                                                                    <button style={{
-                                                                                        padding: "0",
-                                                                                        width: "42px",
-                                                                                        height: "21px",
-                                                                                        background: "#075e92",
-                                                                                        border: "none", borderRadius: "5px", fontSize: "10px",
-                                                                                        marginLeft: "0"
-                                                                                    }}
-                                                                                            onClick={() => {acceptBuyRequest(value.sellItemId)}}
-                                                                                    >수락</button>
-                                                                                </Col>
+                                                                            { buttonGone !== index &&
+                                                                                <div>
+                                                                                    <Col span={6} offset={5}>
+                                                                                        <button style={{
+                                                                                            padding: "0",
+                                                                                            width: "42px",
+                                                                                            height: "21px",
+                                                                                            background: "#075e92",
+                                                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                                                            marginLeft: "0"
+                                                                                        }}
+                                                                                                onClick={() => {acceptBuyRequest(value.sellItemId); setButtonGone(index)}}
+                                                                                        >수락</button>
+                                                                                    </Col>
+                                                                                    <Col span={5} offset={1}>
+                                                                                        <button style={{
+                                                                                            padding: "0",
+                                                                                            width: "42px",
+                                                                                            height: "21px",
+                                                                                            background: "#656565",
+                                                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                                                            marginLeft: "0"
+                                                                                        }}
+                                                                                                onClick={() => {rejectBuyRequest(value.sellItemId); setButtonGone(index)}}
+                                                                                        >거절</button>
+                                                                                    </Col>
+                                                                                </div>
+                                                                                }
                                                                             </Row>
 
                                                                         </Col>
