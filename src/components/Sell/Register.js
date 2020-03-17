@@ -334,7 +334,7 @@ export default function Register() {
                                 </Row>
                             </header>
                         </div>
-                        {resdata != undefined && resdata.length > 0 ?
+                        {resdata !== undefined && resdata.length > 0 ?
                             <div>
                                 <Row style={{marginTop : "15px", marginBottom : "25px"}}>
                                     <Col offset={1} span={22} style={{height : "40px", borderTop : "1px solid #8d8d8d", borderBottom : "1px solid #8d8d8d"}}>

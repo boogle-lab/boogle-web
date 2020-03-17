@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Icon, Card, Modal, Popconfirm, Collapse } from "antd";
+import { Row, Col, Icon, Card, Modal, Popconfirm, Collapse, message } from "antd";
 import axios from 'axios';
 import './MyPageBanner.css';
 import { useForm } from 'react-hook-form';
@@ -57,16 +57,32 @@ export default function MyPageBanner() {
             headers: { Authorization: localStorage.getItem('token') }
         })
             .then((response) => {
-                setName(response.data.data.userName)
-                setLikeList(response.data.data.bookmarkedItemList)
-                setBuyList(response.data.data.buyTransList)
-                setSellList(response.data.data.sellTransList)
-            });
+                if (response.data.status === 200){
+                    setName(response.data.data.userName)
+                    setLikeList(response.data.data.bookmarkedItemList)
+                    setBuyList(response.data.data.buyTransList)
+                    setSellList(response.data.data.sellTransList)
+                }
+                else {
+                    window.location.href('/')
+                }
+            })
+            .catch((err) => {
+                window.location.href('/')
+            })
         axios.get(host + '/itemReceiving' , {
             headers: { Authorization: localStorage.getItem('token') }
         })
             .then((response) => {
-                setReserveList(response.data.data)
+                if (response.data.status === 201){
+                    setReserveList(response.data.data)
+                }
+                else {
+                    window.location.href('/')
+                }
+            })
+            .catch((err) => {
+                window.location.href('/')
             })
     }
 
@@ -102,9 +118,17 @@ export default function MyPageBanner() {
         axios.get(host + '/itemReceiving/cancel', {
             headers: { Authorization: localStorage.getItem('token') }
         })
-            .then((response) => {
-                setNeedRender(true)
-            });
+        .then((response) => {
+            if(response.data.status === 201){
+                setNeedRender(true);
+            }
+            else{
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            }
+        })
+        .catch((err) => {
+            message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+        })
     }
 
     // 직거래 수령 완료(거래완료)를 위한 메소드
@@ -113,8 +137,16 @@ export default function MyPageBanner() {
             headers: { Authorization: localStorage.getItem('token') }
         })
             .then((response) => {
-                setNeedRender(true)
-            });
+                if(response.data.status === 201){
+                    setNeedRender(true);
+                }
+                else if(response.data.status === 600){
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
+            })
+            .catch((err) => {
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            })
     }
 
 
@@ -122,28 +154,49 @@ export default function MyPageBanner() {
         axios.get(host + '/transaction/step?sellItemId=' + sellItemId, {
         })
             .then((response) => {
-                setNeedRender(true);
+                if(response.data.status === 201){
+                    setNeedRender(true);
+                }
+                else if(response.data.status === 600){
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
             })
-            // 수락 버튼 눌러도 렌더링이 제대로 안됨
-            // .catch((err) => {
-            //     setNeedRender(true);
-            // })
+            .catch((err) => {
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            })
     }
 
     const rejectBuyRequest = (sellItemId) => {
         axios.delete(host + '/transaction?sellItemId=' + sellItemId, {
         })
             .then((response) => {
-                setNeedRender(true);
-            });
+                if(response.data.status === 201){
+                    setNeedRender(true);
+                }
+                else if(response.data.status === 600){
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
+            })
+            .catch((err) => {
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            })
     }
 
     const completePayment = (sellItemId) => {
         axios.get(host + '/transaction/payment?sellItemId=' + sellItemId, {
         })
             .then((response) => {
-                setNeedRender(true);
-            });
+                if(response.data.status === 201){
+                    setNeedRender(true);
+                    message.success("결제 여부를 확인 중입니다.")
+                }
+                else{
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
+            })
+            .catch((err) => {
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            })
     }
 
     const setBoogleBoxInfo = (boxId, boxPassword, sellItemId) => {
@@ -153,9 +206,18 @@ export default function MyPageBanner() {
             "id" : boxId,
             "password" : boxPassword
         })
-            .then(() => {
-                setNeedRender(true);
-            });
+            .then((response) => {
+                if(response.data.status === 201){
+                    setNeedRender(true);
+                    message.success("북을박스 정보 입력이 완료되었습니다.")
+                }
+                else{
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
+            })
+            .catch((err) => {
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            })
 
     }
 
@@ -165,9 +227,17 @@ export default function MyPageBanner() {
             headers: { Authorization: localStorage.getItem('token') }
         })
 
-            .then(() => {
-                setNeedRender(true);
-            });
+            .then((response) => {
+                if(response.data.status === 201){
+                    setNeedRender(true);
+                }
+                else{
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
+            })
+            .catch((err) => {
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            })
 
     }
 
@@ -865,7 +935,7 @@ export default function MyPageBanner() {
                                                                     결제 요청중
                                                                 </Row>
 
-                                                                {value.transactionStep === 1 ?
+                                                                {value.transactionStep === 1 && value.paymentDone === false ?
                                                                     <div>
                                                                         <Row>
                                                                             <button style={{
@@ -1574,7 +1644,7 @@ export default function MyPageBanner() {
                                                                                 구매자 결제 중
                                                                             </Row>
 
-                                                                            {value.transactionStep === 1 ?
+                                                                            {value.transactionStep === 1 && value.boxPassword === "" ?
                                                                                 <Row>
                                                                                     <button style={{
                                                                                         padding: "0",
