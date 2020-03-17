@@ -63,7 +63,7 @@ export default function MyPageBanner() {
                     setBuyList(response.data.data.buyTransList)
                     setSellList(response.data.data.sellTransList)
                 }
-                else {
+                else { // Fixme : check status code!!
                     window.location.href('/')
                 }
             })
@@ -77,7 +77,7 @@ export default function MyPageBanner() {
                 if (response.data.status === 201){
                     setReserveList(response.data.data)
                 }
-                else {
+                else { // Fixme : check status code!!
                     window.location.href('/')
                 }
             })
@@ -140,7 +140,7 @@ export default function MyPageBanner() {
                 if(response.data.status === 201){
                     setNeedRender(true);
                 }
-                else if(response.data.status === 600){
+                else{ // Fixme : check status code!!
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
@@ -154,10 +154,10 @@ export default function MyPageBanner() {
         axios.get(host + '/transaction/step?sellItemId=' + sellItemId, {
         })
             .then((response) => {
-                if(response.data.status === 201){
+                if(response.data.status === 201){ // Fixme : check status code!!
                     setNeedRender(true);
                 }
-                else if(response.data.status === 600){
+                else{ // Fixme : check status code!!
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
@@ -170,10 +170,10 @@ export default function MyPageBanner() {
         axios.delete(host + '/transaction?sellItemId=' + sellItemId, {
         })
             .then((response) => {
-                if(response.data.status === 201){
+                if(response.data.status === 201){ // Fixme : check status code!!
                     setNeedRender(true);
                 }
-                else if(response.data.status === 600){
+                else{ // Fixme : check status code!!
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
@@ -190,7 +190,7 @@ export default function MyPageBanner() {
                     setNeedRender(true);
                     message.success("결제 여부를 확인 중입니다.")
                 }
-                else{
+                else{ // Fixme : check status code!!
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
@@ -211,7 +211,7 @@ export default function MyPageBanner() {
                     setNeedRender(true);
                     message.success("북을박스 정보 입력이 완료되었습니다.")
                 }
-                else{
+                else{ // Fixme : check status code!!
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
@@ -231,7 +231,7 @@ export default function MyPageBanner() {
                 if(response.data.status === 201){
                     setNeedRender(true);
                 }
-                else{
+                else{ // Fixme : check status code!!
                     message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
