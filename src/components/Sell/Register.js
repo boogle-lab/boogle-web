@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Row, Col, Icon, Divider, Modal } from 'antd';
+import { Row, Col, Icon, Divider, Modal, message } from 'antd';
 import Search from '../Navbar/Search';
 import { Link } from "react-router-dom";
 import NumberFormat from 'react-number-format';
@@ -40,7 +40,7 @@ export default function Register() {
     const [didMount, setDidMount] = useState(false);
 
     const [isQualityOutFilled, setIsQualityOutFilled] = useState(true);
-    const [isRegiImagesFilled, setIsRegiImagesFilled] = useState(true);
+    const [isRegiImagesFilled, setIsRegiImagesFilled] = useState(false);
 
     const [userBankAccountList, setUserBankAccountList] = useState([]);
     const [bankList, setBankList] = useState([]);
@@ -430,6 +430,9 @@ export default function Register() {
                                                                             color: "white", border: "none", fontSize: "12px", height: "25px", width: "100%",
                                                                             padding: "auto"
                                                                         }}
+                                                                        onClick={() => { // Fixme : 문구 맞는지 확인 필요
+                                                                            message.warning("다시 로그인해주세요.")
+                                                                        }}
                                                                         ><span>판매 등록하기</span></button>
                                                                     </Link>
                                                             }
@@ -781,7 +784,7 @@ export default function Register() {
                                 <Row style={{ marginBottom: "10px" }}>
                                     <Col xs={{ span: 22, offset: 2 }}>
                                         <span style={{ color: "rgba(51, 158, 172, 0.9)", fontWeight: "800" }}>사진(최대 3장)<span style={{color : "#e95513"}}>*</span></span>
-                                        {!isRegiImagesFilled && <p style={{ marginBottom: "-10px", fontSize : "12px" }}>1장 이상의 사진을 등록해 주세요.</p>}
+                                        {/*!isRegiImagesFilled && <p style={{ marginBottom: "-10px", fontSize : "12px" }}>1장 이상의 사진을 등록해 주세요.</p>*/}
                                     </Col>
                                 </Row>
                                 <Row style={{ marginBottom: "10px" }}>
@@ -988,7 +991,8 @@ export default function Register() {
                                         }}
                                                 type="submit"
                                                 onClick={()=>{
-                                                    if(selectedUserBankAccount == null){
+                                                    if(selectedUserBankAccount == null || userImages.length === 0 ||
+                                                        regiPrice === 0 ){
                                                         setModalVisible(true);
                                                     }
                                                     else{
@@ -1005,10 +1009,10 @@ export default function Register() {
                                             onOk={()=>{setModalVisible(true)}}
                                             onCancel={()=>{setModalVisible(false)}}>
                                             <div>
-                                                <span>판매 등록을 위해서 계좌 등록 및</span>
+                                                <span>판매 등록을 위해서 입력 및 선택을</span>
                                             </div>
                                             <div>
-                                                <span>선택을 필수적으로 진행해주세요.</span>
+                                                <span>필수적으로 진행해주세요.</span>
                                             </div>
 
                                         </Modal>

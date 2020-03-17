@@ -169,11 +169,11 @@ export default function SignUpForm() {
         })
             .then((response) => {
                 if(response.data.status === 201){
-                    if(response.data.data != ""){
+                    if(response.data.data !== ""){
                         localStorage.setItem('token', response.data.data);
                     }
 
-                    if (authType == 1) {
+                    if (authType === 1) {
                         let form = new FormData();
                         form.append('userCampusAuthImage', {
 
@@ -199,11 +199,13 @@ export default function SignUpForm() {
                         }, 3000);
                     }
                 }else {
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    window.location.href('/signup')
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.") /* Fixme : 이렇게 띄워도 될까요 */ 
                 }
             })
             .catch((error) => {
-                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                window.location.href('/signup')
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.") /* Fixme : 이렇게 띄워도 될까요 */ 
             })
     }
 
@@ -218,12 +220,9 @@ export default function SignUpForm() {
                     else if (response.data.status === 404 && validatedEmail === false) {
                         setValidatedEmail(true)
                     }
-                    else {
-                        message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
-                    }
                 })
                 .catch((error) => {
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.") /* Fixme : 이렇게 띄워도 될까요 */ 
                 })
         }
     }
@@ -239,12 +238,9 @@ export default function SignUpForm() {
                     else if (response.data.status === 404 && validatedNickname === false) {
                         setValidatedNickname(true)
                     }
-                    else {
-                        message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
-                    }
                 })
                 .catch((error) => {
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.") /* Fixme : 이렇게 띄워도 될까요 */
                 })
         }
     }
@@ -253,15 +249,18 @@ export default function SignUpForm() {
         axios.get(host + '/majors?campus=서강대학교&keyword=' + keyword, {
         })
             .then((response) => {
-                if (response.data.status === 201){ // Fixme : check status code!!
+                if (response.data.status === 200){
                     setSearchedDepartmentMajorList(response.data.data);
+                    if (response.data.data.length === 0) {
+                        message.warning("검색 결과가 없습니다.")
+                    }
                 }
                 else{
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.") /* Fixme : 이렇게 띄워도 될까요 */ 
                 }
             })
             .catch((error) => {
-                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.") /* Fixme : 이렇게 띄워도 될까요 */ 
             })
     }
 
