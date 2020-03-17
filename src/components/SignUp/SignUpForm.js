@@ -142,6 +142,7 @@ export default function SignUpForm() {
                             color: "rgba(51, 158, 172, 0.9)", margin: "auto", position: "relative",
                             left: 45, top: -5, zIndex: 100
                         }}
+
                         onClick={() => {
                             let currImageUrls = imageUrls;
                             currImageUrls.splice(index, 1);
@@ -198,11 +199,13 @@ export default function SignUpForm() {
                         }, 3000);
                     }
                 }else {
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    message.warning("네트워크 오류로 회원가입이 정상적으로 이루어지지 않았습니다.");
+                    window.location.reload();
                 }
             })
             .catch((error) => {
-                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                message.warning("네트워크 오류로 회원가입이 정상적으로 이루어지지 않았습니다.")
+                window.location.reload();
             })
     }
 
@@ -244,15 +247,13 @@ export default function SignUpForm() {
         axios.get(host + '/majors?campus=서강대학교&keyword=' + keyword, {
         })
             .then((response) => {
-                if (response.data.status === 201){ // Fixme : check status code!!
+                if (response.data.status === 200){
                     setSearchedDepartmentMajorList(response.data.data);
                 }
                 else{
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
             .catch((error) => {
-                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
             })
     }
 
@@ -264,12 +265,10 @@ export default function SignUpForm() {
             + email + "&campusEmail=" + campusEmail, {
         })
             .then((response) => {
-                if (response.data.status !== 201){ // Fixme : check status code!!
-                    /* Fixme : 무슨 조치를 취해야할까요 */ 
+                if (response.data.status !== 201){
                 }
             })
             .catch((error) => {
-                /* Fixme : 무슨 조치를 취해야할까요 */ 
             })
     }
 
@@ -280,10 +279,9 @@ export default function SignUpForm() {
         })
             .then((response) => {
                 if (response.data.data === true) { setEmailAuthStep(2); }
-            else { /* Fixme : 무슨 조치를 취해야할까요 */ }
+            else { }
             })
             .catch((error) => {
-                /* Fixme : 무슨 조치를 취해야할까요 */ 
             })
     }
 

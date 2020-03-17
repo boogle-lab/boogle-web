@@ -29,6 +29,7 @@ export default function DashBoard() {
     const [sellItemData, setSellItemData] = useState([]);
     const [buyerName, setBuyerName] = useState(null);
     const [sellerBankAccount, setSellerBankAccount] = useState(null);
+    const [confirmButtonHidden, setConfirmButtonHidden] = useState(false);
     //   const [infoTable, setInfoTable] = useState()
 
     const getAllUsers = () => {
@@ -87,6 +88,7 @@ export default function DashBoard() {
                 host + `/admin/change_step?sellItemId=${sellItemId}`
             )
             .then(res => {
+                setConfirmButtonHidden(false);
                 window.location.reload();
             });
     };
@@ -231,14 +233,18 @@ export default function DashBoard() {
                     </Row>
                     <Row style={{marginTop: "20px"}}>
                         <Col span={4} offset={10}>
-                            <Button onClick={()=>{
-                                changeStep(sellItemId);
-                                getStepTWO();
-                                getStepFOUR();
-                                getAllTrans();
-                            }}>
-                                승인 완료
-                            </Button>
+                            {
+                                confirmButtonHidden? <span>승인 진행중입니다.</span> :
+                                    <Button onClick={()=>{
+                                        setConfirmButtonHidden(true);
+                                        changeStep(sellItemId);
+                                        getStepTWO();
+                                        getStepFOUR();
+                                        getAllTrans();
+                                    }}>
+                                        승인 완료
+                                    </Button>
+                            }
                         </Col>
                     </Row>
                 </div>
@@ -267,14 +273,18 @@ export default function DashBoard() {
                     </Row>
                     <Row style={{marginTop: "20px"}}>
                         <Col span={4} offset={10}>
-                            <Button onClick={()=>{
-                                changeStep(sellItemId);
-                                getStepTWO();
-                                getStepFOUR();
-                                getAllTrans();
-                            }}>
-                                승인 완료
-                            </Button>
+                            {
+                                confirmButtonHidden? <span>승인 진행중입니다.</span> :
+                                    <Button onClick={()=>{
+                                        setConfirmButtonHidden(true);
+                                        changeStep(sellItemId);
+                                        getStepTWO();
+                                        getStepFOUR();
+                                        getAllTrans();
+                                    }}>
+                                        승인 완료
+                                    </Button>
+                            }
                         </Col>
                     </Row>
                 </div>
