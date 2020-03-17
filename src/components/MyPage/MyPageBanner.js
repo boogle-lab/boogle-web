@@ -1568,7 +1568,7 @@ export default function MyPageBanner() {
                                                                                 </Col>
                                                                             </Row>
                                                                             <Row style={{ marginTop: "13.5px", color: "#038196" }}>
-                                                                                구매자 결제 완료
+                                                                                구매자 결제 중
                                                                             </Row>
 
                                                                             {value.transactionStep === 1 ?
