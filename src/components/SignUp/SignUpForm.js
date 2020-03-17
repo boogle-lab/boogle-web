@@ -22,6 +22,7 @@ export default function SignUpForm() {
     const [email, setEmail] = useState("");
     const [validatedEmail, setValidatedEmail] = useState(true);
     const [validatedNickname, setValidatedNickname] = useState(true);
+    const [validatedMajorList, setValidatedMajorList] = useState(true);
     const [password, setPassword] = useState(0);
     const [confirmPassword, setConfirmPassword] = useState(0);
     const [formStyle, setFormStyle] = useState(["show", "hide", "hide"]);
@@ -59,11 +60,14 @@ export default function SignUpForm() {
 
         let majorListAsString = ""
 
-        if (majorList.length == 1) majorListAsString = majorList[0];
+        if(majorList.length == 0) {
+            message.error("전공을 입력해주세요.")
+        }
+        else if (majorList.length == 1) majorListAsString = majorList[0];
         else if (majorList.length == 2) majorListAsString = majorList[0] + "," + majorList[1];
         else majorListAsString = majorList[0] + "," + majorList[1] + "," + majorList[2];
 
-        if (validatedEmail && validatedNickname) {
+        if (validatedEmail && validatedNickname & majorList.length != 0) {
             setSignUpReq({
                 email: data.email,
                 password: data.password,
@@ -259,7 +263,7 @@ export default function SignUpForm() {
 
     const sendAuthCode = (userName, email, campusEmail) => {
 
-        setEmailAuthStep(1);
+        if(emailAuthStep === 0 ) setEmailAuthStep(1);
 
         axios.get(host + '/users/signup/authNumber?userName=' + userName + "&email="
             + email + "&campusEmail=" + campusEmail, {
@@ -1034,7 +1038,7 @@ export default function SignUpForm() {
                             </Row>
                             <Row style={{ marginTop: "0px", marginBottom: "50px" }}>
                                 <Col xs={{ span: 20, offset: 2 }}>
-                                    <button
+                                    {emailAuthStep < 2 && <button
                                         type="button"
                                         style={{
                                             padding: "0",
@@ -1052,9 +1056,12 @@ export default function SignUpForm() {
                                                 const campusEmail = campusWebMail;
 
                                                 sendAuthCode(userName, email, campusEmail);
+
+                                                message.success("인증 번호가 메일로 전송되었습니다.")
                                             }
                                         }}
-                                    >인증번호 보내기</button>
+                                    >{emailAuthStep == 0 ? "인증번호 보내기" : "인증번호 다시 보내기"}</button>}
+
                                 </Col>
                             </Row>
                             {authType == 0 && emailAuthStep == 1 ?
@@ -1093,7 +1100,7 @@ export default function SignUpForm() {
                                 </Row> : null}
                             {authType == 0 && emailAuthStep == 2 ?
                                 <div>
-                                    <Row style={{ marginTop: "-50px", marginBottom: "50px" }}>
+                                    <Row style={{ marginTop: "-50px", marginBottom: "20px" }}>
                                         <Col xs={{ span: 20, offset: 2 }}>
                                             <button
                                                 type="button"
@@ -1114,7 +1121,7 @@ export default function SignUpForm() {
                                                 background: "rgba(51, 158, 172, 0.9)", color: "#ffffff",
                                                 border: "none", borderRadius: "14px", fontSize: "18px", height: "32px"
                                             }}
-                                                type="submit" value="가입완료"
+                                                type="submit" value="가입 완료하기"
                                             />
                                         </Col>
                                     </Row>
