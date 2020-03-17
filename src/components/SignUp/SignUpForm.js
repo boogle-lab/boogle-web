@@ -193,7 +193,6 @@ export default function SignUpForm() {
                             })
                     }
                     else {
-
                         setTimeout(() => {
                             setStep(3);
                         }, 3000);
@@ -218,12 +217,8 @@ export default function SignUpForm() {
                     else if (response.data.status === 404 && validatedEmail === false) {
                         setValidatedEmail(true)
                     }
-                    else {
-                        message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
-                    }
                 })
                 .catch((error) => {
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 })
         }
     }
@@ -239,12 +234,8 @@ export default function SignUpForm() {
                     else if (response.data.status === 404 && validatedNickname === false) {
                         setValidatedNickname(true)
                     }
-                    else {
-                        message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
-                    }
                 })
                 .catch((error) => {
-                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 })
         }
     }
@@ -655,6 +646,7 @@ export default function SignUpForm() {
                         <Col style={{ marginTop: "0px", marginBottom: "20px" }} xs={{ span: 20, offset: 2 }} >
                             <select onChange={(e) => { setValue('semester', e.target.value) }} name="campus"
                                 style={{
+                                    padding : "5px",
                                     width: "100%", height: "40px", border: "none",
                                     borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                     backgroundColor: "transparent",
@@ -904,6 +896,7 @@ export default function SignUpForm() {
                                         else setSemester(e.target.value[0].toString());
                                     }} name="semester"
                                         style={{
+                                            padding : "5px",
                                             width: "100%", height: "40px", border: "none",
                                             borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                             backgroundColor: "transparent"
@@ -924,6 +917,7 @@ export default function SignUpForm() {
                         <Col style={{ marginTop: "0px", marginBottom: "20px" }} xs={{ span: 6, offset: 2 }}>
                             <select name="semester"
                                 style={{
+                                    padding : "5px",
                                     width: "100%", height: "40px", border: "none",
                                     borderBottom: "rgba(51, 158, 172, 0.9) solid 2px",
                                     backgroundColor: "transparent"
@@ -1040,7 +1034,7 @@ export default function SignUpForm() {
                                     {(campusWebMail.length > 0) && (campusWebMail.indexOf("sogang.ac.kr") == -1) && <p style={{ marginBottom: "-10px", fontSize: "12px" }}>서강대학교 웹메일이 아닙니다.</p>}
                                 </Col>
                             </Row>
-                            <Row style={{ marginTop: "0px", marginBottom: "20px" }}>
+                            <Row style={{ marginTop: "0px", marginBottom: "50px" }}>
                                 <Col xs={{ span: 20, offset: 2 }}>
                                     <button
                                         type="button"
@@ -1101,7 +1095,7 @@ export default function SignUpForm() {
                                 </Row> : null}
                             {authType == 0 && emailAuthStep == 2 ?
                                 <div>
-                                    <Row style={{ marginTop: "0px", marginBottom: "20px" }}>
+                                    <Row style={{ marginTop: "-50px", marginBottom: "50px" }}>
                                         <Col xs={{ span: 20, offset: 2 }}>
                                             <button
                                                 type="button"
@@ -1114,7 +1108,7 @@ export default function SignUpForm() {
                                             >인증 완료</button>
                                         </Col>
                                     </Row>
-                                    <Row style={{ marginBottom: "100px" }}>
+                                    <Row style={{ marginBottom: "50px" }}>
                                         <Col xs={{ span: 20, offset: 2 }}>
                                             <input style={{
                                                 padding: "0",
