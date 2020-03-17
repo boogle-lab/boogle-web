@@ -291,8 +291,9 @@ class Banner extends Component {
                 <div>
                   <Row className="search-result-row" style={{ paddingTop: "5vh", paddingBottom: "-5vh", marginBottom: "-5vh" }}>
                     <Col xs={{ span: 5, offset: 1 }}>
+                      {/* 아이폰 X 시리즈 깨져서 이미지 사이즈 수정 중 */}
                       <img style={{
-                        width: "14vh", height: "21vh", backgroundSize: "contain",
+                        width: "100px", height: "150px", backgroundSize: "contain",
                         borderRadius: "7px"
                       }}
                            onClick={() => {
