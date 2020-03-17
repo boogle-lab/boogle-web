@@ -132,23 +132,33 @@ class Banner extends Component {
     }
     return (
         <section id="banner-container" onScroll={this.handleScroll}>
-          <Modal
+          {/*
+                    <Modal
               className="search-form"
               title={null}
               visible={this.state.errorModalOpened}
               footer={null}
-              closable={true}
-              onCancel={()=>{this.setState({errorModalOpened : false })}}
+              closable={false}
               destroyOnClose={true}>
-            <div style={{paddingTop : "20px"}}>
+            <div style={{paddingTop : "0px"}}>
               <h5>사이트 점검 안내</h5>
-              <span>서비스 이용에 불편을 드린 점 양해 부탁 드립니다.</span><br/>
-              <span>서비스 안정화를 위한 서비스 점검 진행 예정입니다.</span><br/>
+              <div>
+                <span>점검 시간동안 홈페이지 서비스가 중단되오니</span><br/>
+                <span>양해 부탁드립니다.</span><br/>
+              </div>
               <div style={{marginTop : "15px"}}>
-                <h5 style={{fontSize : "16px", color : "#656565"}}>점검 시간 2020.03.17 21:00 ~ 2020.03.18 05:00</h5><br/><br/>
+                <span style={{fontWeight : "600"}}>- 점검일시 : 2020.3.17 21:00 ~ 2020.3.18 05:00</span><br/>
+                <span style={{fontWeight : "600"}}>- 점검내용 : 웹 호환성 강화 작업</span><br/>
+              </div>
+              <div style={{marginTop : "15px"}}>
+                <span>이용에 불편을 드려 대단히 죄송합니다.<br/></span>
+                <span>더욱 나은 서비스를 위해 최선을 다하겠습니다.<br/></span>
+                <span>감사합니다.<br/></span>
               </div>
             </div>
           </Modal>
+          */}
+
           <Navbar focusOnSearch={this.focusOnSearch} updateInputValue={this.updateInputValue}
                   unFocusOnSearch={this.unFocusOnSearch}
                   changeMode={this.changeMode}
@@ -400,7 +410,7 @@ class Banner extends Component {
                                          this.setState({ inSubDetail: true });
                                          this.setState({ sellItem: value });
                                        }}
-                                       src={this.state.resdata != null ? value.regiImageUrlList[0].replace("type=m1", "") : null}></img>
+                                       src={this.state.resdata != null && value.regiImageUrlList.length > 0 ? value.regiImageUrlList[0].replace("type=m1", "") : null}></img>
                                 </Col>
                                 <Col style={{marginTop : "5.5px"}} xs={{ span: 18, offset: 2 }}>
                                   <Row>

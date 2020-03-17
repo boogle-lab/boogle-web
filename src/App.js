@@ -58,7 +58,8 @@ class App extends Component {
           <Switch>
             {/*<div id="app" style={{width: appWidth, margin: "auto"}}>*/}
             <Route exact path="/" component={Home} />
-            <Route path="/sell" component={Sell} />
+
+             <Route path="/sell" component={Sell} />
             <Route path="/signup" component={SignUp} />
             <Route path="/signin" component={SignIn} />
             <Route path="/mypage" component={MyPage} />
