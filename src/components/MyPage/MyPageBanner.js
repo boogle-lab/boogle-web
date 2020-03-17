@@ -1707,7 +1707,7 @@ export default function MyPageBanner() {
                                             판매 중인 상품이 없습니다.</p>
                                     </Row>
                                     <Row>
-                                        <Link to="/">
+                                        <Link to="/sell">
                                             <button style={{
                                                 padding: "0",
                                                 width: "100%",
