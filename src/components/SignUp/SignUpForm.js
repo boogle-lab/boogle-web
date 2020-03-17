@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, ErrorMessage } from 'react-hook-form';
-import { Row, Col, Icon, List, Card, Divider, Rate, Radio, Modal, Popover } from 'antd';
+import { Row, Col, Icon, List, Card, Divider, Rate, Radio, Modal, Popover, message } from 'antd';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { Collapse } from 'react-collapse';
@@ -168,70 +168,84 @@ export default function SignUpForm() {
         axios.post(host + '/users/signup', signUpReq, {
         })
             .then((response) => {
+                if(response.data.status === 201){
+                    if(response.data.data != ""){
+                        localStorage.setItem('token', response.data.data);
+                    }
 
-                if(response.data.data != ""){
-                    localStorage.setItem('token', response.data.data);
-                }
-
-                if (authType == 1) {
-                    let form = new FormData();
-                    form.append('userCampusAuthImage', {
-
-                    })
-                    form.append('userCampusAuthImageFile', userImages[0])
-                    axios.post(host + '/authImage', form, {
-                        headers: { Authorization: response.data.data }
-                    })
-                        .then((response) => {
-
-                            setTimeout(() => {
-                                setStep(3);
-                            }, 3000);
+                    if (authType == 1) {
+                        let form = new FormData();
+                        form.append('userCampusAuthImage', {
 
                         })
-                        .catch((error) => {
+                        form.append('userCampusAuthImageFile', userImages[0])
+                        axios.post(host + '/authImage', form, {
+                            headers: { Authorization: response.data.data }
                         })
-                }
-                else {
+                            .then((response) => {
 
-                    setTimeout(() => {
-                        setStep(3);
-                    }, 3000);
+                                setTimeout(() => {
+                                    setStep(3);
+                                }, 3000);
 
+                            })
+                            .catch((error) => {
+                            })
+                    }
+                    else {
+
+                        setTimeout(() => {
+                            setStep(3);
+                        }, 3000);
+                    }
+                }else {
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
                 }
             })
             .catch((error) => {
-                // console.log(error);
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
             })
     }
 
     const validateEmail = async (email) => {
-        if (email != undefined) {
+        if (email !== undefined) {
             axios.get(host + '/users/signup/validateEmail?email=' + email)
                 .then((response) => {
 
-                    if (response.data.status == 200 && validatedEmail == true) {
+                    if (response.data.status === 200 && validatedEmail === true) {
                         setValidatedEmail(false)
                     }
-                    else if (response.data.status == 404 && validatedEmail == false) {
+                    else if (response.data.status === 404 && validatedEmail === false) {
                         setValidatedEmail(true)
                     }
-                });
+                    else {
+                        message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    }
+                })
+                .catch((error) => {
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                })
         }
     }
 
     const validateNickname = async (nickname) => {
-        if (nickname != undefined) {
+        if (nickname !== undefined) {
             axios.get(host + '/users/signup/validateNickname?nickname=' + nickname)
                 .then((response) => {
 
-                    if (response.data.status == 200 && validatedNickname == true) {
+                    if (response.data.status === 200 && validatedNickname === true) {
                         setValidatedNickname(false)
                     }
-                    else if (response.data.status == 404 && validatedNickname == false) {
+                    else if (response.data.status === 404 && validatedNickname === false) {
                         setValidatedNickname(true)
                     }
-                });
+                    else {
+                        message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                    }
+                })
+                .catch((error) => {
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                })
         }
     }
 
@@ -239,11 +253,15 @@ export default function SignUpForm() {
         axios.get(host + '/majors?campus=서강대학교&keyword=' + keyword, {
         })
             .then((response) => {
-                // console.log(response.data.data);
-                setSearchedDepartmentMajorList(response.data.data);
+                if (response.data.status === 201){ // Fixme : check status code!!
+                    setSearchedDepartmentMajorList(response.data.data);
+                }
+                else{
+                    message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+                }
             })
             .catch((error) => {
-                //console.log(error);
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
             })
     }
 
@@ -255,10 +273,12 @@ export default function SignUpForm() {
             + email + "&campusEmail=" + campusEmail, {
         })
             .then((response) => {
-                // console.log(response);
+                if (response.data.status !== 201){ // Fixme : check status code!!
+                    /* Fixme : 무슨 조치를 취해야할까요 */ 
+                }
             })
             .catch((error) => {
-                // console.log(error);
+                /* Fixme : 무슨 조치를 취해야할까요 */ 
             })
     }
 
@@ -268,11 +288,11 @@ export default function SignUpForm() {
             + authCode, {
         })
             .then((response) => {
-                // console.log(response);
-                if (response.data.data === true) { /*console.log(response.data.data);*/ setEmailAuthStep(2); }
+                if (response.data.data === true) { setEmailAuthStep(2); }
+            else { /* Fixme : 무슨 조치를 취해야할까요 */ }
             })
             .catch((error) => {
-                // console.log(error);
+                /* Fixme : 무슨 조치를 취해야할까요 */ 
             })
     }
 
