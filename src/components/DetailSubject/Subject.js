@@ -19,6 +19,7 @@ function Subject({ match }) {
   const [confirmModalOpened, setConfirmModalOpened] = useState(false);
 
   const [isMySellItem, setIsMySellItem] = useState(false);
+  const [paybackedSellItem, setPaybackedSellItem] = useState(false);
 
   const [qualityScore, setQualityScore] = useState(-1);
 
@@ -80,8 +81,24 @@ function Subject({ match }) {
             headers: { Authorization: authToken }
         }).then((response)=>{
 
-            if(response.data.data === true) setIsMySellItem(true);
-            else setIsMySellItem(false);
+            if(response.data.data === true) {
+                setIsMySellItem(true);
+            }
+            else {
+                axios.get(host + "/sell/payback?sellItemId="
+                    + result.data.data.sellItem._id, {
+                    headers: { Authorization: authToken }
+                }).then((response)=>{
+                    if(response.data.data === true) {
+                        setIsMySellItem(false);
+                        setPaybackedSellItem(true);
+                    }
+                    else{
+                        setIsMySellItem(false);
+                        setPaybackedSellItem(false);
+                    }
+                })
+            }
         })
       };
 
@@ -395,7 +412,7 @@ function Subject({ match }) {
                       }}
                       onClick={()=>{setConfirmModalOpened(true)}}
                   >
-                      {isMySellItem ? "판매 등록 취소하기" : "구매하기"}
+                      {isMySellItem && !paybackedSellItem ? "판매 등록 취소하기" : isMySellItem && paybackedSellItem ? "판매 등록 취소하기(불가)" : !isMySellItem ? "구매하기" : ""}
                   </button>
                   <Modal
                       title = {null}
@@ -423,18 +440,20 @@ function Subject({ match }) {
                                       height: "30px"
                                   }}
                                   onClick={()=>{
-                                      setConfirmModalOpened(false);
-                                      if(isMySellItem){
-                                          cancelSellItem(item._id);
-                                          setTimeout(() => {
-                                              goToHome();
-                                          }, 2000);
-                                      }
-                                      else{
-                                          confirm();
-                                          setTimeout(() => {
-                                              goToSignIn();
-                                          }, 2000);
+                                      if(!isMySellItem || (isMySellItem && !paybackedSellItem)){
+                                          setConfirmModalOpened(false);
+                                          if(isMySellItem){
+                                              cancelSellItem(item._id);
+                                              setTimeout(() => {
+                                                  goToHome();
+                                              }, 2000);
+                                          }
+                                          else{
+                                              confirm();
+                                              setTimeout(() => {
+                                                  goToSignIn();
+                                              }, 2000);
+                                          }
                                       }
                                      }}
                               >예</button></Col>

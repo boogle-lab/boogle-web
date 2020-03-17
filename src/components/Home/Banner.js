@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Banner.css';
 import '../Navbar/Search.css';
-import { Row, Col, Icon, List, Divider, Rate, message } from 'antd';
+import {Row, Col, Icon, List, Divider, Rate, message, Modal} from 'antd';
 import Navbar from '../Navbar/Navbar';
 import Search from '../Navbar/Search';
 import Footer from '../Footer/Footer';
@@ -25,7 +25,9 @@ class Banner extends Component {
     renderFocus : false,
     sortType1 : "accuracy",
     sortType2 : "accuracy",
-    qualityScoreList : []
+    qualityScoreList : [],
+
+    errorModalOpened : true
   }
 
   getHomeData = async () => {
@@ -130,6 +132,33 @@ class Banner extends Component {
     }
     return (
         <section id="banner-container" onScroll={this.handleScroll}>
+          {/*
+                    <Modal
+              className="search-form"
+              title={null}
+              visible={this.state.errorModalOpened}
+              footer={null}
+              closable={false}
+              destroyOnClose={true}>
+            <div style={{paddingTop : "0px"}}>
+              <h5>사이트 점검 안내</h5>
+              <div>
+                <span>점검 시간동안 홈페이지 서비스가 중단되오니</span><br/>
+                <span>양해 부탁드립니다.</span><br/>
+              </div>
+              <div style={{marginTop : "15px"}}>
+                <span style={{fontWeight : "600"}}>- 점검일시 : 2020.3.17 21:00 ~ 2020.3.18 05:00</span><br/>
+                <span style={{fontWeight : "600"}}>- 점검내용 : 웹 호환성 강화 작업</span><br/>
+              </div>
+              <div style={{marginTop : "15px"}}>
+                <span>이용에 불편을 드려 대단히 죄송합니다.<br/></span>
+                <span>더욱 나은 서비스를 위해 최선을 다하겠습니다.<br/></span>
+                <span>감사합니다.<br/></span>
+              </div>
+            </div>
+          </Modal>
+          */}
+
           <Navbar focusOnSearch={this.focusOnSearch} updateInputValue={this.updateInputValue}
                   unFocusOnSearch={this.unFocusOnSearch}
                   changeMode={this.changeMode}
@@ -382,7 +411,7 @@ class Banner extends Component {
                                          this.setState({ inSubDetail: true });
                                          this.setState({ sellItem: value });
                                        }}
-                                       src={this.state.resdata != null ? value.regiImageUrlList[0].replace("type=m1", "") : null}></img>
+                                       src={this.state.resdata != null && value.regiImageUrlList.length > 0 ? value.regiImageUrlList[0].replace("type=m1", "") : null}></img>
                                 </Col>
                                 <Col style={{marginTop : "5.5px"}} xs={{ span: 18, offset: 2 }}>
                                   <Row>
@@ -619,8 +648,13 @@ class Banner extends Component {
                                   <Link to={"/buy/detail/" + item._id}>
                                     <Col span={24}>
                                       <img
-                                          style={{ width: "10vh", height: "15vh", backgroundSize: "contain" }}
-                                          src={item.imageUrl.replace("type=m1", "")}
+                                          style={item.imageUrl == 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png' ? {width: "10vh", height: "10vh", backgroundSize: "contain"} : { width: "10vh", height: "15vh", backgroundSize: "contain" }}
+                                          onError={(e)=>{
+                                            e.target.src =
+                                                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"
+                                            e.target.style = 'width : 10vh; height : 10vh; margin : 2.5vh 0 2.5vh 0; backgroundSize : contain;'
+                                          }}
+                                          src={item.imageUrl == undefined ? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" : item.imageUrl.replace("type=m1", "")}
                                       ></img>
                                     </Col>
                                   </Link>
@@ -649,7 +683,7 @@ class Banner extends Component {
                                 xl: 4,
                                 xxl: 3,
                               }}
-                              dataSource={this.state.bookResList1.slice(4, this.state.bookResList1.length)}
+                              dataSource={this.state.bookResList1.length > 8 ? this.state.bookResList1.slice(4,8) : this.state.bookResList1.slice(4,this.state.bookResList1.length)}
                               renderItem={item => (
 
                                   <List.Item
@@ -675,8 +709,50 @@ class Banner extends Component {
                               )}
                           />
                         </Col>
-                      </Row> : null
-                  }
+                      </Row> : null }
+                      {
+                        this.state.bookResList1.length > 8 ?
+                            <Row>
+                              <Col xs={{span: 22, offset: 1}}>
+                                <List
+                                    className="list"
+                                    grid={{
+                                      gutter: 16,
+                                      xs: 4,
+                                      sm: 1,
+                                      md: 4,
+                                      lg: 4,
+                                      xl: 4,
+                                      xxl: 3,
+                                    }}
+                                    dataSource={this.state.bookResList1.length > 12 ? this.state.bookResList1.slice(8,12) : this.state.bookResList1.slice(8,this.state.bookResList1.length)}
+                                    renderItem={item => (
+
+                                        <List.Item
+                                            key={item.title}
+                                        >
+                                          <Row>
+                                            <Link to={"/buy/detail/" + item._id}>
+                                              <Col span={24}>
+                                                <img
+                                                    style={{width: "10vh", height: "15vh", backgroundSize: "contain"}}
+                                                    src={item.imageUrl.replace("type=m1", "")}
+                                                ></img>
+                                              </Col>
+                                            </Link>
+                                          </Row>
+                                          <Row>
+                                            <Col span={24}>
+                                              <small style={{fontWeight: 500}}
+                                                     className="banner-list-item-title">{item.title}</small>
+                                            </Col>
+                                          </Row>
+                                        </List.Item>
+                                    )}
+                                />
+                              </Col>
+                            </Row> : null
+                      }
                   <Row className="banner-list-title">
                     <Col xs={{ span: 18, offset: 1 }}><h5 style={{ fontSize: "2.8vh", color: "#707070", fontWeight: 500 }}>금주의 핫딜</h5></Col>
                   </Row>

@@ -13,6 +13,7 @@ import Setting from "./pages/Setting";
 import AccountSetting from "./pages/AccountSetting";
 import Admin from "./pages/Admin";
 import SignInSetting from "./pages/SignInSetting";
+import ModifyPasswordForm from "././components/ModifyInfo/ModifyPasswordForm";
 
 import './DesktopError.css';
 
@@ -57,7 +58,8 @@ class App extends Component {
           <Switch>
             {/*<div id="app" style={{width: appWidth, margin: "auto"}}>*/}
             <Route exact path="/" component={Home} />
-            <Route path="/sell" component={Sell} />
+
+             <Route path="/sell" component={Sell} />
             <Route path="/signup" component={SignUp} />
             <Route path="/signin" component={SignIn} />
             <Route path="/mypage" component={MyPage} />
@@ -69,6 +71,7 @@ class App extends Component {
             <Route path="/accountSetting" component={AccountSetting} />
             <Route path="/admin" component={Admin} />
             <Route path="/signinSetting" component={SignInSetting} />
+            <Route path="/modifyPassword" component={ModifyPasswordForm} />
             {/*</div>*/}
           </Switch>
         </Router>
