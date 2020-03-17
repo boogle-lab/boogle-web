@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Banner.css';
 import '../Navbar/Search.css';
-import { Row, Col, Icon, List, Divider, Rate, message } from 'antd';
+import {Row, Col, Icon, List, Divider, Rate, message, Modal} from 'antd';
 import Navbar from '../Navbar/Navbar';
 import Search from '../Navbar/Search';
 import Footer from '../Footer/Footer';
@@ -25,7 +25,9 @@ class Banner extends Component {
     renderFocus : false,
     sortType1 : "accuracy",
     sortType2 : "accuracy",
-    qualityScoreList : []
+    qualityScoreList : [],
+
+    errorModalOpened : true
   }
 
   getHomeData = async () => {
@@ -130,6 +132,23 @@ class Banner extends Component {
     }
     return (
         <section id="banner-container" onScroll={this.handleScroll}>
+          <Modal
+              className="search-form"
+              title={null}
+              visible={this.state.errorModalOpened}
+              footer={null}
+              closable={true}
+              onCancel={()=>{this.setState({errorModalOpened : false })}}
+              destroyOnClose={true}>
+            <div style={{paddingTop : "20px"}}>
+              <h5>사이트 점검 안내</h5>
+              <span>서비스 이용에 불편을 드린 점 양해 부탁 드립니다.</span><br/>
+              <span>서비스 안정화를 위한 서비스 점검 진행 예정입니다.</span><br/>
+              <div style={{marginTop : "15px"}}>
+                <h5 style={{fontSize : "16px", color : "#656565"}}>점검 시간 2020.03.17 21:00 ~ 2020.03.18 05:00</h5><br/><br/>
+              </div>
+            </div>
+          </Modal>
           <Navbar focusOnSearch={this.focusOnSearch} updateInputValue={this.updateInputValue}
                   unFocusOnSearch={this.unFocusOnSearch}
                   changeMode={this.changeMode}
