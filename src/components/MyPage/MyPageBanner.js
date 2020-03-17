@@ -72,30 +72,31 @@ export default function MyPageBanner() {
     }
 
     // 거래상세보기 기능을 위한 함수들
-    const setList = () => {
-        for (var buy in buyList) {
+    const setList = () => { // 상품개수만큼 리스트 세팅
+        for (var buy in buyList) { // 구매 리스트
             buyDetailIndex[buy] = 0
         }
-        for (var sell in sellList) {
+        for (var sell in sellList) { // 판매 리스트
             sellDetailIndex[sell] = 0
         }
     }
-    const buyDetail = (i) => {
+    const buyDetail = (i) => { // 상세보기 버튼을 누르면 해당 상품 인덱스 1로 바꿈
         buyDetailIndex[i] = 1
-        setNeedRender(true)
+        setNeedRender(true) // 버튼 누를 때마다 화면 렌더링
     }
-    const noBuyDetail = (i) => {
+    const noBuyDetail = (i) => { // 접기 버튼을 누르면 해당 상품 인덱스 0으로 바꿈
         buyDetailIndex[i] = 0
         setNeedRender(true)
     }
-    const sellDetail = (i) => {
+    const sellDetail = (i) => { // 구매 상품이랑 판매 상품은 별도로 작동함
         sellDetailIndex[i] = 1
         setNeedRender(true)
     }
-    const noSellDetail = (i) => {
+    const noSellDetail = (i) => { // 구매 상품이랑 판매 상품은 별도로 작동함
         sellDetailIndex[i] = 0
         setNeedRender(true)
     }
+
 
     // 입고 알림 취소 기능을 위한 메소드
     const cancelReceive = (itemId) => {
@@ -515,10 +516,12 @@ export default function MyPageBanner() {
                                                 </Col>
                                             </Row>
                                             <Row>
+                                                <Link to = {'/buy/detail/'+value.sellItemId}>
                                                 <Col span={24}>
-                                                    <label style={{ marginTop: "7px", marginBottom: "3px", fontSize: "12px" }}>
+                                                    <label style={{ color: "rgba(0,0,0,.65)", marginTop: "7px", marginBottom: "3px", fontSize: "12px" }}>
                                                         {value.title}</label>
                                                 </Col>
+                                                </Link>
                                             </Row>
                                             <Row>
                                                 <Col span={24} style={{ marginBottom: "23px" }}>
@@ -593,9 +596,11 @@ export default function MyPageBanner() {
                                                             <Col span={17} offset={1}>
                                                                 <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
                                                                     color: "#656565", marginTop: "8px" }}>
-                                                                    <Col offset={0}>
-                                                                        {value.title}
-                                                                    </Col>
+                                                                    <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                        <Col offset={0} style={{color: "#656565"}}>
+                                                                            {value.title}
+                                                                        </Col>
+                                                                    </Link>
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565",marginTop: "24px", textAlign: "left" }}>
                                                                     <Col span={14}>
@@ -632,9 +637,11 @@ export default function MyPageBanner() {
                                                             <Col span={17} offset={1}>
                                                                 <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
                                                                     color: "#656565" }}>
-                                                                    <Col offset={0}>
-                                                                        {value.title}
-                                                                    </Col>
+                                                                    <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                        <Col offset={0} style={{color: "#656565"}}>
+                                                                            {value.title}
+                                                                        </Col>
+                                                                    </Link>
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left" }}>
                                                                     <Col span={14}>
@@ -759,9 +766,11 @@ export default function MyPageBanner() {
                                                             <Col span={17} offset={1}>
                                                                 <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
                                                                     color: "#656565" }}>
-                                                                    <Col offset={0}>
-                                                                        {value.title}
-                                                                    </Col>
+                                                                    <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                        <Col offset={0} style={{color: "#656565"}}>
+                                                                            {value.title}
+                                                                        </Col>
+                                                                    </Link>
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left" }}>
                                                                     <Col span={14}>
@@ -800,9 +809,11 @@ export default function MyPageBanner() {
                                                             <Col span={17} offset={1}>
                                                                 <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
                                                                     color: "#656565" }}>
-                                                                    <Col offset={0}>
-                                                                        {value.title}
-                                                                    </Col>
+                                                                    <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                        <Col offset={0} style={{color: "#656565"}}>
+                                                                            {value.title}
+                                                                        </Col>
+                                                                    </Link>
                                                                 </Row>
                                                                 <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left" }}>
                                                                     <Col span={14}>
@@ -1147,9 +1158,11 @@ export default function MyPageBanner() {
                                                                 <Col span={17} offset={0}>
                                                                     <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
                                                                         color: "#656565" }}>
-                                                                        <Col offset={2}>
-                                                                            {value.title}
-                                                                        </Col>
+                                                                        <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                            <Col offset={2} style={{color: "#656565"}}>
+                                                                                {value.title}
+                                                                            </Col>
+                                                                        </Link>
                                                                     </Row>
                                                                     <Row style={{ fontSize: "12px", textAlign: "left", marginTop: "8px", color: "#656565", }}>
                                                                         <Col span={12} offset={2}>금액 : {value.transPrice}원
@@ -1189,10 +1202,12 @@ export default function MyPageBanner() {
                                                                             </Link>
                                                                         </Col>
                                                                         <Col span={17} offset={1}>
-                                                                            <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left" }}>
-                                                                                <Col offset={0}>
-                                                                                    {value.title}
-                                                                                </Col>
+                                                                            <Row>
+                                                                                <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                                    <Col offset={0} style={{color: "#656565"}}>
+                                                                                        {value.title}
+                                                                                    </Col>
+                                                                                </Link>
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left" }}>
                                                                                 <Col span={14}>
@@ -1255,9 +1270,11 @@ export default function MyPageBanner() {
                                                                         </Col>
                                                                         <Col span={17} offset={1}>
                                                                             <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left" }}>
-                                                                                <Col offset={0}>
-                                                                                    {value.title}
-                                                                                </Col>
+                                                                                <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                                    <Col offset={0} style={{color: "#656565"}}>
+                                                                                        {value.title}
+                                                                                    </Col>
+                                                                                </Link>
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left"}}>
                                                                                 <Col span={14} offset={0}>
@@ -1388,9 +1405,11 @@ export default function MyPageBanner() {
                                                                 <Col span={17} offset={0}>
                                                                     <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
                                                                         color: "#656565" }}>
-                                                                        <Col offset={2}>
-                                                                            {value.title}
-                                                                        </Col>
+                                                                        <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                            <Col offset={2} style={{color: "#656565"}}>
+                                                                                {value.title}
+                                                                            </Col>
+                                                                        </Link>
                                                                     </Row>
                                                                     <Row style={{ fontSize: "12px", textAlign: "left", marginTop: "8px", color: "#656565", }}>
                                                                         <Col span={12} offset={2}>금액 : {value.transPrice}원
@@ -1430,9 +1449,11 @@ export default function MyPageBanner() {
                                                                         </Col>
                                                                         <Col span={17} offset={1}>
                                                                             <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left" }}>
-                                                                                <Col offset={0}>
+                                                                                <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                                <Col offset={0} style={{color: "#656565"}}>
                                                                                     {value.title}
                                                                                 </Col>
+                                                                                </Link>
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left" }}>
                                                                                 <Col span={14}>
@@ -1497,9 +1518,11 @@ export default function MyPageBanner() {
                                                                         </Col>
                                                                         <Col span={17} offset={1}>
                                                                             <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left" }}>
-                                                                                <Col offset={0}>
-                                                                                    {value.title}
-                                                                                </Col>
+                                                                                <Link to = {'/buy/detail/'+value.sellItemId}>
+                                                                                    <Col offset={0} style={{color: "#656565"}}>
+                                                                                        {value.title}
+                                                                                    </Col>
+                                                                                </Link>
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "8px", textAlign: "left" }}>
                                                                                 <Col span={14}>
@@ -1723,12 +1746,10 @@ export default function MyPageBanner() {
                                             </Row>
                                             <Row>
                                                 <Col span={6} offset={0}>
-                                                    <Link to = {'/buy/detail/'+value.itemId}>
                                                         <img style={{
                                                             width: "64px", height: "97px", backgroundSize: "contain",
                                                             borderRadius: "7px", overflow: "hidden"
                                                         }} src={value.imageUrl}></img>
-                                                    </Link>
                                                 </Col>
                                                 <Col span={17} offset={0}>
                                                     <Row style={{ fontStyle: "bold", fontSize: "15px", textAlign: "left",
