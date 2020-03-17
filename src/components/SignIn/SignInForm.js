@@ -26,7 +26,6 @@ export default function SignInForm(props) {
   }, []);
 
   const onSubmit = data => {
-    console.log(data);
     loginSend(data);
   };
   const login_check_url = host + "/users/signin";
@@ -42,7 +41,6 @@ export default function SignInForm(props) {
           setIsAuthComplete(false);
         }
       } else {
-        console.log("failed")
         setIsLoginFailed(true);
       }
     });

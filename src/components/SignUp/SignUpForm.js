@@ -89,27 +89,27 @@ export default function SignUpForm() {
 
     React.useEffect(() => {
         fetch('../../texts/Term1.txt').then(r => r.text())
-            .then(t => console.log(t));
+            .then(t => {/*console.log(t)*/});
         window.scrollTo(0, 1);
     }, [])
 
     React.useEffect(() => {
-        if (step == 0) setFormStyle(["show", "hide", "hide"]);
-        else if (step == 1) setFormStyle(["hide", "show", "hide"]);
-        else if (step == 2) setFormStyle(["hide", "hide", "show"]);
+        if (step === 0) setFormStyle(["show", "hide", "hide"]);
+        else if (step === 1) setFormStyle(["hide", "show", "hide"]);
+        else if (step === 2) setFormStyle(["hide", "hide", "show"]);
     }, [step])
 
     React.useEffect(() => {
-        if (step == 1)
+        if (step === 1)
             saveUser();
     }, [signUpReq])
 
     React.useEffect(() => {
-        console.log(majorList);
+        // console.log(majorList);
     }, [majorList])
 
         React.useEffect(() => {
-        console.log(majorCount);
+        // console.log(majorCount);
     }, [majorCount])
 
     React.useEffect(() => {
@@ -201,7 +201,7 @@ export default function SignUpForm() {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -239,11 +239,11 @@ export default function SignUpForm() {
         axios.get(host + '/majors?campus=서강대학교&keyword=' + keyword, {
         })
             .then((response) => {
-                console.log(response.data.data);
+                // console.log(response.data.data);
                 setSearchedDepartmentMajorList(response.data.data);
             })
             .catch((error) => {
-                console.log(error);
+                //console.log(error);
             })
     }
 
@@ -255,10 +255,10 @@ export default function SignUpForm() {
             + email + "&campusEmail=" + campusEmail, {
         })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -268,11 +268,11 @@ export default function SignUpForm() {
             + authCode, {
         })
             .then((response) => {
-                console.log(response);
-                if (response.data.data == true) { console.log(response.data.data); setEmailAuthStep(2); }
+                // console.log(response);
+                if (response.data.data === true) { /*console.log(response.data.data);*/ setEmailAuthStep(2); }
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
             })
     }
 
