@@ -38,7 +38,6 @@ export default function MyPageBanner() {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = data => {
-        console.log(data);
     };
 
 
@@ -70,105 +69,6 @@ export default function MyPageBanner() {
             .then((response) => {
                 setReserveList(response.data.data)
             })
-        /*
-        setName("김유진");
-        setLikeList([
-          {
-            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-            "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/139/212/13921278.jpg?type=m1&udate=20181224",
-            "title": "맨큐의 경제학",
-            "regiPrice": "10000"
-          },
-        ]);
-        setBuyList([
-          {
-            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-            "traderName": "박영우",
-                    "traderPhoneNumber": "01040525345",
-                    "title": "미시경제학",
-                    "transactionType": 1,
-                    "transPrice": "3000",
-                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                    "boxId": "",
-                    "boxPassword": "",
-                    "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
-                    "transactionProcessedTimeList": [
-                        "2020-02-14T13:30:04.231+0000"
-                    ],
-            "transactionStep": 3
-          },
-          {
-            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-            "traderName": "박영우",
-                    "traderPhoneNumber": "01040525345",
-                    "title": "미시경제학",
-                    "transactionType": 1,
-                    "transPrice": "3000",
-                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                    "boxId": "",
-                    "boxPassword": "",
-                    "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
-                    "transactionProcessedTimeList": [
-                        "2020-02-14T13:30:04.231+0000"
-                    ],
-            "transactionStep": 5
-          }
-        ]);
-        setSellList([
-         {
-            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-            "traderName": "박영우",
-                    "traderPhoneNumber": "01040525345",
-                    "title": "미시경제학",
-                    "transactionType": 0,
-                    "transPrice": "3000",
-                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                    "boxId": "",
-                    "boxPassword": "",
-                    "transactionCreatedTime": "2020-02-14T13:30:04.231+0000",
-                    "transactionProcessedTimeList": [
-                        "2020-02-14T13:30:04.231+0000"
-                    ],
-            "transactionStep": 3
-          },
-          {
-            "sellItemId": "5e4a7e5fcf6c2a3185854ba3",
-            "traderName": "박영우",
-                    "traderPhoneNumber": "01040525345",
-                    "title": "미시경제학",
-                    "transactionType": 1,
-                    "transPrice": "3000",
-                    "itemImageUrl": "https://bookthumb-phinf.pstatic.net/cover/144/297/14429703.jpg?type=m1&udate=20190207",
-                    "boxId": "",
-                    "boxPassword": "",
-                    "transactionCreatedTime": "",
-                    "transactionProcessedTimeList": [
-                        "2020-02-14T13:30:04.231+0000"
-                    ],
-            "transactionStep": 5
-          }
-        ]);
-        setReserveList([
-          {
-            "_id": "5e5f9268367e0826aa7fb4a3",
-            "itemId": "9788962184181",
-            "userId": 10,
-            "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/139/212/13921278.jpg?type=m1&udate=20181224",
-            "title": "맨큐의 경제학",
-            "author": "그레고리 맨큐",
-            "publisher": "한티에듀"
-        },
-        {
-            "_id": "5e5f9908367e0826aa7fb4a5",
-            "itemId": "9788962184204",
-            "userId": 10,
-            "imageUrl": "https://bookthumb-phinf.pstatic.net/cover/140/134/14013423.jpg?type=m1&udate=20190204",
-            "title": "맨큐의 경제학 연습문제풀이",
-            "author": "그레고리 맨큐",
-            "publisher": "한티미디어"
-        }
-        ]);
-    */
     }
 
     // 거래상세보기 기능을 위한 함수들
@@ -200,6 +100,16 @@ export default function MyPageBanner() {
     // 입고 알림 취소 기능을 위한 메소드
     const cancelReceive = (itemId) => {
         axios.get(host + '/itemReceiving/cancel?itemId=' + itemId, {
+            headers: { Authorization: localStorage.getItem('token') }
+        })
+            .then((response) => {
+                setNeedRender(true)
+            });
+    }
+
+    // 직거래 수령 완료(거래완료)를 위한 메소드
+    const dirEnd = (sellItemId) => {
+        axios.get(host + '/transaction/step?sellItemId=' + sellItemId, {
             headers: { Authorization: localStorage.getItem('token') }
         })
             .then((response) => {
@@ -788,8 +698,8 @@ export default function MyPageBanner() {
                                                                             border: "none", borderRadius: "5px", fontSize: "10px",
                                                                             marginTop: "4px"
                                                                         }}
-                                                                                onClick={() => { }}
-                                                                        >수령 완료</button> {/*버튼 통신 필요*/}
+                                                                                onClick={() => { dirEnd(value.sellItemId) }}
+                                                                        >도서 수령 완료</button> {/*버튼 통신 필요*/}
                                                                     </Row>
                                                                     : null}
                                                                 {value.transactionStep === 3 ?
@@ -1364,7 +1274,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px", textAlign: "left" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold" }}>
-                                                                                    구매자 : {value.traderName}  |
+                                                                                    구매자 : {value.traderNickname}  |
                                                                                     연락처 : {value.traderPhoneNumber}
                                                                                 </Col>
                                                                             </Row>
@@ -1412,8 +1322,8 @@ export default function MyPageBanner() {
                                                                                         border: "none", borderRadius: "5px", fontSize: "10px",
                                                                                         marginTop: "4px"
                                                                                     }}
-                                                                                            onClick={() => { }}
-                                                                                    >수령 완료</button> {/*버튼 통신 필요*/}
+                                                                                            onClick={() => { dirEnd(value.sellItemId) }}
+                                                                                    >금액 수령 완료</button> {/*버튼 통신 필요*/}
                                                                                 </Row>
                                                                                 : null}
                                                                             {value.transactionStep === 3 ?
@@ -1606,7 +1516,7 @@ export default function MyPageBanner() {
                                                                             </Row>
                                                                             <Row style={{ fontSize: "12px", color: "#656565", marginTop: "24px" }}>
                                                                                 <Col offset={0} style={{ fontStyle: "bold", textAlign: "left" }}>
-                                                                                    구매자 : {value.traderName}
+                                                                                    구매자 : {value.traderNickname}
                                                                                 </Col>
                                                                             </Row>
                                                                         </Col>
@@ -1828,11 +1738,11 @@ export default function MyPageBanner() {
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "12px", textAlign: "left", marginTop: "8px", color: "#656565", }}>
-                                                        <Col span={12} offset={2}>작가 : {value.author}
+                                                        <Col span={24} offset={2}>작가 : {value.author}
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "12px", textAlign: "left", marginTop: "8px", color: "#656565", }}>
-                                                        <Col span={12} offset={2}>출판사 : {value.publisher}
+                                                        <Col span={24} offset={2}>출판사 : {value.publisher}
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "15px", color: "#959595", marginTop: "17px" }}>
