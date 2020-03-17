@@ -81,7 +81,6 @@ class Banner extends Component {
       headers: { Authorization: localStorage.getItem('token') }
     })
         .then((response) => {
-          console.log(response);
         });
   }
 
@@ -90,7 +89,6 @@ class Banner extends Component {
       headers: { Authorization: localStorage.getItem('token') }
     })
         .then((response) => {
-          console.log(response);
         });
   }
 

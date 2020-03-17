@@ -64,14 +64,13 @@ export default function ModifyInfoForm() {
 
   const modifyFin = async data => {
     setModifiedData(data);
-    console.log(data);
   };
 
   return (
     <div>
       {userData !== undefined ? (
         <form onSubmit={handleSubmit(modifyFin)}>
-          {console.log(userData)}
+          {/*console.log(userData)*/}
           <Row>
             <Col>
               <Icon type="arrow-left" />

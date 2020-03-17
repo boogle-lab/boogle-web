@@ -152,7 +152,9 @@ function Subject({ match }) {
       .get(bookmark_url, {
         headers: { Authorization: authToken }
       })
-      .then(res => console.log(res));
+      .then(res => {
+        // console.log(res)
+      });
   };
 
   const history = useHistory();

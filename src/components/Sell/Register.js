@@ -159,8 +159,6 @@ export default function Register() {
                           onClick={() => {
                               let currImageUrls = imageUrls;
                               currImageUrls.splice(index, 1);
-                              console.log(index);
-                              console.log(currImageUrls);
                               setImageUrls(currImageUrls);
                           }}>
                     </Icon>
