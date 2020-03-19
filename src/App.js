@@ -23,6 +23,7 @@ import {
   isBrowser,
   isMobile
 } from "react-device-detect";
+import BuySearchResultPage from "./pages/BuySearchResultPage";
 
 class App extends Component {
   render() {
@@ -72,6 +73,7 @@ class App extends Component {
             <Route path="/admin" component={Admin} />
             <Route path="/signinSetting" component={SignInSetting} />
             <Route path="/modifyPassword" component={ModifyPasswordForm} />
+            <Route path="/buy/all" component={BuySearchResultPage}/>
             {/*</div>*/}
           </Switch>
         </Router>
