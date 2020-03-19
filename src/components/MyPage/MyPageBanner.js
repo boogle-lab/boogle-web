@@ -133,6 +133,25 @@ export default function MyPageBanner() {
         })
     }
 
+    // 판매 등록 취소 버튼을 위한 메소드
+    const cancelSellItem = (itemId) => {
+        axios.delete(host + "/sell?sellItemId=" + itemId, {
+            headers: { Authorization: localStorage.getItem('token') }
+        })
+        .then((response) => {
+            if(response.data.status === 201){
+                message.success("판매 등록이 취소되었습니다.");
+                setNeedRender(true);
+            }
+            else{
+                message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+            }
+        })
+        .catch((err) => {
+            message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
+        })
+    }
+
     // 직거래 수령 완료(거래완료)를 위한 메소드
     const dirEnd = (sellItemId) => {
         axios.get(host + '/transaction/step?sellItemId=' + sellItemId, {
@@ -1249,8 +1268,19 @@ export default function MyPageBanner() {
                                                                         </Col>
                                                                     </Row>
                                                                     <Row style={{ fontSize: "15px", color: "#959595", marginTop: "17px" }}>
-                                                                        <Col offset={2}>
+                                                                        <Col span={10} offset={2}>
                                                                             등록 완료
+                                                                        </Col>
+                                                                        <Col span={10} offset={2}>
+                                                                            <button style={{
+                                                                            padding: "0",
+                                                                            width: "52px",
+                                                                            height: "21px",
+                                                                            background: "#959595", color: "#ffffff",
+                                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                                            marginTop: "4px"
+                                                                            }} onClick={() => { cancelSellItem(value.sellItemId); }}
+                                                                            >등록 취소</button>
                                                                         </Col>
                                                                     </Row>
                                                                 </Col>
@@ -1500,8 +1530,19 @@ export default function MyPageBanner() {
                                                                         </Col>
                                                                     </Row>
                                                                     <Row style={{ fontSize: "15px", color: "#959595", marginTop: "17px" }}>
-                                                                        <Col offset={2}>
+                                                                        <Col span={10} offset={2}>
                                                                             등록 완료
+                                                                        </Col>
+                                                                        <Col span={10} offset={2}>
+                                                                            <button style={{
+                                                                            padding: "0",
+                                                                            width: "52px",
+                                                                            height: "21px",
+                                                                            background: "#959595", color: "#ffffff",
+                                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                                            marginTop: "4px"
+                                                                            }} onClick={() => { cancelSellItem(value.sellItemId); }}
+                                                                            >등록 취소</button>
                                                                         </Col>
                                                                     </Row>
                                                                 </Col>
@@ -1825,14 +1866,7 @@ export default function MyPageBanner() {
                                               margin: "auto auto", marginBottom: "2vh", padding: "0px",
                                           }}>
                                         <div style={{margin: "-15px"}}>
-                                            <Row style={{padding: "0"}}>
-                                                <Col offset={19} span={5}
-                                                     style={{ color: "#656565", fontSize: "16px", textAlign: "right"}}
-                                                     onClick={() => { cancelReceive(value.itemId); }}>
-                                                    <Icon type="close"/>
-                                                </Col>
-                                            </Row>
-                                            <Row>
+                                            <Row style={{marginTop: "16px"}}>
                                                 <Col span={6} offset={0}>
                                                         <img style={{
                                                             width: "64px", height: "97px", backgroundSize: "contain",
@@ -1855,8 +1889,19 @@ export default function MyPageBanner() {
                                                         </Col>
                                                     </Row>
                                                     <Row style={{ fontSize: "15px", color: "#959595", marginTop: "17px" }}>
-                                                        <Col offset={2}>
+                                                        <Col span={10} offset={2}>
                                                             신청 완료
+                                                        </Col>
+                                                        <Col span={10} offset={2}>
+                                                            <button style={{
+                                                            padding: "0",
+                                                            width: "52px",
+                                                            height: "21px",
+                                                            background: "#959595", color: "#ffffff",
+                                                            border: "none", borderRadius: "5px", fontSize: "10px",
+                                                            marginTop: "4px"
+                                                            }} onClick={() => { cancelReceive(value.itemId); }}
+                                                            >신청 취소</button>
                                                         </Col>
                                                     </Row>
                                                 </Col>
