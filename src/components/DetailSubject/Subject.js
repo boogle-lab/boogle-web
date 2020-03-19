@@ -16,7 +16,11 @@ function Subject({ match }) {
   const [seller, setSeller] = useState({});
   const [isBookmarked, setIsBookmarked] = useState(0);
   const [isSignedIn, setIsSignedIn] = useState(false);
+
   const [confirmModalOpened, setConfirmModalOpened] = useState(false);
+  const [imageModal, setImageModal] = useState(false);
+  const [fixModal, setFixModal] = useState(false);
+  const [buyModal, setBuyModal] = useState(false);
 
   const [isMySellItem, setIsMySellItem] = useState(false);
   const [paybackedSellItem, setPaybackedSellItem] = useState(false);
@@ -396,9 +400,9 @@ function Subject({ match }) {
         </Col>
       </Row>
       <Row style={{ marginBottom: "15vh" }}>
-        <Col xs={{ offset: 1, span: 22 }}>
-          {localStorage.getItem('token') != null ?
-              <div>
+          {localStorage.getItem('token') != null && isMySellItem ?
+            <div>
+              <Col offset={1} span={10}>
                   <button
                       style={{
                           padding: "0",
@@ -410,20 +414,23 @@ function Subject({ match }) {
                           fontSize: "2.5vh",
                           height: "5vh"
                       }}
-                      onClick={()=>{setConfirmModalOpened(true)}}
+                      onClick={()=>{setFixModal(true)}}
                   >
-                      {isMySellItem && !paybackedSellItem ? "판매 등록 취소하기" : isMySellItem && paybackedSellItem ? "판매 등록 취소하기(불가)" : !isMySellItem ? "구매하기" : ""}
+                      {isMySellItem && !paybackedSellItem ? "수정하기" : isMySellItem && paybackedSellItem ? "수정하기(불가)" : "" }
                   </button>
+                </Col>
+
+                 {/*상품수정 모달*/}
                   <Modal
                       title = {null}
                       footer={null}
-                      visible={confirmModalOpened}
+                      visible={fixModal}
                       closable={false}>
                       <div>
                           <Row>
                               <Col span={24}>
                                   <h5 style={{textAlign : "center", padding : "auto", fontSize : "17px", color : "#666666"}}>
-                                      {isMySellItem ? "판매 등록을 취소하시겠습니까?" : "판매자에게 구매 신청을 보내겠습니까?"}
+                                      {isMySellItem && fixModal ? "상품 정보를 수정하시겠습니까?" : "" }
                                   </h5>
                               </Col>
                           </Row>
@@ -441,8 +448,86 @@ function Subject({ match }) {
                                   }}
                                   onClick={()=>{
                                       if(!isMySellItem || (isMySellItem && !paybackedSellItem)){
-                                          setConfirmModalOpened(false);
-                                          if(isMySellItem){
+                                          if(isMySellItem && fixModal){
+                                              // fixme : 상품수정 함수 만들기, 이 위치
+                                              setTimeout(() => {
+                                                  goToHome();
+                                              }, 2000);
+                                          }
+                                          else{
+                                              confirm();
+                                              setTimeout(() => {
+                                                  goToSignIn();
+                                              }, 2000);
+                                          }
+                                        setFixModal(false);
+                                      }
+                                     }}
+                              >예</button></Col>
+                              <Col offset={4} span={8}><button
+                                  style={{
+                                      padding: "0",
+                                      width: "100%",
+                                      background: "#fafafa",
+                                      color: "#666666",
+                                      border: "#666666 0.3px solid",
+                                      borderRadius: "15px",
+                                      fontSize: "16px",
+                                      height: "30px"
+                                  }}
+                                  onClick={()=>{setFixModal(false)}}
+                              >아니요</button></Col>
+                          </Row>
+                      </div>
+                  </Modal>
+
+                <Col offset={2} span={10}>
+                  <button
+                      style={{
+                          padding: "0",
+                          width: "100%",
+                          background: "rgba(51, 158, 172, 0.9)",
+                          color: "#ffffff",
+                          border: "none",
+                          borderRadius: "2.25vh",
+                          fontSize: "2.5vh",
+                          height: "5vh"
+                      }}
+                      onClick={()=>{setConfirmModalOpened(true)}}
+                  >
+                      {isMySellItem && !paybackedSellItem ? "삭제하기" : isMySellItem && paybackedSellItem ? "삭제하기(불가)" : ""}
+                  </button>
+                </Col>
+
+                 {/*상품삭제 모달*/}
+                  <Modal
+                      title = {null}
+                      footer={null}
+                      visible={confirmModalOpened}
+                      closable={false}>
+                      <div>
+                          <Row>
+                              <Col span={24}>
+                                  <h5 style={{textAlign : "center", padding : "auto", fontSize : "17px", color : "#666666"}}>
+                                      {isMySellItem && confirmModalOpened ? "상품을 삭제하시겠습니까?" : ""}
+                                  </h5>
+                              </Col>
+                          </Row>
+                          <Row style={{marginTop : "10px"}}>
+                              <Col offset={2} span={8}><button
+                                  style={{
+                                      padding: "0",
+                                      width: "100%",
+                                      background: "rgba(51, 158, 172, 0.9)",
+                                      color: "#ffffff",
+                                      border: "none",
+                                      borderRadius: "15px",
+                                      fontSize: "16px",
+                                      height: "30px"
+                                  }}
+                                  onClick={()=>{
+                                      if(!isMySellItem || (isMySellItem && !paybackedSellItem)){
+                                          if(isMySellItem && confirmModalOpened){
                                               cancelSellItem(item._id);
                                               setTimeout(() => {
                                                   goToHome();
@@ -454,6 +539,7 @@ function Subject({ match }) {
                                                   goToSignIn();
                                               }, 2000);
                                           }
+                                        setConfirmModalOpened(false);
                                       }
                                      }}
                               >예</button></Col>
@@ -475,25 +561,101 @@ function Subject({ match }) {
                   </Modal>
               </div>
 
-            :
-            <Link to="/signin">
-              <button
-                style={{
-                  padding: "0",
-                  width: "100%",
-                  background: "rgba(51, 158, 172, 0.9)",
-                  color: "#ffffff",
-                  border: "none",
-                  borderRadius: "2.25vh",
-                  fontSize: "2.5vh",
-                  height: "5vh"
-                }}>
-                구매하기
-              </button>
-            </Link>
+            :  /* 로그인 여부 && 내 상품 판단 */
+
+            <div>
+              {localStorage.getItem('token') != null && !isMySellItem ?
+              <div>
+                <Col offset={1} span={22}>
+                  <button
+                    style={{
+                      padding: "0",
+                      width: "100%",
+                      background: "rgba(51, 158, 172, 0.9)",
+                      color: "#ffffff",
+                      border: "none",
+                      borderRadius: "2.25vh",
+                      fontSize: "2.5vh",
+                      height: "5vh"
+                    }}
+                    onClick={() => {setBuyModal(true)}}>
+                    구매하기
+                  </button>
+                </Col>  
+
+                {/*구매신청 모달*/}
+                <Modal
+                        title = {null}
+                        footer={null}
+                        visible={buyModal}
+                        closable={false}>
+                        <div>
+                            <Row>
+                                <Col span={24}>
+                                    <h5 style={{textAlign : "center", padding : "auto", fontSize : "17px", color : "#666666"}}>
+                                        {!isMySellItem ? "판매자에게 구매 신청을 보내겠습니까?" : ""}
+                                    </h5>
+                                </Col>
+                            </Row>
+                            <Row style={{marginTop : "10px"}}>
+                                <Col offset={2} span={8}><button
+                                    style={{
+                                        padding: "0",
+                                        width: "100%",
+                                        background: "rgba(51, 158, 172, 0.9)",
+                                        color: "#ffffff",
+                                        border: "none",
+                                        borderRadius: "15px",
+                                        fontSize: "16px",
+                                        height: "30px"
+                                    }}
+                                    onClick={()=>{
+                                      confirm();
+                                      setBuyModal(false)
+                                      }}
+                                >예</button></Col>
+                                <Col offset={4} span={8}><button
+                                    style={{
+                                        padding: "0",
+                                        width: "100%",
+                                        background: "#fafafa",
+                                        color: "#666666",
+                                        border: "#666666 0.3px solid",
+                                        borderRadius: "15px",
+                                        fontSize: "16px",
+                                        height: "30px"
+                                    }}
+                                    onClick={()=>{setBuyModal(false)}}
+                                >아니요</button></Col>
+                            </Row>
+                        </div>
+                    </Modal>
+                  </div>
+
+                : /* 로그인 여부 판단 */
+
+                <Col offset={1} span={22}>
+                  <Link to="/signin">
+                    <button
+                      style={{
+                        padding: "0",
+                        width: "100%",
+                        background: "rgba(51, 158, 172, 0.9)",
+                        color: "#ffffff",
+                        border: "none",
+                        borderRadius: "2.25vh",
+                        fontSize: "2.5vh",
+                        height: "5vh"
+                      }}>
+                      구매하기
+                    </button>
+                  </Link>
+                </Col>
+              }
+            </div>
           }
 
-        </Col>
+
       </Row>
     </div>
   );

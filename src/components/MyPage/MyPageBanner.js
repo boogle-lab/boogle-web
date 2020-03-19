@@ -153,7 +153,7 @@ export default function MyPageBanner() {
         })
     }
 
-    // 판매 등록 취소 버튼을 위한 메소드
+    // 상품 삭제 버튼을 위한 메소드
     const cancelSellItem = (itemId) => {
         axios.delete(host + "/sell?sellItemId=" + itemId, {
             headers: { Authorization: localStorage.getItem('token') }
@@ -1303,7 +1303,7 @@ export default function MyPageBanner() {
                                                                             border: "none", borderRadius: "5px", fontSize: "10px",
                                                                             marginTop: "4px"
                                                                             }} onClick={() => { cancelSellItem(value.sellItemId); }}
-                                                                            >등록 취소</button>
+                                                                            >상품 삭제</button>
                                                                         </Col>
                                                                     </Row>
                                                                 </Col>
@@ -1565,7 +1565,7 @@ export default function MyPageBanner() {
                                                                             border: "none", borderRadius: "5px", fontSize: "10px",
                                                                             marginTop: "4px"
                                                                             }} onClick={() => { cancelSellItem(value.sellItemId); }}
-                                                                            >등록 취소</button>
+                                                                         >상품 삭제</button>
                                                                         </Col>
                                                                     </Row>
                                                                 </Col>
