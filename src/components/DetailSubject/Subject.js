@@ -17,10 +17,10 @@ function Subject({ match }) {
   const [isBookmarked, setIsBookmarked] = useState(0);
   const [isSignedIn, setIsSignedIn] = useState(false);
 
-  const [confirmModalOpened, setConfirmModalOpened] = useState(false);
-  const [imageModal, setImageModal] = useState(false);
-  const [fixModal, setFixModal] = useState(false);
-  const [buyModal, setBuyModal] = useState(false);
+  const [confirmModalOpened, setConfirmModalOpened] = useState(false); // 판매취소
+  const [fixModal, setFixModal] = useState(false); // 판매수정
+  const [buyModal, setBuyModal] = useState(false); // 구매신청
+  const [imageModal, setImageModal] = useState(false); // 상품 이미지 상세보기
 
   const [isMySellItem, setIsMySellItem] = useState(false);
   const [paybackedSellItem, setPaybackedSellItem] = useState(false);
@@ -232,7 +232,7 @@ function Subject({ match }) {
             {item.regiImageUrlList != undefined
               ? item.regiImageUrlList.map((imgUrl, i) => {
                 return (
-                  <div style={{ margin: "auto" }}>
+                  <div style={{ margin: "auto" }} onClick={() => {setImageModal(true)}}>
                     <img
                       style={{
                         width: "100%",
@@ -249,6 +249,44 @@ function Subject({ match }) {
           </Carousel>
         </Col>
       </Row>
+
+      {/*이미지 모달*/}
+      <Modal
+      title = {null}
+      footer={null}
+      visible={imageModal}
+      closable={false}>
+        <div style={{margin: "-15px"}}>
+          <Row>
+            <Col span={1} offset={23}>
+              <Icon type="close" onClick={() => {setImageModal(false)}}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Carousel showThumbs={false}>
+                {item.regiImageUrlList !== undefined
+                  ? item.regiImageUrlList.map((imgUrl, i) => {
+                    return (
+                      <div style={{ margin: "auto" }}>
+                        <img
+                          style={{
+                            width: "100%",
+                            height: "auto",
+                            objectFit: "contain",
+                            margin: "auto"
+                          }}
+                          src={imgUrl}
+                        ></img>
+                      </div>
+                    );
+                  })
+                  : null}
+              </Carousel>
+          </Col>             
+          </Row>
+        </div>
+      </Modal>
 
       <Row style={{ marginTop: "0vh" }}>
         <Row>
