@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Row, Col, Icon, Card, Modal, Popconfirm, Collapse, message } from "antd";
 import axios from 'axios';
 import './MyPageBanner.css';
@@ -39,12 +39,23 @@ export default function MyPageBanner() {
 
     const { register, handleSubmit } = useForm();
 
+    const [isSignIn, setIsSignIn] = useState(false);
+
     const onSubmit = data => {
     };
 
 
     useEffect(() => {
-        getMyPage();
+        if (
+            localStorage.getItem('token') !== "" &&
+            localStorage.getItem('token') != null
+          ) {
+            signedIn();
+            getMyPage();
+          } 
+        else {
+            needSignIn();
+        }
     }, []);
 
     useEffect(() => {
@@ -53,6 +64,15 @@ export default function MyPageBanner() {
             setNeedRender(false)
         }
     }, [needRender]);
+
+    const signedIn = () => {
+        setIsSignIn(true)
+    }
+
+    const needSignIn = () => {
+        setIsSignIn(false)
+        message.warning("로그인이 필요합니다.")
+    }
 
     const getMyPage = () => {
         axios.get(host + '/myPage', {
@@ -376,6 +396,9 @@ export default function MyPageBanner() {
             backgroundSize: "cover"
             , paddingTop: "24px"
         }} className="mypage">
+        
+        {/*isSignIn === true ? <div></div> : <Redirect to="/signin" />*/}
+
             <Row style={{ top: 10, marginBottom: "24px" }}>
                 <Col xs={{ span: 3 }}>
                     <Link to="/">

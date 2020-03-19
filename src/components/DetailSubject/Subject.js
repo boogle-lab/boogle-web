@@ -110,6 +110,7 @@ function Subject({ match }) {
     const date = rawDate.slice(0, 10).split("-");
     return `${date[0]}.${date[1]}.${date[2]}`;
   };
+
   const qualDisplay = (qualityGeneral, qualityExtraList) => {
 
     return (
@@ -322,10 +323,10 @@ function Subject({ match }) {
           <Icon
             style={{
               color: "#44a0ac",
-              fontSize: "6vh",
+              fontSize: "5vh",
               fontWeight: "200"
             }}
-            type="question-circle"
+            type="user"
             id="profile-circle"
           />
         </Col>
@@ -378,21 +379,20 @@ function Subject({ match }) {
                 </Col>
             </Row> : null
         }
-
-      <Row style={{ marginTop: "4vh", marginBottom: "3vh" }}>
-        <Col xs={{ span: 22, offset: 1 }}>
+      <Row style={{ marginTop: "2vh", marginBottom: "3vh"}} >
+      <Col xs={{ span: 22, offset: 1 }}>
           <textarea
             readOnly
             style={{
               width: "100%",
-              height: "80px",
-              border: "#656565 solid 0.3px",
-              borderRadius: "5px",
+              height: "150px",
+              border: "#656565 solid 0px",
+              borderRadius: "0px",
               color: "transparent",
-              textShadow: "0 0 0 #656565"
+              textShadow: "0 0 0 #656565",
             }}
             value={item.comment}
-          />
+          /> {/* Fixme : textarea height 자동으로 조절되게 바꿔야함 */}
         </Col>
       </Row>
       <Row style={{ marginBottom: "15vh" }}>
