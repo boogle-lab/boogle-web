@@ -42,6 +42,7 @@ function Subject({ match }) {
       localStorage.getItem("token") != null
     ) {
       setIsSignedIn(true);
+      console.log(isSignedIn);
     } else {
       setIsSignedIn(false);
     }
@@ -63,6 +64,7 @@ function Subject({ match }) {
         // 로그인 인증 정보 보내기. 에러 처리 필요
 
         setItem(result.data.data.sellItem);
+        console.log(result.data.data.sellItem);
         setSeller(result.data.data.sellerUser);
         setIsBookmarked(result.data.data.bookmarked);
 
