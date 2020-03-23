@@ -20,7 +20,9 @@ export default function DashBoard() {
     const [isAuth, setIsAuth] = useState(false);
     const [userList, setUserList] = useState([]);
     const [isAuthImageModalOpened, setIsAuthImageModalOpened] = useState(false);
-    const [isStep2ConfirmModalOpened, setIsStep2ConfirmModalOpened] = useState(false);
+    const [isStep2PaymentConfirmModalOpened, setIsStep2PaymentConfirmModalOpened] = useState(false);
+    const [isStep2BoogleBoxConfirmModalOpened, setIsStep2BoogleBoxConfirmModalOpened] = useState(false);
+    const [isStep1PaymentConfirmModalOpened, setIsStep1PaymentConfirmModalOpened] = useState(false);
     const [isStep4ConfirmModalOpened, setIsStep4ConfirmModalOpened] = useState(false);
     const [userCampusAuthImage, setUserCampusAuthImage] = useState(null);
     const [stepTWOList, setStepTWOList] = useState([]);
@@ -30,6 +32,7 @@ export default function DashBoard() {
     const [buyerName, setBuyerName] = useState(null);
     const [sellerBankAccount, setSellerBankAccount] = useState(null);
     const [confirmButtonHidden, setConfirmButtonHidden] = useState(false);
+    const [step2ConfirmType, setStep2ConfirmType] = useState(0);
     //   const [infoTable, setInfoTable] = useState()
 
     const getAllUsers = () => {
@@ -93,6 +96,42 @@ export default function DashBoard() {
             });
     };
 
+    const confirmPaymentDoneAndChangeStep = sellItemId => {
+        axios
+            .get(
+
+                host + `/admin/payment/confirm?sellItemId=${sellItemId}`
+            )
+            .then(res => {
+                setConfirmButtonHidden(false);
+                window.location.reload();
+            });
+    };
+
+    const confirmBoogleBoxInfoAndChangeStep = sellItemId => {
+        axios
+            .get(
+
+                host + `/admin/booglebox/confirm?sellItemId=${sellItemId}`
+            )
+            .then(res => {
+                setConfirmButtonHidden(false);
+                window.location.reload();
+            });
+    };
+
+    const confirmPaymentDoneAtStep1AndChangeStep = sellItemId => {
+        axios
+            .get(
+
+                host + `/admin/payment/confirm/step1?sellItemId=${sellItemId}`
+            )
+            .then(res => {
+                setConfirmButtonHidden(false);
+                window.location.reload();
+            });
+    };
+
     const getBuyerName = buyerId => {
         axios
             .get(host + "/admin/buyerName?userId=" + buyerId)
@@ -132,16 +171,18 @@ export default function DashBoard() {
     }, [userCampusAuthImage]);
 
     React.useEffect(() => {
-        if (buyerName != null) {
-            setIsStep2ConfirmModalOpened(true);
-        }
-    }, [buyerName]);
-
-    React.useEffect(() => {
         if (sellerBankAccount != null) {
             setIsStep4ConfirmModalOpened(true);
         }
     }, [sellerBankAccount]);
+
+    React.useEffect(() => {
+        if (buyerName !== null) {
+            if(step2ConfirmType === 0) setIsStep2PaymentConfirmModalOpened(true);
+            else if(step2ConfirmType === 1)setIsStep2BoogleBoxConfirmModalOpened(true);
+            else setIsStep1PaymentConfirmModalOpened(true);
+        }
+    }, [buyerName]);
 
     const menu =
         <Menu
@@ -185,7 +226,7 @@ export default function DashBoard() {
                         </Col>
                     </Row>
                     <Row style={{marginTop: "40px"}}>
-                        <Col span={8} offset={8}>
+                        <Col span={6} offset={10}>
                             <Button
                                 onClick={() => {
                                     confirmAuthUser(userId);
@@ -200,14 +241,14 @@ export default function DashBoard() {
         );
     };
 
-    const step2ConfirmModal = (boxId, boxPassword, sellItemId) => {
+    const step2PaymentConfirmModal = (boxId, boxPassword, sellItemId) => {
         return (
             <Modal
-                title="STEP 2 승인"
-                visible={isStep2ConfirmModalOpened}
+                title="STEP 2 송금 확인"
+                visible={isStep2PaymentConfirmModalOpened}
                 onCancel={() => {
                     setBuyerName(null);
-                    setIsStep2ConfirmModalOpened(false);
+                    setIsStep2PaymentConfirmModalOpened(false);
                 }}
                 footer={null}
                 destroyOnClose={true}
@@ -232,12 +273,104 @@ export default function DashBoard() {
                         </Col>
                     </Row>
                     <Row style={{marginTop: "20px"}}>
-                        <Col span={4} offset={10}>
+                        <Col span={6} offset={10}>
                             {
                                 confirmButtonHidden? <span>승인 진행중입니다.</span> :
                                     <Button onClick={()=>{
                                         setConfirmButtonHidden(true);
-                                        changeStep(sellItemId);
+                                        confirmPaymentDoneAndChangeStep(sellItemId);
+                                        getStepTWO();
+                                        getStepFOUR();
+                                        getAllTrans();
+                                    }}>
+                                        승인 완료
+                                    </Button>
+                            }
+                        </Col>
+                    </Row>
+                </div>
+            </Modal>
+        );
+    };
+
+    const step2BoogleBoxConfirmModal = (boxId, boxPassword, sellItemId) => {
+        return (
+            <Modal
+                title="STEP 2 북을박스 정보 확인"
+                visible={isStep2BoogleBoxConfirmModalOpened}
+                onCancel={() => {
+                    setBuyerName(null);
+                    setIsStep2BoogleBoxConfirmModalOpened(false);
+                }}
+                footer={null}
+                destroyOnClose={true}
+            >
+                <div>
+                    <Row>
+                        <Col span={20} offset={2}>
+                            <h5 style={{ fontSize : "15px", textAlign : "center"}}>구매자 이름 :
+                                <h5 style={{ fontSize : "15px", fontWeight : "200", display : "inline"}}>{" "}{buyerName}</h5></h5>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={20} offset={2}>
+                            <h5 style={{ fontSize : "15px", textAlign : "center"}}>북을박스 번호 :
+                                <h5 style={{ fontSize : "15px", fontWeight : "200", display : "inline"}}>{" "}{boxId}</h5></h5>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={20} offset={2}>
+                            <h5 style={{ fontSize : "15px", textAlign : "center"}}>북을박스 비밀번호 :
+                                <h5 style={{ fontSize : "15px", fontWeight : "200", display : "inline"}}>{" "}{boxPassword}</h5></h5>
+                        </Col>
+                    </Row>
+                    <Row style={{marginTop: "20px"}}>
+                        <Col span={6} offset={10}>
+                            {
+                                confirmButtonHidden? <span>승인 진행중입니다.</span> :
+                                    <Button onClick={()=>{
+                                        setConfirmButtonHidden(true);
+                                        confirmBoogleBoxInfoAndChangeStep(sellItemId);
+                                        getStepTWO();
+                                        getStepFOUR();
+                                        getAllTrans();
+                                    }}>
+                                        승인 완료
+                                    </Button>
+                            }
+                        </Col>
+                    </Row>
+                </div>
+            </Modal>
+        );
+    };
+
+    const step1PaymentConfirmModal = (sellItemId) => {
+        return (
+            <Modal
+                title="STEP 1 송금 확인"
+                visible={isStep1PaymentConfirmModalOpened}
+                onCancel={() => {
+                    setBuyerName(null);
+                    setIsStep1PaymentConfirmModalOpened(false);
+                }}
+                footer={null}
+                destroyOnClose={true}
+            >
+                <div>
+                    <Row>
+                        <Col span={20} offset={2}>
+                            <h5 style={{ fontSize : "15px", textAlign : "center"}}>구매자 이름 :
+                                <h5 style={{ fontSize : "15px", fontWeight : "200", display : "inline"}}>{" "}{buyerName}</h5></h5>
+                        </Col>
+                    </Row>
+                    <Row style={{marginTop: "20px"}}>
+                        <Col span={6} offset={10}>
+                            {
+                                confirmButtonHidden? <span>승인 진행중입니다.</span> :
+                                    <Button onClick={()=>{
+                                        setConfirmButtonHidden(true);
+                                        confirmPaymentDoneAtStep1AndChangeStep(sellItemId);
                                         getStepTWO();
                                         getStepFOUR();
                                         getAllTrans();
@@ -272,7 +405,7 @@ export default function DashBoard() {
                         </Col>
                     </Row>
                     <Row style={{marginTop: "20px"}}>
-                        <Col span={4} offset={10}>
+                        <Col span={6} offset={9}>
                             {
                                 confirmButtonHidden? <span>승인 진행중입니다.</span> :
                                     <Button onClick={()=>{
@@ -490,15 +623,40 @@ export default function DashBoard() {
             dataIndex: "step",
             key: "boxPassword",
             render: (step, record) => {
-                if (step === 2) {
-                    return (
+                if(step == 1 && !record.paymentDone){
+                    return(
                         <div>
                             <Button onClick={() => {
+                                setStep2ConfirmType(2)
                                 getBuyerName(record.buyerId);
                             }} style={{color: "black", fontWeight: 800}}>
-                                승인하기
+                                송금 수동 승인
                             </Button>
-                            {step2ConfirmModal(record.boxId, record.boxPassword, record.sellItemId)}
+                            {step1PaymentConfirmModal(record.sellItemId)}
+                        </div>
+                    )
+                }
+                else if (step === 2) {
+                    return (
+                        <div>
+                            {!record.paymentDoneConfirmed && <div>
+                                <Button onClick={() => {
+                                    setStep2ConfirmType(0)
+                                    getBuyerName(record.buyerId);
+                                }} style={{color: "black", fontWeight: 800}}>
+                                    송금 확인
+                                </Button>
+                                {step2PaymentConfirmModal(record.boxId, record.boxPassword, record.sellItemId)}
+                            </div>}
+                            {!record.boogleBoxInfoConfirmed && <div>
+                                <Button onClick={() => {
+                                    setStep2ConfirmType(1)
+                                    getBuyerName(record.buyerId);
+                                }} style={{color: "black", fontWeight: 800}}>
+                                    북을박스 확인
+                                </Button>
+                                {step2BoogleBoxConfirmModal(record.boxId, record.boxPassword, record.sellItemId)}
+                            </div>}
                         </div>
                     )
                 }

@@ -162,11 +162,22 @@ export default function Search(props,{ location, match, history }) {
         }
     }, [props.sortType2])
 
+    /*
+    React.useEffect(() => {
+        if(props.all === true){
+            getAllSearchedBuyItems("allList");
+        }
+    }, [props.all])
+
+     */
+
     React.useEffect(() => {
         if(props.sellSortType != null){
             getAllSearchedSellItems(keyword);
         }
     }, [props.sellSortType])
+
+
 
     return (
         <form className="search-form">
