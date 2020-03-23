@@ -10,8 +10,6 @@ import moment from 'moment';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import host from '../../server-settings/ServerApiHost';
-import { Collapse } from 'react-collapse';
-import {forEach} from "react-bootstrap/cjs/ElementChildren";
 import {BeatLoader} from "react-spinners";
 
 class Banner extends Component {
@@ -107,7 +105,7 @@ class Banner extends Component {
   }
 
   unFocusOnSearch = () => {
-    this.setState({ isFocused: false, bannerList: "banner-list", sortType1 : "accuracy", sortType2 : "accuracy", isSearchAllPerm : false});
+    this.setState({ isFocused: false, bannerList: "banner-list", sortType1 : "accuracy", sortType2 : "accuracy", isSearchAllPerm : false, sellItemList : [], inDetail : false});
   }
 
   updateInputValue = (resdata) => {
@@ -127,6 +125,7 @@ class Banner extends Component {
   }
 
   getAllSearchedBuyItems = async (sortType1) => {
+      this.setState({isSearchAll : true})
     axios.get(host + '/naver/bookApi/buy/title?keyword=allList' + "&itemResListSortType=" + sortType1 +
     "&itemNotRegisteredResListSortType=" + this.state.sortType2)
         .then((response) => {
@@ -681,7 +680,7 @@ class Banner extends Component {
                           this.getAllSearchedBuyItems("regiTime");
                           this.setState({ renderFocus : true});
                           this.setState({mode : "buy", isFocused : true})
-                          this.setState({isSearchAll : true, isSearchAllPerm : true})
+                          this.setState({isSearchAllPerm : true})
                         }}
                         xs={{ span: 4, offset: 1 }}><h5 style={{ fontSize: "1.5vh", color: "#707070", fontWeight: 500 }}>전체보기 >></h5></Col>
                   </Row>
