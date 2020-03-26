@@ -71,12 +71,43 @@ export default function SellItem() {
         getItemInfo(id);
     }, [])
 
-    React.useEffect(() => {
-        if(needRender){
-            viewRegiImage(regiImageUrlList);
-            setNeedRender(false);
-        }
-    }, [needRender])
+    // React.useEffect(() => {
+    //     if(needRender){
+    //         viewRegiImage(regiImageUrlList);
+    //         setNeedRender(false);
+    //     }
+    // }, [needRender])
+
+    React.useEffect(() => { // 등록된 사진 띄우는 템플릿
+        setImageDiv(regiImageUrlList.map((i, index) => (
+            <Col xs={{ span: 4, offset: 1 }}>
+                <div
+                    style={{
+                        border: "#44a0ac 1px solid",
+                        height: "65px", width: "65px",
+                        position: "relative", borderRadius: "10px",
+                        top: "50%", left: "50%"
+                    }}>
+                    <Icon type="close-circle"
+                          style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto", position : "relative",
+                              left : 45, top : -5, zIndex : 100 }}
+                          onClick={() => {
+                              let currImageUrls = regiImageUrlList;
+                              currImageUrls.splice(index, 1);
+                              setRegiImageUrlList(currImageUrls);
+                          }}>
+                    </Icon>
+                    <img style={{
+                        width: "100%", height: "100%",
+                        position: "absolute",
+                        top: "0", left: "0",
+                        objectFit: "contain"
+                    }} src={i}
+                    />
+                </div>
+            </Col>
+        )));
+    }, [regiImageUrlList])
 
     React.useEffect(() => {
 
@@ -98,37 +129,37 @@ export default function SellItem() {
     };
 
 
-    const viewRegiImage = (list) => { // 등록된 사진 띄우는 템플릿
-        setImageDiv(list.map((i, index) => (
-            <Col xs={{ span: 4, offset: 1 }}>
-                <div
-                    style={{
-                        border: "#44a0ac 1px solid",
-                        height: "65px", width: "65px",
-                        position: "relative", borderRadius: "10px",
-                        top: "50%", left: "50%"
-                    }}>
-                    <Icon type="close-circle"
-                          style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto", position : "relative",
-                              left : 45, top : -5, zIndex : 100 }}
-                          onClick={() => {
-                              let currImageUrls = list;
-                              currImageUrls.splice(index, 1);
-                              setRegiImageUrlList(currImageUrls);
-                              setNeedRender(true);
-                          }}>
-                    </Icon>
-                    <img style={{
-                        width: "100%", height: "100%",
-                        position: "absolute",
-                        top: "0", left: "0",
-                        objectFit: "contain"
-                    }} src={i}
-                    />
-                </div>
-            </Col>
-        )));
-    }
+    // const viewRegiImage = (list) => { // 등록된 사진 띄우는 템플릿
+    //     setImageDiv(list.map((i, index) => (
+    //         <Col xs={{ span: 4, offset: 1 }}>
+    //             <div
+    //                 style={{
+    //                     border: "#44a0ac 1px solid",
+    //                     height: "65px", width: "65px",
+    //                     position: "relative", borderRadius: "10px",
+    //                     top: "50%", left: "50%"
+    //                 }}>
+    //                 <Icon type="close-circle"
+    //                       style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto", position : "relative",
+    //                           left : 45, top : -5, zIndex : 100 }}
+    //                       onClick={() => {
+    //                           let currImageUrls = list;
+    //                           currImageUrls.splice(index, 1);
+    //                           setRegiImageUrlList(currImageUrls);
+    //                           setNeedRender(true);
+    //                       }}>
+    //                 </Icon>
+    //                 <img style={{
+    //                     width: "100%", height: "100%",
+    //                     position: "absolute",
+    //                     top: "0", left: "0",
+    //                     objectFit: "contain"
+    //                 }} src={i}
+    //                 />
+    //             </div>
+    //         </Col>
+    //     )));
+    // }
 
 
     // Form submit 함수
@@ -260,7 +291,7 @@ export default function SellItem() {
 
                 setImageFileList(res.regiImageUrlList);
 
-                viewRegiImage(res.regiImageUrlList);
+                // viewRegiImage(res.regiImageUrlList);
 
                 setQualityExtraList(res.qualityExtraList); // error 위치
             }
@@ -604,8 +635,9 @@ export default function SellItem() {
                                                        setRegiImageUrlList(RegiImageUrlList => [...regiImageUrlList, reader.result])
                                                    }
 
-                                                   reader.readAsDataURL(file)
+                                                   reader.readAsDataURL(file);
 
+                                                  
                                                }
                                            }}
                                            style={{ display: "none" }}
