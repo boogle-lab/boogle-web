@@ -14,6 +14,7 @@ import AccountSetting from "./pages/AccountSetting";
 import Admin from "./pages/Admin";
 import SignInSetting from "./pages/SignInSetting";
 import ModifyPasswordForm from "././components/ModifyInfo/ModifyPasswordForm";
+import ModifyItem from "./pages/ModifyItemPage";
 
 import './DesktopError.css';
 
@@ -23,6 +24,7 @@ import {
   isBrowser,
   isMobile
 } from "react-device-detect";
+import ModifyItemPage from "./pages/ModifyItemPage";
 
 class App extends Component {
   render() {
@@ -72,6 +74,7 @@ class App extends Component {
             <Route path="/admin" component={Admin} />
             <Route path="/signinSetting" component={SignInSetting} />
             <Route path="/modifyPassword" component={ModifyPasswordForm} />
+            <Route path="/modifyitem/:id" component={ModifyItem} />
             {/*</div>*/}
           </Switch>
         </Router>

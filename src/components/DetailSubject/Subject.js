@@ -27,6 +27,8 @@ function Subject({ match }) {
 
   const [qualityScore, setQualityScore] = useState(-1);
 
+  const [goToModify, setGoToModify] = useState(false);
+
   const authToken =
     localStorage.getItem("token") == null ? "" : localStorage.getItem("token");
   const server_url = host;
@@ -42,7 +44,6 @@ function Subject({ match }) {
       localStorage.getItem("token") != null
     ) {
       setIsSignedIn(true);
-      console.log(isSignedIn);
     } else {
       setIsSignedIn(false);
     }
@@ -64,7 +65,6 @@ function Subject({ match }) {
         // 로그인 인증 정보 보내기. 에러 처리 필요
 
         setItem(result.data.data.sellItem);
-        console.log(result.data.data.sellItem);
         setSeller(result.data.data.sellerUser);
         setIsBookmarked(result.data.data.bookmarked);
 
@@ -454,11 +454,11 @@ function Subject({ match }) {
                           fontSize: "2.5vh",
                           height: "5vh"
                       }}
-                      onClick={()=>{setFixModal(true)}}
+                      onClick={()=>{setFixModal(true);}}
                   >
                       {isMySellItem && !paybackedSellItem ? "수정하기" : isMySellItem && paybackedSellItem ? "수정하기(불가)" : "" }
                   </button>
-                </Col>
+              </Col>
 
                  {/*상품수정 모달*/}
                   <Modal
@@ -475,7 +475,8 @@ function Subject({ match }) {
                               </Col>
                           </Row>
                           <Row style={{marginTop : "10px"}}>
-                              <Col offset={2} span={8}><button
+                              <Col offset={2} span={8}>
+                                <button
                                   style={{
                                       padding: "0",
                                       width: "100%",
@@ -490,9 +491,10 @@ function Subject({ match }) {
                                       if(!isMySellItem || (isMySellItem && !paybackedSellItem)){
                                           if(isMySellItem && fixModal){
                                               // fixme : 상품수정 함수 만들기, 이 위치
+                                              setGoToModify(true);
                                               setTimeout(() => {
-                                                  goToHome();
                                               }, 2000);
+                                              setFixModal(false);
                                           }
                                           else{
                                               confirm();
@@ -503,7 +505,13 @@ function Subject({ match }) {
                                         setFixModal(false);
                                       }
                                      }}
-                              >예</button></Col>
+                              >예</button>
+                              { goToModify ? 
+                              <Redirect to = {{
+                                pathname: '/modifyitem/'+id
+                              }}></Redirect>
+                            : null}
+                              </Col>
                               <Col offset={4} span={8}><button
                                   style={{
                                       padding: "0",
@@ -554,7 +562,8 @@ function Subject({ match }) {
                               </Col>
                           </Row>
                           <Row style={{marginTop : "10px"}}>
-                              <Col offset={2} span={8}><button
+                              <Col offset={2} span={8}>
+                                <button
                                   style={{
                                       padding: "0",
                                       width: "100%",
