@@ -16,6 +16,7 @@ export default function SellItem() {
     
     const [step, setStep] = useState(1);
     const [contactType, setContactType] = useState(0);
+    const [needRender, setNeedRender] = useState(false);
 
     // image 관련
     const [userImages, setUserImages] = useState([]);
@@ -67,41 +68,15 @@ export default function SellItem() {
         getUserBankAccount();
         getBankInfo();
         const id = window.location.pathname.substring(12);
-        console.log(id);
         getItemInfo(id);
-    }, [] )
+    }, [])
 
-    React.useEffect(() => { // 등록된 사진 띄우는 템플릿
-        setImageDiv(regiImageUrlList.map((i, index) => (
-            <Col xs={{ span: 4, offset: 1 }}>
-                <div
-                    style={{
-                        border: "#44a0ac 1px solid",
-                        height: "65px", width: "65px",
-                        position: "relative", borderRadius: "10px",
-                        top: "50%", left: "50%"
-                    }}>
-                    <Icon type="close-circle"
-                          style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto", position : "relative",
-                              left : 45, top : -5, zIndex : 100 }}
-                          onClick={() => {
-                              let currImageUrls = regiImageUrlList;
-                              currImageUrls.splice(index, 1);
-                              setRegiImageUrlList(currImageUrls);
-                          }}>
-                    </Icon>
-                    <img style={{
-                        width: "100%", height: "100%",
-                        position: "absolute",
-                        top: "0", left: "0",
-                        objectFit: "contain"
-                    }} src={i}
-                    />
-                </div>
-            </Col>
-        )));
-
-    }, [regiImageUrlList]);
+    React.useEffect(() => {
+        if(needRender){
+            viewRegiImage(regiImageUrlList);
+            setNeedRender(false);
+        }
+    }, [needRender])
 
     React.useEffect(() => {
 
@@ -123,12 +98,52 @@ export default function SellItem() {
     };
 
 
+    const viewRegiImage = (list) => { // 등록된 사진 띄우는 템플릿
+        setImageDiv(list.map((i, index) => (
+            <Col xs={{ span: 4, offset: 1 }}>
+                <div
+                    style={{
+                        border: "#44a0ac 1px solid",
+                        height: "65px", width: "65px",
+                        position: "relative", borderRadius: "10px",
+                        top: "50%", left: "50%"
+                    }}>
+                    <Icon type="close-circle"
+                          style={{ color: "rgba(51, 158, 172, 0.9)", margin: "auto", position : "relative",
+                              left : 45, top : -5, zIndex : 100 }}
+                          onClick={() => {
+                              let currImageUrls = list;
+                              currImageUrls.splice(index, 1);
+                              setRegiImageUrlList(currImageUrls);
+                              setNeedRender(true);
+                          }}>
+                    </Icon>
+                    <img style={{
+                        width: "100%", height: "100%",
+                        position: "absolute",
+                        top: "0", left: "0",
+                        objectFit: "contain"
+                    }} src={i}
+                    />
+                </div>
+            </Col>
+        )));
+    }
+
+
     // Form submit 함수
     const onSubmit = (data) => {
 
         if (isFinalSubmit) {
 
-            console.log(data)
+            console.log(selectedBankAccountId);
+            console.log(subject);
+            console.log(professor);
+            console.log(dealType);
+            console.log(regiImageUrlList);
+            console.log(qualityGeneral);
+            console.log(originalPrice);
+            console.log(comment);
 
         }
     };
@@ -225,7 +240,6 @@ export default function SellItem() {
           })
         .then((data) => {
             const res = data.data.data.sellItem;
-            console.log(res)
             if(data.data.status === 200){
                 setItemId(res.itemId);
                 setTitle(res.title);
@@ -245,6 +259,8 @@ export default function SellItem() {
                 setProfessor(res.professor);
 
                 setImageFileList(res.regiImageUrlList);
+
+                viewRegiImage(res.regiImageUrlList);
 
                 setQualityExtraList(res.qualityExtraList); // error 위치
             }
@@ -797,7 +813,7 @@ export default function SellItem() {
                                                     //value = value.replace(" 원", "");
                                                     setOriginalPrice(value)
                                                 }
-                                                }
+                                                } ref={register} 
                                                 style={{ width: "100%", height : "6vh", padding : "1.5vh", border: "none", borderBottom: "rgba(51, 158, 172, 0.9) solid 2px" }} />
                                         </Col>
                                     </Row> : null
@@ -828,12 +844,12 @@ export default function SellItem() {
                                     }}
                                             type="submit"
                                             onClick={()=>{
-                                                if( comment === "" || userImages.length === 0 ||
+                                                if( comment === "" || regiImageUrlList.length === 0 ||
                                                         originalPrice === 0 ){
                                                         setModalVisible(true);
                                                     }
                                                     if(dealType === 1){
-                                                        if(comment === "" || userImages.length === 0 ||
+                                                        if(comment === "" || regiImageUrlList.length === 0 ||
                                                         originalPrice === 0 || selectedUserBankAccount == null){
                                                             setModalVisible(true);
                                                         }
