@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import host from '../../server-settings/ServerApiHost';
 
-export default function ReserveComponent() {
+export default function ReserveComponent(props) {
     const [reserveList, setReserveList] = useState([]);
     const [modal, setModal] = useState(false);
     const [needRender, setNeedRender] = useState(false);
@@ -16,6 +16,10 @@ export default function ReserveComponent() {
 
     const onSubmit = data => {
     };
+
+    const sendName = (name) => {
+        props.getName(name);
+    }
 
     useEffect(() => {
         getMyPage();
@@ -29,19 +33,34 @@ export default function ReserveComponent() {
     }, [needRender]);
 
     const getMyPage = () => {
+        axios.get(host + '/myPage', {
+            headers: { Authorization: localStorage.getItem('token') }
+        })
+            .then((response) => {
+                if (response.data.status === 200){
+                    sendName(response.data.data.userName);
+                }
+                else { // Fixme : check status code!!
+                    window.location.href = '/';
+                }
+            })
+            .catch((err) => {
+                window.location.href = '/';
+            })
         axios.get(host + '/itemReceiving' , {
             headers: { Authorization: localStorage.getItem('token') }
         })
             .then((response) => {
                 if (response.data.status === 201){
-                    setReserveList(response.data.data)
+                    setReserveList(response.data.data);
+                    sendName(response.data.data.userName);
                 }
                 else { // Fixme : check status code!!
-                    window.location.href('/')
+                    window.location.href = '/';
                 }
             })
             .catch((err) => {
-                window.location.href('/')
+                window.location.href = '/';
             })
     }
 

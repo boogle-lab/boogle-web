@@ -7,28 +7,14 @@ import { useForm } from 'react-hook-form';
 
 import host from '../../server-settings/ServerApiHost';
 
-export default function MyPageBanner(props) {
-
-    // user info setting state
-    const [name, setName] = useState("");
-    const [likeList, setLikeList] = useState([]);
-    const [buyList, setBuyList] = useState([]);
-    const [sellList, setSellList] = useState([]);
-    const [reserveList, setReserveList] = useState([]);
-
+export default function MyPageBanner(props, defaultProps) {
     // page navigation state
     const state = {
+        name: props.name,
         likeProduct: props.likeProduct,
         buyProduct: props.buyProduct,
         sellProduct: props.sellProduct,
         reserveProduct: props.reserveProduct
-    }
-
-    const defaultProps = {
-        likeProduct: true,
-        buyProduct: false,
-        sellProduct: false,
-        reserveProduct: false
     }
 
     const [modal, setModal] = useState(false);
@@ -126,7 +112,7 @@ export default function MyPageBanner(props) {
             : null} */}
             </Row>
             <Row style={{ marginTop: "16px" }}>
-                <label style={{ fontSize: "15px", color: "#ffffff" }}>{name}님, 안녕하세요!</label>
+                <label style={{ fontSize: "15px", color: "#ffffff" }}>{state.name}님, 안녕하세요!</label>
             </Row>
 
             <Row style={{ marginTop: "16px" }}>
@@ -313,5 +299,13 @@ export default function MyPageBanner(props) {
                 </Link>
             </Row>
         </div>
-    )
+    ) 
+}
+
+MyPageBanner.defaultProps = {
+    name: " ",
+    likeProduct: true,
+    buyProduct: false,
+    sellProduct: false,
+    reserveProduct: false
 }

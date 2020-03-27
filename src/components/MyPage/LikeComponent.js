@@ -7,14 +7,19 @@ import { useForm } from 'react-hook-form';
 
 import host from '../../server-settings/ServerApiHost';
 
-export default function LikeComponent() {
+export default function LikeComponent(props) {
     const [likeList, setLikeList] = useState([]);
     const [modal, setModal] = useState(false);
     const [needRender, setNeedRender] = useState(false);
     const { register, handleSubmit } = useForm();
     const [isSignIn, setIsSignIn] = useState(false);
+
     const onSubmit = data => {
     };
+
+    const sendName = (name) => {
+        props.getName(name);
+    }
 
     useEffect(() => {
         getMyPage();
@@ -42,13 +47,14 @@ export default function LikeComponent() {
             .then((response) => {
                 if (response.data.status === 200){
                     setLikeList(response.data.data.bookmarkedItemList)
+                    sendName(response.data.data.userName);
                 }
                 else { // Fixme : check status code!!
-                    window.location.href('/')
+                    window.location.href = '/';
                 }
             })
             .catch((err) => {
-                window.location.href('/')
+                window.location.href = '/';
             })
     }
 

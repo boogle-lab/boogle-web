@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import host from '../../server-settings/ServerApiHost';
 
-export default function BuyComponent() {
+export default function BuyComponent(props) {
     const [buyList, setBuyList] = useState([]);
     const [modal, setModal] = useState(false);
     const [buyDetailIndex, setBuyDetailIndex] = useState([]);
@@ -23,6 +23,10 @@ export default function BuyComponent() {
 
     const onSubmit = data => {
     };
+
+    const sendName = (name) => {
+        props.getName(name);
+    }
     
     useEffect(() => {
         getMyPage();
@@ -54,14 +58,15 @@ export default function BuyComponent() {
         })
             .then((response) => {
                 if (response.data.status === 200){
-                    setBuyList(response.data.data.buyTransList)
+                    setBuyList(response.data.data.buyTransList);
+                    sendName(response.data.data.userName);
                 }
                 else { // Fixme : check status code!!
-                    window.location.href('/')
+                    window.location.href = '/';
                 }
             })
             .catch((err) => {
-                window.location.href('/')
+                window.location.href = '/';
             })
     }
 

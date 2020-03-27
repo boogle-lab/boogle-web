@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import host from '../../server-settings/ServerApiHost';
 
-export default function SellComponent() {
+export default function SellComponent(props) {
     const [sellList, setSellList] = useState([]);
     const [modal, setModal] = useState(false);
     const [sellDetailIndex, setSellDetailIndex] = useState([]);
@@ -27,6 +27,10 @@ export default function SellComponent() {
 
     const onSubmit = data => {
     }; 
+
+    const sendName = (name) => {
+        props.getName(name);
+    }
 
     useEffect(() => {
         getMyPage();
@@ -59,13 +63,14 @@ export default function SellComponent() {
             .then((response) => {
                 if (response.data.status === 200){
                     setSellList(response.data.data.sellTransList)
+                    sendName(response.data.data.userName);
                 }
                 else { // Fixme : check status code!!
-                    window.location.href('/')
+                    window.location.href = '/';
                 }
             })
             .catch((err) => {
-                window.location.href('/')
+                window.location.href = '/';
             })
     }
 
