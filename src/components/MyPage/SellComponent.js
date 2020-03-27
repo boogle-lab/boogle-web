@@ -19,6 +19,9 @@ export default function SellComponent(props) {
     const [boxPassword, setBoxPassword] = useState(false);
     const [inputBoogleBoxComplete, setInputBoolgeBoxComplete] = useState(false);
 
+    const [reason, setReason] = useState("");
+    const [reasonModal, setReasonModal] = useState(false);
+
     const [needRender, setNeedRender] = useState(false);
 
     const { register, handleSubmit } = useForm();
@@ -62,7 +65,22 @@ export default function SellComponent(props) {
         })
             .then((response) => {
                 if (response.data.status === 200){
-                    setSellList(response.data.data.sellTransList)
+                    //setSellList(response.data.data.sellTransList);
+                    setSellList([{
+                        sellItemId: "5e6ee90598709048ab452143",
+                        traderNickname: "랄라믈라",
+                        traderPhoneNumber: "01073666852",
+                        title: "Q Reading and Writing, Level 3 (Skills for Success)",
+                        transactionType: 1,
+                        transPrice: "10500",
+                        itemImageUrl: "https://bookthumb-phinf.pstatic.net/cover/089/996/08999660.jpg?type=m1&udate=20160401",
+                        boxId: "",
+                        boxPassword: "",
+                        transactionCreatedTime: "2020-03-16T07:38:13.209+0000",
+                        transactionProcessedTimeList: ["2020-03-16T07:38:13.209+0000", "2020-03-16T11:52:04.195+0000"],
+                        transactionStep: 0,
+                        paymentDone: true
+                    },])
                     sendName(response.data.data.userName);
                 }
                 else { // Fixme : check status code!!
@@ -72,6 +90,7 @@ export default function SellComponent(props) {
             .catch((err) => {
                 window.location.href = '/';
             })
+            
     }
 
     // 상품 삭제 버튼을 위한 메소드
@@ -146,6 +165,54 @@ export default function SellComponent(props) {
             .catch((err) => {
                 message.warning("처리되지 않았습니다. 다시 시도해주십시오.")
             })
+    }
+
+    const reasonElement = (value, index) => {
+        return(
+            <Modal
+                title = {null}
+                footer={null}
+                visible={reasonModal}
+                closable={true}
+                onCancel={() => {setReasonModal(false)}}
+                >
+                <div>
+                    <Row>
+                        <Col offset={2} span={20}>
+                            <h5 style={{textAlign : "left", padding : "auto", fontSize : "17px", color : "#666666"}}>
+                                거절 사유
+                            </h5>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col offset={2} span={20}>
+                            <input style={{width:"100%"}} onChange={(e) => {setReason(e.target.value)}} />
+                        </Col>
+                    </Row>
+                    <Row style={{marginTop : "10px"}}>
+                        <Col offset={6} span={12}>
+                            <button
+                                style={{
+                                    padding: "0",
+                                    width: "100%",
+                                    background: "rgba(51, 158, 172, 0.9)",
+                                    color: "#ffffff",
+                                    border: "none",
+                                    borderRadius: "15px",
+                                    fontSize: "16px",
+                                    height: "30px"
+                                }}
+                                onClick={()=>{
+                                    console.log(reason);
+                                    rejectBuyRequest(value.sellItemId);
+                                    setButtonGone(index);
+                                }}
+                            >거절하기</button>
+                        </Col>
+                    </Row>
+                </div>
+            </Modal>
+        );
     }
 
     const setBoogleBoxInfo = (boxId, boxPassword, sellItemId) => {
@@ -350,12 +417,15 @@ export default function SellComponent(props) {
                                                                                             border: "none", borderRadius: "5px", fontSize: "10px",
                                                                                             marginLeft: "0"
                                                                                         }}
-                                                                                                onClick={() => {rejectBuyRequest(value.sellItemId); setButtonGone(index)}}
+                                                                                                onClick={() => {setReasonModal(true)}}
                                                                                         >거절</button>
                                                                                     </Col>
                                                                                 </div>
                                                                                 }
                                                                             </Row>
+
+                                                                            {/*거절사유 모달*/}
+                                                                            { reasonElement(value, index) }
 
                                                                         </Col>
                                                                     </Row>
@@ -611,13 +681,14 @@ export default function SellComponent(props) {
                                                                                             border: "none", borderRadius: "5px", fontSize: "10px",
                                                                                             marginLeft: "0"
                                                                                         }}
-                                                                                                onClick={() => {rejectBuyRequest(value.sellItemId); setButtonGone(index)}}
+                                                                                                onClick={() => {setReasonModal(true);}}
                                                                                         >거절</button>
                                                                                     </Col>
                                                                                 </div>
                                                                                 }
                                                                             </Row>
-
+                                                                            {/*거절사유 모달*/}
+                                                                            { reasonElement(value, index) }
                                                                         </Col>
                                                                     </Row>
                                                                 </div>
