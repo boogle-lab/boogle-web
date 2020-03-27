@@ -10,7 +10,7 @@ import moment from 'moment';
 import NumberFormat from 'react-number-format';
 import axios from 'axios';
 import host from '../../server-settings/ServerApiHost';
-import {forEach} from "react-bootstrap/cjs/ElementChildren";
+import {BeatLoader} from "react-spinners";
 
 class Banner extends Component {
   state = {
@@ -27,11 +27,14 @@ class Banner extends Component {
     sortType2 : "accuracy",
     qualityScoreList : [],
 
-    errorModalOpened : true
+    errorModalOpened : true,
+    searchAll : false,
+    isSearchAll : false,
+    isSearchAllPerm : false
   }
 
   getHomeData = async () => {
-    axios.get(host + '/home')
+    axios.get(host+ '/home')
         .then((response) => {
           if(response.data.data !== undefined){
             this.setState({
@@ -102,7 +105,7 @@ class Banner extends Component {
   }
 
   unFocusOnSearch = () => {
-    this.setState({ isFocused: false, bannerList: "banner-list" });
+    this.setState({ isFocused: false, bannerList: "banner-list", sortType1 : "accuracy", sortType2 : "accuracy", isSearchAllPerm : false, sellItemList : [], inDetail : false});
   }
 
   updateInputValue = (resdata) => {
@@ -119,6 +122,24 @@ class Banner extends Component {
 
   reRenderFocus = () => {
     this.setState({renderFocus : false})
+  }
+
+  getAllSearchedBuyItems = async (sortType1) => {
+      this.setState({isSearchAll : true})
+    axios.get(host + '/naver/bookApi/buy/title?keyword=allList' + "&itemResListSortType=" + sortType1 +
+    "&itemNotRegisteredResListSortType=" + this.state.sortType2)
+        .then((response) => {
+              if(response.data != null){
+
+                const items = response.data;
+
+                if(items!= undefined){
+                  this.setState({ resdata : items } );
+                }
+              }
+              this.setState({isSearchAll : false})
+            }
+        );
   }
 
   componentWillMount() {
@@ -168,6 +189,7 @@ class Banner extends Component {
                   sortType1={this.state.sortType1}
                   sortType2={this.state.sortType2}
                   searchType="buy"
+                  all = {this.state.searchAll}
                   search={<Search
                   />}
                   id="navbar"></Navbar>
@@ -200,22 +222,51 @@ class Banner extends Component {
                 </Row> : null
           }
           {
+            this.state.mode === "buy" && this.state.isFocused && this.state.inDetail === false && this.state.isAlarmNeedSectionAppened === false &&
+                this.state.resdata != undefined && this.state.resdata.itemResList.length === 0 && this.state.isSearchAll &&
+            <Row style={{height : "100px", padding : "42.5px 0 42.5px 0"}}>
+              <Col xs={{ span: 4, offset: 10 }} style={{ padding: "auto" }}>
+                <BeatLoader
+                    size={"15px"}
+                    color={"#339eac"}
+                    loading={true}
+                />
+              </Col>
+            </Row>
+          }
+          {
             this.state.mode === "buy" && this.state.isFocused && this.state.resdata != null &&  this.state.resdata.itemResList!= undefined && this.state.resdata.itemResList.length > 0
             && this.state.inDetail === false && this.state.isAlarmNeedSectionAppened === false ?
                 <div>
                   <Row style={{marginTop : "15px", marginBottom : "25px"}}>
                     <Col offset={1} span={22} style={{height : "40px", borderTop : "1px solid #8d8d8d", borderBottom : "1px solid #8d8d8d"}}>
                       <Row style={{fontSize : "14px", textAlign : "center", padding : "10px 0 10px 0", color : "#707070"}}>
-                        <Col  onClick={()=>{this.setState({sortType1 : "accuracy"})}} offset={1} span={4}>
-                          <span style={this.state.sortType1 === "accuracy" ? {color : "black"} : null}>정확도순</span>
+                        <Col  onClick={()=>{
+                          this.setState({sortType1 : "accuracy"});
+                          this.setState({isSearchAll : true, isSearchAllPerm : true})
+                          this.getAllSearchedBuyItems("regiTime");
+                        }} offset={1} span={4}>
+                          <span style={this.state.sortType1 === "accuracy" ? {color : "black"} : null}>{this.state.isSearchAllPerm ? "최신순" : "정확도순"}</span>
                         </Col>
-                        <Col onClick={()=>{this.setState({sortType1 : "regiCount"})}} offset={2} span={4}>
+                        <Col onClick={()=>{
+                          this.setState({sortType1 : "regiCount"});
+                          this.setState({isSearchAll : true, isSearchAllPerm : true})
+                          this.getAllSearchedBuyItems("regiCount");
+                        }} offset={2} span={4}>
                           <span style={this.state.sortType1 === "regiCount" ? {color : "black"} : null}>판매량순</span>
                         </Col>
-                        <Col onClick={()=>{this.setState({sortType1 : "pubdate"})}}offset={2} span={4}>
+                        <Col onClick={()=>{
+                          this.setState({sortType1 : "pubdate"});
+                          this.setState({isSearchAll : true, isSearchAllPerm : true})
+                          this.getAllSearchedBuyItems("pubdate");
+                        }}offset={2} span={4}>
                           <span style={this.state.sortType1 === "pubdate" ? {color : "black"} : null}>출시일순</span>
                         </Col>
-                        <Col onClick={()=>{this.setState({sortType1 : "regiPrice"})}} offset={2} span={4}>
+                        <Col onClick={()=>{
+                          this.setState({sortType1 : "regiPrice"})
+                          this.setState({isSearchAll : true, isSearchAllPerm : true})
+                          this.getAllSearchedBuyItems("regiPrice");
+                        }} offset={2} span={4}>
                           <span style={this.state.sortType1 === "regiPrice" ? {color : "black"} : null}>저가격순</span>
                         </Col>
                       </Row>
@@ -451,8 +502,8 @@ class Banner extends Component {
                 : null}
 
 
-          {this.state.mode === "buy" && this.state.isFocused && !this.state.isAlarmNeedSectionAppened
-          && this.state.inDetail === false?
+          {this.state.mode === "buy" && this.state.isFocused && !this.state.isAlarmNeedSectionAppened && this.state.resdata != null &&  this.state.resdata.itemResList!= undefined
+          && this.state.resdata.itemResList.length === 0 && this.state.inDetail === false && !this.state.isSearchAll?
               <div>
                 <Row>
                   <Col offset={1} span={22}><Divider /></Col>
@@ -623,7 +674,15 @@ class Banner extends Component {
             this.state.mode === "buy" && this.state.isFocused === false && this.state.bookResList1 != undefined?
                 <div id="banner-list">
                   <Row className="banner-list-title" style={{ marginBottom: "3vh" }}>
-                    <Col xs={{ span: 18, offset: 1 }}><h5 style={{ fontSize: "2.8vh", color: "#707070", fontWeight: 500 }}>방금 올라온 책</h5></Col>
+                    <Col xs={{ span: 17, offset: 1 }}><h5 style={{ fontSize: "2.8vh", color: "#707070", fontWeight: 500 }}>방금 올라온 책</h5></Col>
+                    <Col
+                        onClick={()=>{
+                          this.getAllSearchedBuyItems("regiTime");
+                          this.setState({ renderFocus : true});
+                          this.setState({mode : "buy", isFocused : true})
+                          this.setState({isSearchAllPerm : true})
+                        }}
+                        xs={{ span: 4, offset: 1 }}><h5 style={{ fontSize: "1.5vh", color: "#707070", fontWeight: 500 }}>전체보기 >></h5></Col>
                   </Row>
                   <Row>
                     <Col xs={{ span: 22, offset: 1 }}>
@@ -769,7 +828,7 @@ class Banner extends Component {
                             xl: 4,
                             xxl: 3,
                           }}
-                          dataSource={this.state.bookResList2}
+                          dataSource={this.state.bookResList2.length > 4 ? this.state.bookResList2.slice(0,4) : this.state.bookResList2.slice(0,this.state.bookResList2.length)}
                           renderItem={item => (
 
                               <List.Item
@@ -795,6 +854,48 @@ class Banner extends Component {
                       />
                     </Col>
                   </Row>
+                  {
+                    this.state.bookResList2.length > 4 ?
+                        <Row>
+                          <Col xs={{ span: 22, offset: 1 }}>
+                            <List
+                                className="list"
+                                grid={{
+                                  gutter: 16,
+                                  xs: 4,
+                                  sm: 1,
+                                  md: 4,
+                                  lg: 4,
+                                  xl: 4,
+                                  xxl: 3,
+                                }}
+                                dataSource={this.state.bookResList2.length > 8 ? this.state.bookResList2.slice(4,8) : this.state.bookResList2.slice(4,this.state.bookResList2.length)}
+                                renderItem={item => (
+
+                                    <List.Item
+                                        key={item.title}
+                                    >
+                                      <Row>
+                                        <Link to={"/buy/detail/" + item._id}>
+                                          <Col span={24}>
+                                            <img
+                                                style={{ width: "10vh", height: "15vh", backgroundSize: "contain" }}
+                                                src={item.imageUrl.replace("type=m1", "")}
+                                            ></img>
+                                          </Col>
+                                        </Link>
+                                      </Row>
+                                      <Row>
+                                        <Col span={24}>
+                                          <small style={{fontWeight: 500}} className="banner-list-item-title">{item.title}</small>
+                                        </Col>
+                                      </Row>
+                                    </List.Item>
+                                )}
+                            />
+                          </Col>
+                        </Row> : null
+                  }
                   <Row className="banner-list-title">
                     <Col xs={{ span: 18, offset: 1 }}><h5 style={{ fontSize: "2.8vh", color: "#707070", fontWeight: 500 }}>인기 도서</h5></Col>
                   </Row>

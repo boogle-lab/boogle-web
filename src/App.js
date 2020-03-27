@@ -28,6 +28,7 @@ import {
   isMobile
 } from "react-device-detect";
 import ModifyItemPage from "./pages/ModifyItemPage";
+import BuySearchResultPage from "./pages/BuySearchResultPage";
 
 class App extends Component {
   render() {
@@ -82,6 +83,7 @@ class App extends Component {
             <Route path="/mypage/buy" component={MyPageBuyPage} />
             <Route path="/mypage/sell" component={MyPageSellPage} />
             <Route path="/mypage/reserve" component={MyPageReservePage} />
+            <Route path="/buy/all" component={BuySearchResultPage}/>
             {/*</div>*/}
           </Switch>
         </Router>

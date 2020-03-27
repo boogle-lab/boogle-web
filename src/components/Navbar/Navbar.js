@@ -190,23 +190,13 @@ class Navbar extends Component {
                         <Row>
                           <Col xs={{ span: 20, offset: 2 }}>
                             <Carousel className="navbar-carousel" autoplay>
-                              <a href="https://www.notion.so/boogle/EVENT-c4fda36c9ed24dd3b78cfce32f8e8a2c">
+                              <a href="https://www.notion.so/boogle/3bbbb6ce5b554209ac14c900dba8ea88">
                                 <div className="navbar-carousel-div">
-                                  <h3 className="navbar-carousel-title">판매 등록 시, </h3>
+                                  <h3 className="navbar-carousel-title">북을박스가 뭐야? </h3>
                                   <h3 className="navbar-carousel-title">
-                                    30% 선 지급 이벤트
+                                    궁금하면
                                   </h3>
-                                  <h3 className="navbar-carousel-title">진행 중!</h3>
-                                </div>
-                                <div style={{textAlign : "right", marginTop : "0px"}}>
-                                  <span style={{color : "white"}}>더보기 >></span>
-                                </div>
-                              </a>
-                              <a href="https://www.notion.so/boogle/EVENT-c4fda36c9ed24dd3b78cfce32f8e8a2c">
-                                <div className="navbar-carousel-div">
-                                  <h3 className="navbar-carousel-title">새내기 섹션 이벤트! </h3>
-                                  <h3 className="navbar-carousel-title">회원가입하고 </h3>
-                                  <h3 className="navbar-carousel-title">동기들과 치킨먹자! </h3>
+                                  <h3 className="navbar-carousel-title"> Click!</h3>
                                 </div>
                                 <div style={{textAlign : "right", marginTop : "0px"}}>
                                   <span style={{color : "white"}}>더보기 >></span>

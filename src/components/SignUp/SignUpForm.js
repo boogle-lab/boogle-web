@@ -60,6 +60,8 @@ export default function SignUpForm() {
 
         let majorListAsString = ""
 
+        if(authType === 1 && userImages.length == 0) message.error("학생증을 등록해주세요.")
+
         if(majorList.length == 0) {
             message.error("전공을 입력해주세요.")
         }
@@ -67,7 +69,7 @@ export default function SignUpForm() {
         else if (majorList.length == 2) majorListAsString = majorList[0] + "," + majorList[1];
         else majorListAsString = majorList[0] + "," + majorList[1] + "," + majorList[2];
 
-        if (validatedEmail && validatedNickname & majorList.length != 0) {
+        if (validatedEmail && validatedNickname & majorList.length != 0 && (authType === 0 || authType === 1 && userImages.length > 0 )) {
             setSignUpReq({
                 email: data.email,
                 password: data.password,
