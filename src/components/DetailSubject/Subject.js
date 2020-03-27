@@ -16,10 +16,12 @@ function Subject({ match }) {
   const [seller, setSeller] = useState({});
   const [isBookmarked, setIsBookmarked] = useState(0);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isTraded, setIsTraded] = useState(false);
 
   const [confirmModalOpened, setConfirmModalOpened] = useState(false); // 판매취소
   const [fixModal, setFixModal] = useState(false); // 판매수정
   const [buyModal, setBuyModal] = useState(false); // 구매신청
+  const [tradeModal, setTradeModal] = useState(false); // 거래 중인 상품
   const [imageModal, setImageModal] = useState(false); // 상품 이미지 상세보기
 
   const [isMySellItem, setIsMySellItem] = useState(false);
@@ -67,6 +69,7 @@ function Subject({ match }) {
         setItem(result.data.data.sellItem);
         setSeller(result.data.data.sellerUser);
         setIsBookmarked(result.data.data.bookmarked);
+        setIsTraded(result.data.data.sellItem.traded);
 
         let qualityExtraList = result.data.data.sellItem.qualityExtraList;
         let newQualityExtraList = [];
@@ -454,11 +457,50 @@ function Subject({ match }) {
                           fontSize: "2.5vh",
                           height: "5vh"
                       }}
-                      onClick={()=>{setFixModal(true);}}
+                      onClick={()=>{
+                        if(isTraded){setTradeModal(true);}
+                        else{setFixModal(true);}
+                      }}
                   >
-                      {isMySellItem && !paybackedSellItem ? "수정하기" : isMySellItem && paybackedSellItem ? "수정하기(불가)" : "" }
+                      {isMySellItem && !isTraded? "수정하기" : isMySellItem && isTraded ? "수정하기(불가)" : "" }
                   </button>
               </Col>
+
+              {/*수정/삭제불가 모달*/}
+              <Modal
+                      title = {null}
+                      footer={null}
+                      visible={tradeModal}
+                      closable={false}>
+                      <div>
+                          <Row>
+                              <Col span={24}>
+                                  <h5 style={{textAlign : "center", padding : "auto", fontSize : "17px", color : "#666666"}}>
+                                      거래 중인 상품은 불가능한 기능입니다.
+                                  </h5>
+                              </Col>
+                          </Row>
+                          <Row style={{marginTop : "10px"}}>
+                              <Col offset={6} span={12}>
+                                <button
+                                  style={{
+                                      padding: "0",
+                                      width: "100%",
+                                      background: "rgba(51, 158, 172, 0.9)",
+                                      color: "#ffffff",
+                                      border: "none",
+                                      borderRadius: "15px",
+                                      fontSize: "16px",
+                                      height: "30px"
+                                  }}
+                                  onClick={()=>{
+                                      setTradeModal(false);
+                                     }}
+                              >닫기</button>
+                              </Col>
+                          </Row>
+                      </div>
+                  </Modal>
 
                  {/*상품수정 모달*/}
                   <Modal
@@ -541,9 +583,12 @@ function Subject({ match }) {
                           fontSize: "2.5vh",
                           height: "5vh"
                       }}
-                      onClick={()=>{setConfirmModalOpened(true)}}
+                      onClick={()=>{
+                        if(isTraded || paybackedSellItem){setTradeModal(true);}
+                        else{setConfirmModalOpened(true)}
+                      }}
                   >
-                      {isMySellItem && !paybackedSellItem ? "삭제하기" : isMySellItem && paybackedSellItem ? "삭제하기(불가)" : ""}
+                      {isMySellItem && !(paybackedSellItem || isTraded)? "삭제하기" : isMySellItem && (paybackedSellItem || isTraded) ? "삭제하기(불가)" : ""}
                   </button>
                 </Col>
 
