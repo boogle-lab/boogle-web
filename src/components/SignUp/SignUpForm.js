@@ -1230,7 +1230,7 @@ export default function SignUpForm() {
                             </Row>
                             <Row style={{ marginTop: "10vh" }}>
                                 <Col xs={{ span: 20, offset: 2 }}>
-                                    <Link to={authType == 0 ? "/mypage" : "/"}>
+                                    <Link to={authType == 0 ? "/mypage/buy" : "/"}>
                                         <button style={{
                                             padding: "0",
                                             width: "100%",

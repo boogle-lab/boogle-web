@@ -56,7 +56,7 @@ export default function SignInForm(props) {
         paddingTop: "30px"
       }}
     >
-      {isSignedIn === true ? <Redirect to="/mypage" /> : <div></div>}
+      {isSignedIn === true ? <Redirect to="/mypage/buy" /> : <div></div>}
       <Link to="/">
         <Row style={{ marginBottom: "20px" }}>
           <Col xs={{ offset: 1, span: 2 }}>

@@ -5,7 +5,6 @@ import Sell from "./pages/Sell";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import DetailSubject from "./pages/DetailSubject.js";
-import MyPage from "./pages/MyPage";
 import CustomerInquiry from "./pages/CustomerInquiry";
 import CustomerCenterPage from "./pages/CustomerCenterPage";
 import ModifyInfo from "./pages/ModifyInfo";
@@ -14,6 +13,11 @@ import AccountSetting from "./pages/AccountSetting";
 import Admin from "./pages/Admin";
 import SignInSetting from "./pages/SignInSetting";
 import ModifyPasswordForm from "././components/ModifyInfo/ModifyPasswordForm";
+import ModifyItem from "./pages/ModifyItemPage";
+import MyPageLikePage from './pages/MyPageLike';
+import MyPageBuyPage from './pages/MyPageBuy';
+import MyPageSellPage from './pages/MyPageSell';
+import MyPageReservePage from './pages/MyPageReserve';
 
 import './DesktopError.css';
 
@@ -23,6 +27,7 @@ import {
   isBrowser,
   isMobile
 } from "react-device-detect";
+import ModifyItemPage from "./pages/ModifyItemPage";
 import BuySearchResultPage from "./pages/BuySearchResultPage";
 
 class App extends Component {
@@ -63,7 +68,6 @@ class App extends Component {
              <Route path="/sell" component={Sell} />
             <Route path="/signup" component={SignUp} />
             <Route path="/signin" component={SignIn} />
-            <Route path="/mypage" component={MyPage} />
             <Route path="/buy/detail/:id" component={DetailSubject} />
             <Route path="/customerinquiry" component={CustomerInquiry} />
             <Route path="/customercenter" component={CustomerCenterPage} />
@@ -73,6 +77,12 @@ class App extends Component {
             <Route path="/admin" component={Admin} />
             <Route path="/signinSetting" component={SignInSetting} />
             <Route path="/modifyPassword" component={ModifyPasswordForm} />
+            <Route path="/modifyitem/:id" component={ModifyItem} />
+
+            <Route path="/mypage/like" component={MyPageLikePage} />
+            <Route path="/mypage/buy" component={MyPageBuyPage} />
+            <Route path="/mypage/sell" component={MyPageSellPage} />
+            <Route path="/mypage/reserve" component={MyPageReservePage} />
             <Route path="/buy/all" component={BuySearchResultPage}/>
             {/*</div>*/}
           </Switch>

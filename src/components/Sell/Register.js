@@ -63,8 +63,6 @@ export default function Register() {
     const [isSearchSubjectModalOpened, setIsSearchSubjectModalOpened] = useState(false);
 
     const [comment, setComment] = useState("");
-    const [validatedComment, setValidatedComment] = useState(false);
-    const [commentModalVisible, setCommentModalVisible] = useState(false);
 
     const { register, handleSubmit } = useForm();
 
@@ -1000,16 +998,6 @@ export default function Register() {
                                                 placeholder="예시) 2019년 5월에 구입한 책입니다. OOO교수님 수업 필기가 되어있고, 부록 CD도 함께 있습니다.
                                                 주의 : 해당 입력칸에 연락처 등의 개인정보를 기입하지 마세요." />
                                     </Col>
-                                    <Modal
-                                        title={null}
-                                        footer={null}
-                                        visible={!modalVisible && commentModalVisible}
-                                        onOk={()=>{setCommentModalVisible(true)}}
-                                        onCancel={()=>{setCommentModalVisible(false)}}>
-                                        <div>
-                                            <span>코멘트를 입력해주세요.</span>
-                                        </div>
-                                    </Modal>
                                 </Row>
                                 <Row style={{ marginBottom: "100px" }}>
                                     <Col xs={{ span: 20, offset: 2 }}>
@@ -1021,11 +1009,19 @@ export default function Register() {
                                         }}
                                                 type="submit"
                                                 onClick={()=>{
-                                                    if(selectedUserBankAccount == null || userImages.length === 0 ||
+                                                    if( comment === "" || userImages.length === 0 ||
                                                         regiPrice === 0 ){
                                                         setModalVisible(true);
                                                     }
-                                                    else if(comment === ""){setCommentModalVisible(true)}
+                                                    if(dealType === 1){
+                                                        if(comment === "" || userImages.length === 0 ||
+                                                        regiPrice === 0 || selectedUserBankAccount == null){
+                                                            setModalVisible(true);
+                                                        }
+                                                        else{
+                                                            setIsFinalSubmit(true);
+                                                        }
+                                                    }
                                                     else{
                                                         setIsFinalSubmit(true);
                                                     }
