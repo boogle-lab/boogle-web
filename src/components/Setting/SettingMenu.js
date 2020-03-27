@@ -17,7 +17,7 @@ export default function SettingMenu() {
           }}
         >
           <Col xs={{ span: 3 }}>
-            <Link to="/mypage">
+            <Link to="/mypage/buy">
               <img
                 style={{
                   width: "32px",
